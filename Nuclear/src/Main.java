@@ -1,75 +1,116 @@
+
 //the main class
 //Start Date: April 5, 2016
 //Authors: Thomas Kidd & Misha Zharov
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
-	
-	public static void main (String[] args) {
-		
+	boolean fullscreen = true;
+
+	public static void main(String[] args) {
+		try {
+			// Makes the JPanel look the same as your system default.
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {// Find the exceptions(errors).
+			e.printStackTrace();// Prints the error to the console.
+		}
 		new Main();
-		
+
 	}
-	
+
 	JFrame frame = new JFrame("Learn to run a Nuclear Reactor");
+	Image background;
 	JPanel panel = new JPanel();
-	JPanel outsidePanel = new JPanel();
-	
-	//these buttons will be fixed
+
+	// these buttons will be fixed
 	JButton start = new JButton("Start");
 	JButton settings = new JButton("Settings");
 	JButton credits = new JButton("Credits");
-	
-	//labels
+	JButton quit = new JButton("Quit");
+	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
-	
+
 	public Main() {
+
+		// frame.addWindowListener
+		// (new WindowAdapter()
+		// {
+		// public void windowClosing(WindowEvent e)
+		// {
+		// System.exit(0);
+		// }
+		// }
+		// );
+		// The above code is accomplished with one line
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.addWindowListener
-        (new WindowAdapter()
-          {
-            public void windowClosing(WindowEvent e)
-            {
-              System.exit(0);
-            }
-          }
-        );
-		
-		//get screen sizes
+		// get screen sizes
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());
-		
-		//frame and panel settings
+
+		// frame and panel settings
+		if (fullscreen) {
+			frame.setUndecorated(true);
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		}
 		panel.setLayout(null);
-		panel.setBackground(new Color(82, 179, 217));
-		panel.setBounds(275, 150, 700, 650);
+		panel.setBackground(new Color(82, 179, 217, 0));
+		panel.setBounds(0, 0, xSize, ySize);
+		boolean opaque = false;
+		panel.setOpaque(opaque);
 		
-		outsidePanel.setLayout(null);
-		outsidePanel.add(panel);
-        frame.setContentPane(outsidePanel);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
+		BufferedImage background;
+		try {
+			background = ImageIO.read(new File("res/background.png"));
+			JLabel backgroundLabel = new JLabel();
+			backgroundLabel.setIcon(new ImageIcon(background));
+			backgroundLabel.add(panel);
+			frame.add(backgroundLabel);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-        //button settings
-        start.setBounds(xSize/2-450, 330, 300, 80);
-        start.setFont(new Font("Sans Serif", Font.BOLD, 25));
-        settings.setBounds(xSize/2-450, 430, 300, 80);
-        settings.setFont(new Font("Sans Serif", Font.BOLD, 25));
-        credits.setBounds(xSize/2-450, 530, 300, 80);
-        credits.setFont(new Font("Sans Serif", Font.BOLD, 25));
-        
-        //label settings
-        title.setBounds(xSize/2-635, 100, 700, 200);
-        title.setFont(new Font("Impact", Font.PLAIN, 55));
-        
-        //add to panel
-        panel.add(title);
-        panel.add(start);
-        panel.add(settings);
-        panel.add(credits);
+		//frame.add(outsidePanel);
+		frame.setSize(xSize, ySize);
+		frame.setVisible(true);
+		frame.setResizable(false);
+
+		// button settings
+		start.setBounds(xSize/2-150, 330, 300, 80);
+		settings.setBounds(xSize/2-150, 430, 300, 80);
+		credits.setBounds(xSize/2-150, 530, 300, 80);
+		quit.setBounds(xSize/2-150, 630, 300, 80);
+		//title.setBounds(xSize/2-300, 100, 900, 200);
+		
+		// label setting
+		title.setFont(new Font("Dialogue", Font.PLAIN, 55));
+		start.setFont(new Font("Sans Serif", Font.BOLD, 25));
+		quit.setFont(new Font("Sans Serif", Font.BOLD, 25));
+		credits.setFont(new Font("Sans Serif", Font.BOLD, 25));
+		settings.setFont(new Font("Sans Serif", Font.BOLD, 25));
+
+		// add to panel
+		panel.add(title);
+		panel.add(start);
+		panel.add(settings);
+		panel.add(credits);
+		panel.add(quit);
+
+		quit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Quits game when user clicks quit
+				System.exit(0);
+			}
+		});
 	}
 }
