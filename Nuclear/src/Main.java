@@ -16,6 +16,7 @@ public class Main {
 	
 	JFrame frame = new JFrame("Learn to run a Nuclear Reactor");
 	JPanel panel = new JPanel();
+	JPanel outsidePanel = new JPanel();
 	
 	//these buttons will be fixed
 	JButton start = new JButton("Start");
@@ -42,23 +43,27 @@ public class Main {
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());
 		
-		//frame settings
+		//frame and panel settings
 		panel.setLayout(null);
 		panel.setBackground(new Color(82, 179, 217));
-        frame.setContentPane(panel);
+		panel.setBounds(275, 150, 700, 650);
+		
+		outsidePanel.setLayout(null);
+		outsidePanel.add(panel);
+        frame.setContentPane(outsidePanel);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
 		
         //button settings
-        start.setBounds(xSize/2-150, 330, 300, 80);
+        start.setBounds(xSize/2-450, 330, 300, 80);
         start.setFont(new Font("Sans Serif", Font.BOLD, 25));
-        settings.setBounds(xSize/2-150, 430, 300, 80);
+        settings.setBounds(xSize/2-450, 430, 300, 80);
         settings.setFont(new Font("Sans Serif", Font.BOLD, 25));
-        credits.setBounds(xSize/2-150, 530, 300, 80);
+        credits.setBounds(xSize/2-450, 530, 300, 80);
         credits.setFont(new Font("Sans Serif", Font.BOLD, 25));
         
         //label settings
-        title.setBounds(xSize/2-339, 100, 700, 200);
+        title.setBounds(xSize/2-635, 100, 700, 200);
         title.setFont(new Font("Impact", Font.PLAIN, 55));
         
         //add to panel
