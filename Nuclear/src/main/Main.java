@@ -28,11 +28,12 @@ public class Main {
 		new Main();
 
 	}
-
+	
+	//frame and panel
 	public static JFrame frame = new JFrame("Learn to run a Nuclear Reactor");
 	Image background;
 	JPanel panel = new JPanel();
-	JLabel backgroundLabel = new JLabel();
+	
 	
 	// these buttons will be fixed
 	JButton start = new JButton("Start");
@@ -42,7 +43,7 @@ public class Main {
 	
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
-	//JLabel title = new JLabel("LEARN TO RUN A NUCLEAR REACTOR");
+	JLabel backgroundLabel = new JLabel();
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
