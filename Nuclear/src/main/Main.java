@@ -1,3 +1,4 @@
+package main;
 
 //the main class
 //Start Date: April 5, 2016
@@ -5,6 +6,9 @@
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import logic.Integrator;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -25,10 +29,10 @@ public class Main {
 
 	}
 
-	JFrame frame = new JFrame("Learn to run a Nuclear Reactor");
+	public static JFrame frame = new JFrame("Learn to run a Nuclear Reactor");
 	Image background;
 	JPanel panel = new JPanel();
-
+	JLabel backgroundLabel = new JLabel();
 	// these buttons will be fixed
 	JButton start = new JButton("Start");
 	JButton settings = new JButton("Settings");
@@ -53,8 +57,8 @@ public class Main {
 		
 		// get screen sizes
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		int xSize = ((int) tk.getScreenSize().getWidth());
-		int ySize = ((int) tk.getScreenSize().getHeight());
+		final int xSize = ((int) tk.getScreenSize().getWidth());
+		final int ySize = ((int) tk.getScreenSize().getHeight());
 
 		// frame and panel settings
 		if (fullscreen) {
@@ -70,12 +74,11 @@ public class Main {
 		BufferedImage background;
 		try {
 			background = ImageIO.read(new File("res/background.png"));
-			JLabel backgroundLabel = new JLabel();
+			
 			backgroundLabel.setIcon(new ImageIcon(background));
 			backgroundLabel.add(panel);
 			frame.add(backgroundLabel);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -110,6 +113,18 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 				// Quits game when user clicks quit
 				System.exit(0);
+			}
+		});
+		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Starts the game engine
+				Integrator integrator = new Integrator(xSize, ySize);
+				frame.remove(backgroundLabel);
+				frame.add(integrator.canvas);
+				frame.repaint();
+				frame.revalidate();
+				//integrator.start();
 			}
 		});
 	}
