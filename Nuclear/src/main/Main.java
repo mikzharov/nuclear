@@ -42,7 +42,7 @@ public class Main {
 	
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
-
+	//JLabel title = new JLabel("LEARN TO RUN A NUCLEAR REACTOR");
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,10 +84,10 @@ public class Main {
 		settings.setBounds(xSize/2-150, 430, 300, 80);
 		credits.setBounds(xSize/2-150, 530, 300, 80);
 		quit.setBounds(xSize/2-150, 630, 300, 80);
-		title.setBounds(xSize/2-300, 100, 900, 200);
+		title.setBounds(xSize/2-370, 100, 900, 200);
 		
 		// label setting
-		title.setFont(new Font("Dialogue", Font.PLAIN, 55));
+		title.setFont(new Font("Barial", Font.PLAIN, 55));
 		start.setFont(new Font("Sans Serif", Font.BOLD, 25));
 		quit.setFont(new Font("Sans Serif", Font.BOLD, 25));
 		credits.setFont(new Font("Sans Serif", Font.BOLD, 25));
