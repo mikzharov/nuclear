@@ -7,14 +7,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import main.Main;
 
-public class Canvas extends JPanel{
+public class NCanvas extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	BufferedImage image;
 	ImageIcon render = new ImageIcon();
 	JLabel label = new JLabel();
 	public Graphics2D g;
-	public Canvas(int x, int y){//This initializes the panel
+	public NCanvas(int x, int y){//This initializes the panel
 		this.add(label);
 		image = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
 		label.setIcon(render);
