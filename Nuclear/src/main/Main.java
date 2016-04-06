@@ -116,7 +116,8 @@ public class Main {
 				frame.add(integrator.canvas);
 				frame.repaint();
 				frame.revalidate();
-				//integrator.start();
+				frame.setIgnoreRepaint(true);
+				integrator.start();
 			}
 		});
 	}
