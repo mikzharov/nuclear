@@ -33,26 +33,18 @@ public class Main {
 	Image background;
 	JPanel panel = new JPanel();
 	JLabel backgroundLabel = new JLabel();
+	
 	// these buttons will be fixed
 	JButton start = new JButton("Start");
 	JButton settings = new JButton("Settings");
 	JButton credits = new JButton("Credits");
 	JButton quit = new JButton("Quit");
+	
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
 
 	public Main() {
 
-		// frame.addWindowListener
-		// (new WindowAdapter()
-		// {
-		// public void windowClosing(WindowEvent e)
-		// {
-		// System.exit(0);
-		// }
-		// }
-		// );
-		// The above code is accomplished with one line
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// get screen sizes
@@ -73,7 +65,7 @@ public class Main {
 		
 		BufferedImage background;
 		try {
-			background = ImageIO.read(new File("res/background.png"));
+			background = ImageIO.read(new File("res/Nuclear_Power_Plant_Cattenom.jpg"));
 			
 			backgroundLabel.setIcon(new ImageIcon(background));
 			backgroundLabel.add(panel);
@@ -92,7 +84,7 @@ public class Main {
 		settings.setBounds(xSize/2-150, 430, 300, 80);
 		credits.setBounds(xSize/2-150, 530, 300, 80);
 		quit.setBounds(xSize/2-150, 630, 300, 80);
-		//title.setBounds(xSize/2-300, 100, 900, 200);
+		title.setBounds(xSize/2-300, 100, 900, 200);
 		
 		// label setting
 		title.setFont(new Font("Dialogue", Font.PLAIN, 55));
