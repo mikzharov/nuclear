@@ -62,17 +62,17 @@ public class Main {
 	//sliders
 	JSlider soundSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 25);
 	JSlider musicSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 25);
-	
+	static Toolkit tk = Toolkit.getDefaultToolkit();
+	public final static int xSize = ((int) tk.getScreenSize().getWidth());
+	public final static int ySize = ((int) tk.getScreenSize().getHeight());
 	//combo boxes
-	JComboBox difficultyLevels = new JComboBox();
+	JComboBox<String> difficultyLevels = new JComboBox<String>();
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// get screen sizes
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		final int xSize = ((int) tk.getScreenSize().getWidth());
-		final int ySize = ((int) tk.getScreenSize().getHeight());
+		
 
 		// frame and panel settings
 		if (fullscreen) {
