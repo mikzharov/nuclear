@@ -36,14 +36,35 @@ public class Main {
 	
 	
 	// these buttons will be fixed
+	//start page buttons
 	JButton start = new JButton("Start");
 	JButton settings = new JButton("Settings");
 	JButton credits = new JButton("Credits");
 	JButton quit = new JButton("Quit");
+	//other page buttons
+	JButton back = new JButton("Back");
 	
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
 	JLabel backgroundLabel = new JLabel();
+	//credit page labels
+	JLabel programmers = new JLabel("Senior Software Engineers");
+	JLabel thomas = new JLabel("Thomas Kidd");
+	JLabel misha = new JLabel("Misha Zharov");
+	JLabel art = new JLabel("Lead Graphic Designers");
+	JLabel thomas2 = new JLabel("Thomas Kidd");
+	JLabel misha2 = new JLabel("Misha Zharov");
+	//settings page labels
+	JLabel difficultyChoice = new JLabel("Difficulty");
+	JLabel soundVolume = new JLabel("Sound Volume");
+	JLabel musicVolume = new JLabel("Music Volume");
+	
+	//sliders
+	JSlider soundSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 25);
+	JSlider musicSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 25);
+	
+	//combo boxes
+	JComboBox difficultyLevels = new JComboBox();
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +106,8 @@ public class Main {
 		settings.setBounds(xSize/2-150, 430, 300, 80);
 		credits.setBounds(xSize/2-150, 530, 300, 80);
 		quit.setBounds(xSize/2-150, 630, 300, 80);
-		title.setBounds(xSize/2-370, 100, 900, 200);
+		title.setBounds(xSize/2-360, 100, 900, 200);
+		back.setBounds(xSize/2-150, 630, 300, 80);
 		
 		// label setting
 		title.setFont(new Font("Barial", Font.PLAIN, 55));
@@ -93,6 +115,7 @@ public class Main {
 		quit.setFont(new Font("Sans Serif", Font.BOLD, 25));
 		credits.setFont(new Font("Sans Serif", Font.BOLD, 25));
 		settings.setFont(new Font("Sans Serif", Font.BOLD, 25));
+		back.setFont(new Font("Sans Serif", Font.BOLD, 25));
 
 		// add to panel
 		panel.add(title);
@@ -108,6 +131,7 @@ public class Main {
 				System.exit(0);
 			}
 		});
+		
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -119,6 +143,93 @@ public class Main {
 				frame.revalidate();
 				frame.setIgnoreRepaint(true);
 				integrator.start();
+			}
+		});
+		
+		credits.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.remove(start);
+				panel.remove(settings);
+				panel.remove(credits);
+				panel.remove(quit);
+				
+				panel.add(back);
+				
+				//programming credits
+				panel.add(programmers);
+				programmers.setBounds(xSize/2-360, 200, 900, 200);
+				programmers.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(thomas);
+				thomas.setBounds(xSize/2, 200, 900, 200);
+				thomas.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(misha);
+				misha.setBounds(xSize/2, 250, 900, 200);
+				misha.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				
+				//art credits
+				panel.add(art);
+				art.setBounds(xSize/2-360, 400, 900, 200);
+				art.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(thomas2);
+				thomas2.setBounds(xSize/2, 400, 900, 200);
+				thomas2.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(misha2);
+				misha2.setBounds(xSize/2, 450, 900, 200);
+				misha2.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		settings.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.removeAll();
+				panel.add(title);
+				panel.add(back);
+				
+				//labels
+				panel.add(difficultyChoice);
+				difficultyChoice.setBounds(xSize/2-360, 200, 900, 200);
+				difficultyChoice.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(soundVolume);
+				soundVolume.setBounds(xSize/2-360, 300, 900, 200);
+				soundVolume.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(musicVolume);
+				musicVolume.setBounds(xSize/2-360, 400, 900, 200);
+				musicVolume.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				
+				//combo box
+				panel.add(difficultyLevels);
+				difficultyLevels.setBounds(xSize/2, 280, 200, 50);
+				difficultyLevels.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				difficultyLevels.addItem("Tutorial");
+				difficultyLevels.addItem("Normal");
+				difficultyLevels.addItem("Chernobyl");
+				
+				//sliders
+				panel.add(soundSlider);
+				soundSlider.setBounds(xSize/2, 390, 300, 40);
+				panel.add(musicSlider);
+				musicSlider.setBounds(xSize/2, 490, 300, 40);
+				
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.removeAll();
+				panel.add(title);
+				panel.add(start);
+				panel.add(settings);
+				panel.add(credits);
+				panel.add(quit);
+				
+				frame.repaint();
+				frame.revalidate();
 			}
 		});
 	}
