@@ -6,13 +6,14 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import main.Main;
 import objects.GameObject;
 import objects.Plant;
 
@@ -27,9 +28,14 @@ public class Integrator {
 	BufferStrategy buffer;
 	Graphics2D g;
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
-	public void start(){
+	public void offset(int i){
+		x_offset+=i;
+	}
+	int scroll = 5;
+	public synchronized void start(){
+
 		Plant plant = new Plant("res/chernobyl.jpg");
-		plant.setY(100);
+		plant.setY((int) (y/20.0));
 		objects.add(plant);
 		canvas.createBufferStrategy(2);
 		buffer = canvas.getBufferStrategy();
@@ -39,38 +45,60 @@ public class Integrator {
 		RenderingHints rh = new RenderingHints(
 	             RenderingHints.KEY_ANTIALIASING,
 	             RenderingHints.VALUE_ANTIALIAS_ON);
-	    Main.frame.addMouseWheelListener(new MouseWheelListener(){
+		canvas.requestFocusInWindow();
+	    canvas.addMouseWheelListener(new MouseWheelListener(){
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				System.out.println("awdawda");
 				if(e.getWheelRotation()>0){
-					x_offset++;
-				}else{
-					x_offset--;
+					offset(scroll);
+				}else if(e.getWheelRotation()<0){
+					offset(-scroll);
 				}
 			}
 	    });
+	    canvas.addKeyListener(new KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+					offset(-scroll);
+				}
+				if(e.getKeyCode() == KeyEvent.VK_LEFT){
+					offset(scroll);
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+			
+	    });
+	    int last_x_offset = x_offset;
+	    last = System.currentTimeMillis();
+	    
 		while(running){
+			
 			g.setColor(Color.white);
 			g.fillRect(0,0,x,y);
 			g = (Graphics2D) buffer.getDrawGraphics();
 			g.setRenderingHints(rh);
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 			last = System.currentTimeMillis();
+			
 			while((System.currentTimeMillis()-last)*10 < 166){
 				//Do physics here
 				
 			}
+			int int_last_x_offset = (int) (x_offset * 0.1f + last_x_offset * (1f-0.1f));
 			for(GameObject temp : objects){
 				BufferedImage a = temp.getImage();
-				g.drawImage(a, temp.getX() + x_offset, temp.getY(), temp.getImageX() + x_offset,  temp.getImageY(), 0, 0, a.getWidth(), a.getHeight(), null);
+				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY(), temp.getImageX() + int_last_x_offset,  temp.getImageY(), 0, 0, a.getWidth(), a.getHeight(), null);
 			}
-			System.out.println();
 			//Render here
 			frames++;
-			//System.out.println(frames / ((System.currentTimeMillis()-start)/1000.0));
 			g.drawString((int)(((frames / ((System.currentTimeMillis()-start))))*1000)+"", 50, 50);
 			buffer.show();
+			
+			last_x_offset = int_last_x_offset;
 		}
 		g.dispose();
 	}
