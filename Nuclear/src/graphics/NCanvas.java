@@ -14,6 +14,7 @@ public class NCanvas extends JPanel{
 	ImageIcon render = new ImageIcon();
 	JLabel label = new JLabel();
 	public Graphics2D g;
+	
 	public NCanvas(int x, int y){//This initializes the panel
 		this.add(label);
 		image = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);

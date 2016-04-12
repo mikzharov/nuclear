@@ -23,7 +23,7 @@ public class Integrator {
 	int x;
 	int y;
 	int x_offset = 0;
-	public Canvas canvas;
+	public static Canvas canvas;
 	long start;
 	BufferStrategy buffer;
 	Graphics2D g;
@@ -31,7 +31,7 @@ public class Integrator {
 	public void offset(int i){
 		x_offset+=i;
 	}
-	int scroll = 10;
+	int scroll = 40;
 	public synchronized void start(){
 
 		Plant plant = new Plant("res/chernobyl.jpg");
@@ -42,6 +42,7 @@ public class Integrator {
 		start = System.currentTimeMillis();
 		double frames = 0;
 		g = (Graphics2D) buffer.getDrawGraphics();
+		
 		RenderingHints rh = new RenderingHints(
 	             RenderingHints.KEY_ANTIALIASING,
 	             RenderingHints.VALUE_ANTIALIAS_ON);
