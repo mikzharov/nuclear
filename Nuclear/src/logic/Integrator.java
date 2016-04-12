@@ -31,7 +31,7 @@ public class Integrator {
 	public void offset(int i){
 		x_offset+=i;
 	}
-	int scroll = 5;
+	int scroll = 10;
 	public synchronized void start(){
 
 		Plant plant = new Plant("res/chernobyl.jpg");
@@ -74,7 +74,9 @@ public class Integrator {
 	    });
 	    int last_x_offset = x_offset;
 	    last = System.currentTimeMillis();
-	    
+	    long now = System.currentTimeMillis();
+	    long deltaTime = System.currentTimeMillis();
+	    long dt = 100;
 		while(running){
 			
 			g.setColor(Color.white);
@@ -82,13 +84,17 @@ public class Integrator {
 			g = (Graphics2D) buffer.getDrawGraphics();
 			g.setRenderingHints(rh);
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+			now = System.currentTimeMillis();
+			deltaTime += now - last;
 			last = System.currentTimeMillis();
-			
-			while((System.currentTimeMillis()-last)*10 < 166){
+			if(deltaTime>25)deltaTime=25;
+			while((deltaTime) >= dt){
 				//Do physics here
-				
+				deltaTime-=dt;
 			}
-			int int_last_x_offset = (int) (x_offset * 0.1f + last_x_offset * (1f-0.1f));
+			float c = deltaTime/(float)dt;
+			int int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);
+			last_x_offset = int_last_x_offset;
 			for(GameObject temp : objects){
 				BufferedImage a = temp.getImage();
 				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY(), temp.getImageX() + int_last_x_offset,  temp.getImageY(), 0, 0, a.getWidth(), a.getHeight(), null);
@@ -97,8 +103,6 @@ public class Integrator {
 			frames++;
 			g.drawString((int)(((frames / ((System.currentTimeMillis()-start))))*1000)+"", 50, 50);
 			buffer.show();
-			
-			last_x_offset = int_last_x_offset;
 		}
 		g.dispose();
 	}
