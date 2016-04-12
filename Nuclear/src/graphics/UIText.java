@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
 public class UIText extends UIComponent{//This will make the UIText be also recognized as a UIComponent
 	private String text;
@@ -26,11 +25,9 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 	public void drawObj(Graphics2D g) {
 		
 		Font oldFont = g.getFont();
-		Color oldColor = g.getColor();//Saves pervious information
-		Stroke oldStroke = g.getStroke();
+		Color oldColor = g.getColor();//Saves previous information
 		
 		g.setColor(Color.black);
-		g.setStroke(new BasicStroke(5));
 		g.fillRect(x, y, x+xSize, y+ySize);
 		
 		g.setColor(color);
@@ -38,12 +35,9 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 		g.setStroke(new BasicStroke(5));
 		g.fillRect(x+2, y+2, x+xSize-4, y+ySize-4);
 		
-		
-		
 		g.setColor(oldColor);
 		g.drawString(text, x+20, y+90);
-		g.setFont(oldFont);//Restores pervious information
-		g.setStroke(oldStroke);
+		g.setFont(oldFont);//Restores previous information
 		
 	}
 	

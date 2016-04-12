@@ -20,18 +20,23 @@ import objects.Plant;
 
 public class Integrator {
 	static boolean running = true;//If false, the game quits
+	static boolean paused = false;
 	long last;//The long which stores the time in milliseconds at the last update
 	int x;//The size of the screen
 	int y;//The size of the screen
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
+	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	public Canvas canvas;//Canvas component
 	long start;
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
 	Graphics2D g;//This object will be used to draw
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
 	ArrayList<UIComponent> UIComponents = new ArrayList<UIComponent>();//This is where all the game objects will be stored
-	public void offset(int i){
+	public void offset_x(int i){
 		x_offset+=i;
+	}
+	public void offset_y(int i){
+		y_offset+=i;
 	}
 	int scroll = 40;//This controls the scroll speed
 	public void start(){
@@ -58,36 +63,54 @@ public class Integrator {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {//Adds the scrolling action listener
 				if(e.getWheelRotation()>0){
-					offset(scroll);
+					offset_x(scroll);
 				}else if(e.getWheelRotation()<0){
-					offset(-scroll);
+					offset_x(-scroll);
 				}
 			}
 	    });
 	    canvas.addKeyListener(new KeyListener(){//Adds the arrow action listener
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-					offset(-scroll);
+				if(!paused && e.getKeyCode() == KeyEvent.VK_RIGHT){
+					if(x_offset > -1500){
+						offset_x(-scroll);
+					}
 				}
-				if(e.getKeyCode() == KeyEvent.VK_LEFT){
-					offset(scroll);
+				if(!paused && e.getKeyCode() == KeyEvent.VK_LEFT){
+					if(x_offset < 100){
+						offset_x(scroll);
+					}
+				}
+				if(!paused && e.getKeyCode() == KeyEvent.VK_UP){
+					if(y_offset < 500){
+						offset_y(scroll);
+					}
+				}
+				if(!paused && e.getKeyCode() == KeyEvent.VK_DOWN){
+					if(y_offset > 0){
+						offset_y(-scroll);
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+					paused = !paused;
+					System.out.println(paused);
 				}
 			}
 			@Override
 			public void keyReleased(KeyEvent arg0) {}//These are required, but not used
 			@Override
 			public void keyTyped(KeyEvent arg0) {}//These are required, but not used
-			
 	    });
 	    int last_x_offset = x_offset;//This is for interpolation purposes, initially sets the values as the same
+	    int last_y_offset = x_offset;//This is for interpolation purposes, initially sets the values as the same
 	    last = System.currentTimeMillis();//Sets the last time to the start time
 	    long now = System.currentTimeMillis();//Sets the now time so it is not null or 0
 	    long deltaTime = System.currentTimeMillis();//Sets the delta time so it is not null or 0
 	    long dt = 100;//This is the time in milliseconds at which the game will process physics, 100 milliseconds at a time
 		Font defaultFont = new Font("TimesRoman", Font.PLAIN, 15);
 	    while(running){
-			
+
 			g.setColor(Color.white);//Clears the screen
 			g.fillRect(0,0,x,y);
 			g = (Graphics2D) buffer.getDrawGraphics();
@@ -97,16 +120,18 @@ public class Integrator {
 			deltaTime += now - last;//Calculates time since last update
 			last = System.currentTimeMillis();//Updates the last time
 			if(deltaTime>25)deltaTime=25;//Makes sure that the physics does not try to do too much
-			while((deltaTime) >= dt){//As long as we still need to do physics updates, do physics updates
+			while(!paused && (deltaTime) >= dt){//As long as we still need to do physics updates, do physics updates
 				//Do physics here
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
 			float c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
 			int int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
+			int int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
 			last_x_offset = int_last_x_offset;//Updates last time for interpolation
+			last_y_offset = int_last_y_offset;//Updates last time for interpolation
 			for(GameObject temp : objects){
 				BufferedImage a = temp.getImage();//Gets the image of the thing
-				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY(), temp.getImageX() + int_last_x_offset,  temp.getImageY(), 0, 0, a.getWidth(), a.getHeight(), null);//Draws the thing
+				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY() + int_last_y_offset, temp.getImageX() + int_last_x_offset,  temp.getImageY() + int_last_y_offset, 0, 0, a.getWidth(), a.getHeight(), null);//Draws the thing
 			}
 			for(UIComponent temp : UIComponents){
 				temp.drawObj(g);//Draws the thing
