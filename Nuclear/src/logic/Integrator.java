@@ -40,11 +40,11 @@ public class Integrator {
 	}
 	int scroll = 40;//This controls the scroll speed
 	public void start(){
-
+		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		plant.setY((int) (y/20.0));//Sets the plant location
 		objects.add(plant);//Adds the plant to the world array so it can be rendered
-		UIButton test = new UIButton(10, 10, 400, 110);
+		UISlider test = new UISlider(10, 10, 400, 110);
 		test.setText("Test");
 		canvas.addMouseListener(test.mouse);
 		canvas.addMouseMotionListener(test.mouse);

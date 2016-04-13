@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class UIButton extends UIComponent{
+	public boolean clicked = false;
 	private boolean visible = true;
 	private int xSize;
 	private int ySize;
@@ -46,8 +47,8 @@ public class UIButton extends UIComponent{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(visible && bounds.contains(e.getPoint())){
-					nx = e.getX();
-					ny = e.getY();
+					clicked = true;
+					System.out.println("Clicked");
 				}
 			}
 			@Override

@@ -6,26 +6,30 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class UIText extends UIComponent{//This will make the UIText be also recognized as a UIComponent
+public class UISlider extends UIComponent{
+	public boolean clicked = false;
 	private boolean visible = true;
-	private String text;
 	private int xSize;
 	private int ySize;
 	private int x;
 	private int y;
+	private String text;
 	private Color color = new Color(204, 204, 255);
+	private Font font = new Font("Impact", Font.PLAIN, 70);
 	public Rectangle bounds;
-	private Font font = new Font("Impact", Font.PLAIN, 96);
 	public MouseAdapter mouse;
-	public UIText(int xPos, int yPos, int xSize, int ySize) {
-		this.xSize = xSize;
-		this.ySize = ySize;
+	public KeyAdapter key;
+	public UISlider(int xPos, int yPos, int x1, int y1) {
+		this.xSize = x1;
+		this.ySize = y1;
 		this.x = xPos;
 		this.y = yPos;
 		bounds = new Rectangle(x, y, xSize, ySize);
+		
 		mouse = new MouseAdapter(){
 			int nx;
 			int ny;
@@ -45,8 +49,8 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(visible && bounds.contains(e.getPoint())){
-					nx = e.getX();
-					ny = e.getY();
+					clicked = true;
+					System.out.println("Clicked");
 				}
 			}
 			@Override
@@ -64,27 +68,37 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		};
+		key = new KeyAdapter(){
+			
+		};
 	}
 	
 	public void drawObj(Graphics2D g) {
 		if(visible){
 			Font oldFont = g.getFont();
 			Color oldColor = g.getColor();//Saves previous information
-			
+				
 			g.setColor(Color.black);
 			g.fillRect(x, y, xSize, ySize);
-			
+				
 			g.setColor(color);
 			g.setFont(font);
 			g.setStroke(new BasicStroke(5));
 			g.fillRect(x+2, y+2, xSize-4, ySize-4);
+				
+			//Draws slider
+			g.setColor(Color.red);
+			g.drawString(text, x+30, y+84);
+			
+			g.setColor(Color.green);
+			g.fillRect(x+20, y+20, xSize-40, ySize-40);
+			//Draws slider
 			
 			g.setColor(oldColor);
-			g.drawString(text, x+20, y+90);
+			g.drawString(text, x+30, y+84);
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
-	
 	public void setText(String text) {
 		this.text = text;
 	}
@@ -94,3 +108,4 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 		bounds = new Rectangle(x, y, xSize, ySize);
 	}
 }
+
