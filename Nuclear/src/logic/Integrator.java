@@ -13,8 +13,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import graphics.UIComponent;
-import graphics.UIText;
+import graphics.*;
+
 import objects.GameObject;
 import objects.Plant;
 
@@ -44,8 +44,10 @@ public class Integrator {
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		plant.setY((int) (y/20.0));//Sets the plant location
 		objects.add(plant);//Adds the plant to the world array so it can be rendered
-		UIText test = new UIText(10, 10, 400, 100);
+		UIButton test = new UIButton(10, 10, 400, 110);
 		test.setText("Test");
+		canvas.addMouseListener(test.mouse);
+		canvas.addMouseMotionListener(test.mouse);
 		UIComponents.add(test);
 		
 		
@@ -94,7 +96,6 @@ public class Integrator {
 				}
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					paused = !paused;
-					System.out.println(paused);
 				}
 			}
 			@Override
