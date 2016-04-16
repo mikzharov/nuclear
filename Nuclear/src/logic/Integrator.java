@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Integrator {
 	int y;//The size of the screen
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
+	float scale = 1f; // The scale of the game (Hopefully not UI though)
 	public Canvas canvas;//Canvas component
 	long start;
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
@@ -47,7 +49,11 @@ public class Integrator {
 		if(!active())
 		y_offset+=i;
 	}
+	public void zoom(float i){
+		scale += i;
+	}
 	int scroll = 40;//This controls the scroll speed
+	float zoom_factor = 0.01f;//Zoom speed
 	public void start(){
 		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
@@ -82,9 +88,9 @@ public class Integrator {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {//Adds the scrolling action listener
 				if(e.getWheelRotation()>0){
-					offset_x(scroll);
+					zoom(zoom_factor);
 				}else if(e.getWheelRotation()<0){
-					offset_x(-scroll);
+					zoom(-zoom_factor);
 				}
 			}
 	    });
@@ -92,7 +98,7 @@ public class Integrator {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(!paused && e.getKeyCode() == KeyEvent.VK_RIGHT){
-					if(x_offset > -1500){
+					if(x_offset > -3500){
 						offset_x(-scroll);
 					}
 				}
@@ -102,12 +108,12 @@ public class Integrator {
 					}
 				}
 				if(!paused && e.getKeyCode() == KeyEvent.VK_UP){
-					if(y_offset < 500){
+					if(y_offset < 300){
 						offset_y(scroll);
 					}
 				}
 				if(!paused && e.getKeyCode() == KeyEvent.VK_DOWN){
-					if(y_offset > 0){
+					if(y_offset > -400){
 						offset_y(-scroll);
 					}
 				}
@@ -127,6 +133,7 @@ public class Integrator {
 	    long deltaTime = System.currentTimeMillis();//Sets the delta time so it is not null or 0
 	    long dt = 100;//This is the time in milliseconds at which the game will process physics, 100 milliseconds at a time
 		Font defaultFont = new Font("TimesRoman", Font.PLAIN, 15);
+		AffineTransform old;
 	    while(running){
 
 			g.setColor(Color.white);//Clears the screen
@@ -147,10 +154,15 @@ public class Integrator {
 			int int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
 			last_x_offset = int_last_x_offset;//Updates last time for interpolation
 			last_y_offset = int_last_y_offset;//Updates last time for interpolation
+			old = g.getTransform();
+			g.translate(x/2.0, y/2.0);
+			g.scale(scale, scale);
+			g.translate(-x/2.0, -y/2.0);
 			for(GameObject temp : objects){
 				BufferedImage a = temp.getImage();//Gets the image of the thing
 				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY() + int_last_y_offset, temp.getImageX() + int_last_x_offset,  temp.getImageY() + int_last_y_offset, 0, 0, a.getWidth(), a.getHeight(), null);//Draws the thing
 			}
+			g.setTransform(old);
 			for(UIComponent temp : UIComponents){
 				temp.drawObj(g);//Draws the thing
 			}

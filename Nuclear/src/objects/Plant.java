@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.Main;
+
 
 public class Plant extends GameObject{
 	BufferedImage floorPlans = null;
@@ -29,10 +29,10 @@ public class Plant extends GameObject{
 		return floorPlans;
 	}
 	public int getImageX(){
-		return Main.xSize*2;
+		return floorPlans.getWidth() + this.x;
 	}
 	public int getImageY(){
-		return (int) ((floorPlans.getHeight() / ((double)floorPlans.getWidth()/Main.xSize))+y)*2;
+		return floorPlans.getHeight() + this.y;
 	}
 	public void setX(int x){
 		this.x = x;
