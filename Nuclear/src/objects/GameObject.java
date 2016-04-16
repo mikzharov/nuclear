@@ -1,5 +1,7 @@
 package objects;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class GameObject {
@@ -26,5 +28,11 @@ public class GameObject {
 	}
 	public void setY(int y){
 		this.y = y;
+	}
+	public void keyPressed(KeyEvent e){
+		
+	}
+	public void mouseClicked(MouseEvent e){
+		
 	}
 }

@@ -7,15 +7,16 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import graphics.*;
-
+import objects.ControlRod;
 import objects.GameObject;
 import objects.Plant;
 
@@ -23,11 +24,11 @@ public class Integrator {
 	public static boolean running = true;//If false, the game quits
 	public static boolean paused = false;
 	long last;//The long which stores the time in milliseconds at the last update
-	int x;//The size of the screen
-	int y;//The size of the screen
+	public static int x;//The size of the screen
+	public static int y;//The size of the screen
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
-	float scale = 1f; // The scale of the game (Hopefully not UI though)
+	public static float scale = 1f; // The scale of the game (Hopefully not UI though)
 	public Canvas canvas;//Canvas component
 	long start;
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
@@ -54,11 +55,15 @@ public class Integrator {
 	}
 	int scroll = 40;//This controls the scroll speed
 	float zoom_factor = 0.01f;//Zoom speed
+	public static int int_last_x_offset, int_last_y_offset;
 	public void start(){
 		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
-		plant.setY((int) (y/20.0));//Sets the plant location
+		plant.setY(0);//Sets the plant location
 		objects.add(plant);//Adds the plant to the world array so it can be rendered
+		
+		ControlRod rod = new ControlRod(740, 380);
+		objects.add(rod);
 		
 		UISlider test = new UISlider(10, 10, 400, 110);
 		test.setText("Test");
@@ -84,7 +89,7 @@ public class Integrator {
 	             RenderingHints.KEY_ANTIALIASING,
 	             RenderingHints.VALUE_ANTIALIAS_ON);
 		canvas.requestFocusInWindow();//Makes sure that the canvas will receive clicks
-	    canvas.addMouseWheelListener(new MouseWheelListener(){
+		MouseAdapter mouse = new MouseAdapter(){
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {//Adds the scrolling action listener
 				if(e.getWheelRotation()>0){
@@ -93,7 +98,14 @@ public class Integrator {
 					zoom(-zoom_factor);
 				}
 			}
-	    });
+			public void mouseClicked(MouseEvent e){
+				for(GameObject temp: objects){
+					temp.mouseClicked(e);
+				}
+			}
+	    };
+		canvas.addMouseWheelListener(mouse);
+		canvas.addMouseListener(mouse);
 	    canvas.addKeyListener(new KeyListener(){//Adds the arrow action listener
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -119,6 +131,9 @@ public class Integrator {
 				}
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					paused = !paused;
+				}
+				for(GameObject temp: objects){
+					temp.keyPressed(e);
 				}
 			}
 			@Override
@@ -150,8 +165,8 @@ public class Integrator {
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
 			float c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
-			int int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
-			int int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
+			int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
+			int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
 			last_x_offset = int_last_x_offset;//Updates last time for interpolation
 			last_y_offset = int_last_y_offset;//Updates last time for interpolation
 			old = g.getTransform();
@@ -173,9 +188,9 @@ public class Integrator {
 		}
 		g.dispose();//Cleans the graphics (although this is not required)
 	}
-	public Integrator(int x, int y){//A constructor which takes the screen size
+	public Integrator(int x1, int y1){//A constructor which takes the screen size
 		canvas = new Canvas();//Initializes the canvas
-		this.x=x;
-		this.y=y;
+		x=x1;
+		y=y1;
 	}
 }
