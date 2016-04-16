@@ -4,10 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.Integrator;
 
 public class UIButton extends UIComponent{
 	public boolean clicked = false;
@@ -17,10 +18,16 @@ public class UIButton extends UIComponent{
 	private int x;
 	private int y;
 	private String text;
-	private Color color = new Color(204, 204, 255);
+	private Color color = new Color(174, 174, 207);
 	private Font font = new Font("Impact", Font.PLAIN, 96);
 	public Rectangle bounds;
 	public MouseAdapter mouse;
+	private boolean usable(){
+		if(this.active && !Integrator.paused && visible){
+			return true;
+		}
+		return false;
+	}
 	public UIButton(int xPos, int yPos, int x1, int y1) {
 		this.xSize = x1;
 		this.ySize = y1;
@@ -33,14 +40,17 @@ public class UIButton extends UIComponent{
 			int ny;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(visible && bounds.contains(e.getPoint())){
 					nx = e.getX() - x;
 					ny = e.getY() - y;
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(usable() && bounds.contains(e.getPoint())){
 					setBounds(e.getX() - nx, e.getY() - ny);
 				}
 			}
@@ -48,15 +58,17 @@ public class UIButton extends UIComponent{
 			public void mouseClicked(MouseEvent e) {
 				if(visible && bounds.contains(e.getPoint())){
 					clicked = true;
-					System.out.println("Clicked");
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
-					color = new Color(174, 174, 207);
-				}else if(visible){
+				if(visible && bounds.contains(e.getPoint())){
 					color = new Color(204, 204, 255);
+				}else if(visible){
+					color = new Color(174, 174, 207);
 				}
 			}
 			@Override

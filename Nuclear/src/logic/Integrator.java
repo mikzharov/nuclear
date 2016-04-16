@@ -19,8 +19,8 @@ import objects.GameObject;
 import objects.Plant;
 
 public class Integrator {
-	static boolean running = true;//If false, the game quits
-	static boolean paused = false;
+	public static boolean running = true;//If false, the game quits
+	public static boolean paused = false;
 	long last;//The long which stores the time in milliseconds at the last update
 	int x;//The size of the screen
 	int y;//The size of the screen
@@ -32,10 +32,19 @@ public class Integrator {
 	Graphics2D g;//This object will be used to draw
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
 	ArrayList<UIComponent> UIComponents = new ArrayList<UIComponent>();//This is where all the game objects will be stored
+	public boolean active(){
+		for(UIComponent temp:UIComponents){
+			if(temp.active)
+				return true;
+		}
+		return false;
+	}
 	public void offset_x(int i){
+		if(!active())
 		x_offset+=i;
 	}
 	public void offset_y(int i){
+		if(!active())
 		y_offset+=i;
 	}
 	int scroll = 40;//This controls the scroll speed
@@ -44,11 +53,19 @@ public class Integrator {
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		plant.setY((int) (y/20.0));//Sets the plant location
 		objects.add(plant);//Adds the plant to the world array so it can be rendered
+		
 		UISlider test = new UISlider(10, 10, 400, 110);
 		test.setText("Test");
 		canvas.addMouseListener(test.mouse);
 		canvas.addMouseMotionListener(test.mouse);
+		canvas.addKeyListener(test.key);
 		UIComponents.add(test);
+		
+		UIButton test1 = new UIButton(10, 300, 400, 110);
+		test1.setText("Test");
+		canvas.addMouseListener(test1.mouse);
+		canvas.addMouseMotionListener(test1.mouse);
+		UIComponents.add(test1);
 		
 		
 		canvas.createBufferStrategy(2);//Enables double buffering

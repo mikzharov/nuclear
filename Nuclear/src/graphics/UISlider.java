@@ -4,11 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.Integrator;
 
 public class UISlider extends UIComponent{
 	public boolean clicked = false;
@@ -18,11 +20,20 @@ public class UISlider extends UIComponent{
 	private int x;
 	private int y;
 	private String text;
-	private Color color = new Color(204, 204, 255);
+	private Color color = new Color(174, 174, 207);
 	private Font font = new Font("Impact", Font.PLAIN, 70);
 	public Rectangle bounds;
 	public MouseAdapter mouse;
 	public KeyAdapter key;
+	public Color green = new Color(150, 212, 144);
+	public Color red = new Color(242, 102, 102);
+	private float percentage = 1;
+	private boolean usable(){
+		if(active && !Integrator.paused && visible){
+			return true;
+		}
+		return false;
+	}
 	public UISlider(int xPos, int yPos, int x1, int y1) {
 		this.xSize = x1;
 		this.ySize = y1;
@@ -35,30 +46,35 @@ public class UISlider extends UIComponent{
 			int ny;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(visible && bounds.contains(e.getPoint())){
 					nx = e.getX() - x;
 					ny = e.getY() - y;
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(usable() && bounds.contains(e.getPoint())){
 					setBounds(e.getX() - nx, e.getY() - ny);
 				}
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(visible && bounds.contains(e.getPoint())){
+				if(usable() && bounds.contains(e.getPoint())){
 					clicked = true;
-					System.out.println("Clicked");
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
-					color = new Color(174, 174, 207);
-				}else if(visible){
+				if(visible && bounds.contains(e.getPoint())){
 					color = new Color(204, 204, 255);
+				}else if(visible){
+					color = new Color(174, 174, 207);
 				}
 			}
 			@Override
@@ -69,7 +85,23 @@ public class UISlider extends UIComponent{
 			public void mouseReleased(MouseEvent e) {}
 		};
 		key = new KeyAdapter(){
-			
+			public void keyPressed(KeyEvent e) {
+				
+				if(usable() && e.getKeyCode() == KeyEvent.VK_UP){
+					if(percentage + 0.01 <=1){
+						percentage += 0.01f;
+					}else{
+						percentage = 1f;
+					}
+				}
+				if(usable() && e.getKeyCode() == KeyEvent.VK_DOWN){
+					if(percentage - 0.01 >=0){
+						percentage -= 0.01f;
+					}else{
+						percentage = 0f;
+					}
+				}
+			}
 		};
 	}
 	
@@ -87,11 +119,11 @@ public class UISlider extends UIComponent{
 			g.fillRect(x+2, y+2, xSize-4, ySize-4);
 				
 			//Draws slider
-			g.setColor(Color.red);
-			g.drawString(text, x+30, y+84);
-			
-			g.setColor(Color.green);
+			g.setColor(red);
 			g.fillRect(x+20, y+20, xSize-40, ySize-40);
+			
+			g.setColor(green);
+			g.fillRect(x+20, y+20, (int)((xSize-40)*percentage), ySize-40);
 			//Draws slider
 			
 			g.setColor(oldColor);

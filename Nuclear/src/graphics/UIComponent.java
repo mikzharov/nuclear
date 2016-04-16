@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 //In individual classes such as the UIText class etc.
 public class UIComponent {
 	public MouseAdapter mouse;
+	public boolean active = false;
 	public UIComponent(int xPos, int yPos, int xSize, int ySize) {
 		throw new UnsupportedOperationException();
 	}

@@ -4,10 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.Integrator;
 
 public class UIText extends UIComponent{//This will make the UIText be also recognized as a UIComponent
 	private boolean visible = true;
@@ -20,6 +21,12 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 	public Rectangle bounds;
 	private Font font = new Font("Impact", Font.PLAIN, 96);
 	public MouseAdapter mouse;
+	private boolean usable(){
+		if(active && !Integrator.paused && visible){
+			return true;
+		}
+		return false;
+	}
 	public UIText(int xPos, int yPos, int xSize, int ySize) {
 		this.xSize = xSize;
 		this.ySize = ySize;
@@ -31,14 +38,17 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 			int ny;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(usable() && bounds.contains(e.getPoint())){
 					nx = e.getX() - x;
 					ny = e.getY() - y;
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(usable() && bounds.contains(e.getPoint())){
 					setBounds(e.getX() - nx, e.getY() - ny);
 				}
 			}
@@ -47,11 +57,14 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 				if(visible && bounds.contains(e.getPoint())){
 					nx = e.getX();
 					ny = e.getY();
+					active = true;
+				}else{
+					active = false;
 				}
 			}
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if(visible && bounds.contains(new Point(e.getX(), e.getY()))){
+				if(visible && bounds.contains(e.getPoint())){
 					color = new Color(174, 174, 207);
 				}else if(visible){
 					color = new Color(204, 204, 255);
@@ -67,7 +80,7 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 	}
 	
 	public void drawObj(Graphics2D g) {
-		if(visible){
+		if(usable()){
 			Font oldFont = g.getFont();
 			Color oldColor = g.getColor();//Saves previous information
 			
