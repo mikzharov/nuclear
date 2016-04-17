@@ -1,10 +1,13 @@
 package objects;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import logic.Integrator;
 
 
 
@@ -39,5 +42,8 @@ public class Plant extends GameObject{
 	}
 	public void setY(int y){
 		this.y = y;
+	}
+	public void drawObj(Graphics2D g){
+		g.drawImage(floorPlans, this.getX() + (Integrator.int_last_x_offset), this.getY() + Integrator.int_last_y_offset, this.getImageX() + Integrator.int_last_x_offset,  this.getImageY() + Integrator.int_last_y_offset, 0, 0, floorPlans.getWidth(), floorPlans.getHeight(), null);
 	}
 }

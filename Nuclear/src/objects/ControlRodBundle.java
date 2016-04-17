@@ -1,5 +1,6 @@
 package objects;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
@@ -12,15 +13,13 @@ import javax.imageio.ImageIO;
 
 import logic.Integrator;
 
-public class ControlRod extends GameObject{
+public class ControlRodBundle extends GameObject{
 	static BufferedImage sprite = null;
 	static BufferedImage red = null;
 	static BufferedImage orange = null;
 	static BufferedImage green = null;
 	private Rectangle bounds;
-	int x = 0;
-	int y = 0;
-	public ControlRod(int x, int y){
+	public ControlRodBundle(int x, int y){
 		bounds = new Rectangle(x, y, 15, 15);
 		try {
 			if(sprite==null){
@@ -35,11 +34,18 @@ public class ControlRod extends GameObject{
 		this.x=x;
 		this.y=y;
 	}
-	public int getX(){
-		return this.x;
-	}
-	public int getY(){
-		return this.y;
+	public ControlRodBundle(){
+		bounds = new Rectangle(x, y, 15, 15);
+		try {
+			if(sprite==null){
+				sprite = ImageIO.read(new File("res/control.jpg"));
+				green = sprite.getSubimage(0, 0, 15, 15);
+				orange = sprite.getSubimage(0, 15, 15, 15);
+				red = sprite.getSubimage(0, 30, 15, 15);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	public BufferedImage getImage(){
 		return green;
@@ -49,12 +55,6 @@ public class ControlRod extends GameObject{
 	}
 	public int getImageY(){
 		return 15 + this.y;
-	}
-	public void setX(int x){
-		this.x = x;
-	}
-	public void setY(int y){
-		this.y = y;
 	}
 	public void mouseClicked(MouseEvent e){
 		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
@@ -67,5 +67,8 @@ public class ControlRod extends GameObject{
 			//Hit
 		}
 		bounds.setLocation(x, y);
+	}
+	public void drawObj(Graphics2D g){
+		g.drawImage(green, this.getX() + (Integrator.int_last_x_offset), this.getY() + Integrator.int_last_y_offset, x + 15 + Integrator.int_last_x_offset,  this.getImageY() + Integrator.int_last_y_offset, 0, 0, 15, 15, null);
 	}
 }

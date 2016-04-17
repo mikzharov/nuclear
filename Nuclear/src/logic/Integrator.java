@@ -16,9 +16,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import graphics.*;
-import objects.ControlRod;
+import objects.ControlRodBundle;
 import objects.GameObject;
 import objects.Plant;
+import objects.Reactor;
 
 public class Integrator {
 	public static boolean running = true;//If false, the game quits
@@ -59,11 +60,42 @@ public class Integrator {
 	public void start(){
 		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
-		plant.setY(0);//Sets the plant location
-		objects.add(plant);//Adds the plant to the world array so it can be rendered
+		Reactor reactor4 = new Reactor(722, 340, 120, 128, "Reactor 4");
 		
-		ControlRod rod = new ControlRod(740, 380);
-		objects.add(rod);
+		ControlRodBundle rod1R4 = new ControlRodBundle(), rod2R4 = new ControlRodBundle(), rod3R4 = new ControlRodBundle(), rod4R4 = new ControlRodBundle(), rod5R4 = new ControlRodBundle(), rod6R4 = new ControlRodBundle(),
+				rod7R4 = new ControlRodBundle(), rod8R4 = new ControlRodBundle(), rod9R4 = new ControlRodBundle(), rod10R4 = new ControlRodBundle(), rod11R4 = new ControlRodBundle(), rod12R4 = new ControlRodBundle(),
+				rod13R4 = new ControlRodBundle(), rod14R4 = new ControlRodBundle();
+		int row1 = 745;
+		int col1 = 378;
+		int row2 = 725;
+		int col2 = 395;
+		int row3 = 725;
+		int col3 = 412;
+		rod1R4.setXY(row1, col1);
+		rod2R4.setXY(row1+20, col1);
+		rod3R4.setXY(row1+40, col1);
+		rod4R4.setXY(row1+60, col1);
+		rod5R4.setXY(row2, col2);
+		rod6R4.setXY(row2+20, col2);
+		rod7R4.setXY(row2+40, col2);
+		rod8R4.setXY(row2+60, col2);
+		rod9R4.setXY(row2+80, col2);
+		rod10R4.setXY(row2+100, col2);
+		rod11R4.setXY(row3+20, col3);
+		rod12R4.setXY(row3+40, col3);
+		rod13R4.setXY(row3+60, col3);
+		rod14R4.setXY(row3+80, col3);
+		
+		reactor4.addObj(rod1R4);reactor4.addObj(rod8R4);
+		reactor4.addObj(rod2R4);reactor4.addObj(rod9R4);
+		reactor4.addObj(rod3R4);reactor4.addObj(rod10R4);
+		reactor4.addObj(rod4R4);reactor4.addObj(rod11R4);
+		reactor4.addObj(rod5R4);reactor4.addObj(rod12R4);
+		reactor4.addObj(rod6R4);reactor4.addObj(rod13R4);
+		reactor4.addObj(rod7R4);reactor4.addObj(rod14R4);
+		
+		plant.addObj(reactor4);
+		objects.addAll(plant.getObj());//Adds the plant to the world array so it can be rendered
 		
 		UISlider test = new UISlider(10, 10, 400, 110);
 		test.setText("Test");
@@ -174,8 +206,7 @@ public class Integrator {
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
 			for(GameObject temp : objects){
-				BufferedImage a = temp.getImage();//Gets the image of the thing
-				g.drawImage(a, temp.getX() + (int_last_x_offset), temp.getY() + int_last_y_offset, temp.getImageX() + int_last_x_offset,  temp.getImageY() + int_last_y_offset, 0, 0, a.getWidth(), a.getHeight(), null);//Draws the thing
+				temp.drawObj(g);
 			}
 			g.setTransform(old);
 			for(UIComponent temp : UIComponents){
