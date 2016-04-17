@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 public class GameObject {
 	int x = 0;
 	int y = 0;
+	int xSize = 0, ySize = 0;
+	Rectangle bounds = new Rectangle();
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	public int getX(){
 		return x;
@@ -23,13 +26,33 @@ public class GameObject {
 	}
 	public void setX(int x){
 		this.x = x;
+		bounds = new Rectangle(x, y, xSize, ySize);
 	}
 	public void setY(int y){
 		this.y = y;
+		bounds = new Rectangle(x, y, xSize, ySize);
 	}
 	public void setXY(int x, int y){
 		this.y = y;
 		this.x = x;
+		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public void setSize(int size){
+		xSize = ySize = size;
+		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public void setXSize(int size){
+		xSize = size;
+		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public void setYSize(int size){
+		ySize = size;
+		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public void setXYSize(int y, int x){
+		xSize = x;
+		ySize = y;
+		bounds = new Rectangle(x, y, xSize, ySize);
 	}
 	public void keyPressed(KeyEvent e){
 		

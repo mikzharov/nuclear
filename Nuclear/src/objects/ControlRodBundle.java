@@ -18,15 +18,16 @@ public class ControlRodBundle extends GameObject{
 	static BufferedImage red = null;
 	static BufferedImage orange = null;
 	static BufferedImage green = null;
-	private Rectangle bounds;
-	public ControlRodBundle(int x, int y){
-		bounds = new Rectangle(x, y, 15, 15);
+	
+	public ControlRodBundle(int x, int y, int size){
+		xSize = ySize = size;
+		bounds = new Rectangle(x, y, ySize, xSize);
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File("res/control.jpg"));
-				green = sprite.getSubimage(0, 0, 15, 15);
-				orange = sprite.getSubimage(0, 15, 15, 15);
-				red = sprite.getSubimage(0, 30, 15, 15);
+				green = sprite.getSubimage(0, 0, xSize, ySize);
+				orange = sprite.getSubimage(0, ySize, xSize, ySize);
+				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -35,13 +36,14 @@ public class ControlRodBundle extends GameObject{
 		this.y=y;
 	}
 	public ControlRodBundle(){
-		bounds = new Rectangle(x, y, 15, 15);
+		xSize = ySize = 15;
+		bounds = new Rectangle(x, y, xSize, ySize);
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File("res/control.jpg"));
-				green = sprite.getSubimage(0, 0, 15, 15);
-				orange = sprite.getSubimage(0, 15, 15, 15);
-				red = sprite.getSubimage(0, 30, 15, 15);
+				green = sprite.getSubimage(0, 0, xSize, ySize);
+				orange = sprite.getSubimage(0, ySize, xSize, ySize);
+				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,10 +53,10 @@ public class ControlRodBundle extends GameObject{
 		return green;
 	}
 	public int getImageX(){
-		return 15 + this.x;
+		return xSize + this.x;
 	}
 	public int getImageY(){
-		return 15 + this.y;
+		return ySize + this.y;
 	}
 	public void mouseClicked(MouseEvent e){
 		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
@@ -65,10 +67,11 @@ public class ControlRodBundle extends GameObject{
 		Shape temp = g.createTransformedShape(bounds);
 		if(temp.contains((e.getX()), (e.getY()))){
 			//Hit
+			System.out.println("Clicked");
 		}
 		bounds.setLocation(x, y);
 	}
 	public void drawObj(Graphics2D g){
-		g.drawImage(green, this.getX() + (Integrator.int_last_x_offset), this.getY() + Integrator.int_last_y_offset, x + 15 + Integrator.int_last_x_offset,  this.getImageY() + Integrator.int_last_y_offset, 0, 0, 15, 15, null);
+		g.drawImage(green, getX() + (Integrator.int_last_x_offset), getY() + Integrator.int_last_y_offset, getImageX() + Integrator.int_last_x_offset,  getImageY() + Integrator.int_last_y_offset, 0, 0, xSize, ySize, null);
 	}
 }
