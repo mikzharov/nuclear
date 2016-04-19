@@ -12,16 +12,9 @@ import logic.Integrator;
 
 public class UIButton extends UIComponent{
 	public boolean clicked = false;
-	private boolean visible = true;
-	private int xSize;
-	private int ySize;
-	private int x;
-	private int y;
-	private String text;
 	private Color color = new Color(174, 174, 207);
 	private Font font = new Font("Impact", Font.PLAIN, 96);
 	public Rectangle bounds;
-	public MouseAdapter mouse;
 	private boolean usable(){
 		if(this.active && !Integrator.paused && visible){
 			return true;

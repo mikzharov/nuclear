@@ -3,9 +3,13 @@ package objects;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 
+import graphics.UIComponent;
 import graphics.UIText;
 import logic.Integrator;
 
@@ -15,13 +19,20 @@ public class Reactor extends GameObject {
 	private double temperature = 300.0;
 	private Graphics2D g;
 	public double controlRod = 1.0;
-	
+	UIText warning = new UIText(10, Integrator.y-150, 650, 105);//We want to reuse these
+	UIText rodDepth = new UIText(warning.getX() + warning.getWidth() + 15, warning.getY(), 200, 105);//We also want to use the relative coordinates
+	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 200, 105);
 	public Reactor(int xPos, int yPos, int xSize, int ySize, String name) {
+		for(UIComponent comp: ui){
+			comp.setVisible(false);
+		}
 		this.x = xPos;
 		this.y = yPos;
 		this.xSize = xSize;
 		this.ySize = ySize;
 		this.name = name;
+		bounds = new Rectangle(x, y, xSize, ySize);
+		drawControls(g, controlRod);
 	}
 	
 	public void drawObj(Graphics2D g) {
@@ -33,22 +44,38 @@ public class Reactor extends GameObject {
 		g.setStroke(oldStroke);
 	}
 	
-	public void drawControls(Graphics2D g, double controlRod) {
-		UIText warning = new UIText(150, 700, 300, 200);
-		warning.setText(reactorError(controlRod));
-		warning.drawObj(g);
+	public void drawControls(Graphics2D g, double controlRod) {//Call this once to add them to the rendering list
+		warning.setText(reactorError(controlRod));//Update the text somewhere else
+		ui.add(warning);
 		
-		UIText rodDepth = new UIText(500, 700, 300, 200);
 		rodDepth.setText(String.valueOf(controlRod));
-		rodDepth.drawObj(g);
+		ui.add(rodDepth);//UI is a class array for Ui of things
 		
-		UIText pressure = new UIText(150, 900, 300, 200);
 		pressure.setText(String.valueOf(steamOutput(controlRod)));
-		pressure.drawObj(g);
+		ui.add(pressure);
+		for(UIComponent comp: ui){
+			comp.setVisible(false);
+		}
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		drawControls(g, controlRod);
+		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
+		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
+		g.translate(Integrator.x/2.0, Integrator.y/2.0);
+		g.scale(Integrator.scale, Integrator.scale);
+		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
+		Shape temp = g.createTransformedShape(bounds);
+		if(temp.contains((e.getX()), (e.getY()))){
+			//Hit
+			System.out.println("Clicked Reactor");
+			for(UIComponent comp: ui){
+				comp.setVisible(true);
+			}
+		}else{
+			for(UIComponent comp: ui){
+				comp.setVisible(false);
+			}
+		}
 	}
 	
 	public void update(long deltaTime) {
@@ -80,7 +107,7 @@ public class Reactor extends GameObject {
 		controlRod-=0.5;
 		
 		temperature+=controlRod*10;
-		return "Reactor "+name+" is overheating!";
+		return name+": overheating!";
 	}
 
 }

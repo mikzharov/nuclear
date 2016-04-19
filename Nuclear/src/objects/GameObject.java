@@ -6,12 +6,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import graphics.UIComponent;
+
 public class GameObject {
 	int x = 0;
 	int y = 0;
 	int xSize = 0, ySize = 0;
 	Rectangle bounds = new Rectangle();
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
 	public int getX(){
 		return x;
 	}
@@ -72,7 +75,15 @@ public class GameObject {
 		
 		return all;
 	}
+	public ArrayList<UIComponent> getUi(){
+		ArrayList<UIComponent> all = new ArrayList<UIComponent>();
+		all.addAll(ui);
+		return all;
+	}
 	public void addObj(GameObject a){
 		objects.add(a);
+	}
+	public void addObjs(ArrayList<GameObject> all){
+		objects.addAll(all);
 	}
 }

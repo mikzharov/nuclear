@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import graphics.*;
@@ -30,18 +29,39 @@ public class Integrator {
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
-	public Canvas canvas;//Canvas component
+	public static Canvas canvas;//Canvas component
 	long start;
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
 	Graphics2D g;//This object will be used to draw
-	ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
-	ArrayList<UIComponent> UIComponents = new ArrayList<UIComponent>();//This is where all the game objects will be stored
+	static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
+	public static ArrayList<UIComponent> UIComponents = new ArrayList<UIComponent>();//This is where all the game objects will be stored
 	public boolean active(){
 		for(UIComponent temp:UIComponents){
 			if(temp.active)
 				return true;
 		}
 		return false;
+	}
+	public static void add(UIComponent ui){
+		canvas.addKeyListener(ui.key);
+		canvas.addMouseListener(ui.mouse);
+		canvas.addMouseMotionListener(ui.mouse);
+		UIComponents.add(ui);
+	}
+	public static void add(GameObject ob){
+		ArrayList<UIComponent> all = ob.getUi();
+		for(UIComponent temp:all){
+			add(temp);
+		}
+		objects.add(ob);
+		
+		ArrayList<GameObject> allObj = ob.getObj();
+		allObj.remove(0);
+		if(allObj.size() != 0){
+			for(GameObject temp:allObj){
+				add(temp);
+			}
+		}
 	}
 	public void offset_x(int i){
 		if(!active())
@@ -52,6 +72,10 @@ public class Integrator {
 		y_offset+=i;
 	}
 	public void zoom(float i){
+		if(scale - i < 0){
+			scale = 0;
+			return;
+		}
 		scale -= i;
 	}
 	int scroll = 40;//This controls the scroll speed
@@ -60,14 +84,16 @@ public class Integrator {
 	public void start(){
 		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
-		Reactor reactor4 = new Reactor(705, 240, 150, 320, "Reactor 4");
-		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "Reactor 3");
-		Reactor reactor2 = new Reactor(2330, 195, 170, 350, "Reactor 2");
-		Reactor reactor1 = new Reactor(3425, 195, 170, 350, "Reactor 1");
-		
+		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
+		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "3");
+		Reactor reactor2 = new Reactor(2330, 195, 170, 350, "2");
+		Reactor reactor1 = new Reactor(3425, 195, 170, 350, "1");
+		reactor4.addObjs(ControlRodBundle.makeColumn(4, 4, 744, 369));
+		/*
 		ControlRodBundle rod1R4 = new ControlRodBundle(), rod2R4 = new ControlRodBundle(), rod3R4 = new ControlRodBundle(), rod4R4 = new ControlRodBundle(), rod5R4 = new ControlRodBundle(), rod6R4 = new ControlRodBundle(),
 				rod7R4 = new ControlRodBundle(), rod8R4 = new ControlRodBundle(), rod9R4 = new ControlRodBundle(), rod10R4 = new ControlRodBundle(), rod11R4 = new ControlRodBundle(), rod12R4 = new ControlRodBundle(),
 				rod13R4 = new ControlRodBundle(), rod14R4 = new ControlRodBundle();
+		
 		int row1 = 745;
 		int col1 = 378;
 		int row2 = 725;
@@ -95,13 +121,14 @@ public class Integrator {
 		reactor4.addObj(rod4R4);reactor4.addObj(rod11R4);
 		reactor4.addObj(rod5R4);reactor4.addObj(rod12R4);
 		reactor4.addObj(rod6R4);reactor4.addObj(rod13R4);
-		reactor4.addObj(rod7R4);reactor4.addObj(rod14R4);
+		reactor4.addObj(rod7R4);reactor4.addObj(rod14R4);*/
+		
 		
 		plant.addObj(reactor1);
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
-		objects.addAll(plant.getObj());//Adds the plant to the world array so it can be rendered
+		add(plant);//Adds the plant to the world array so it can be rendered
 		
 		UISlider test = new UISlider(10, 10, 400, 110);
 		test.setText("Test");
@@ -109,12 +136,6 @@ public class Integrator {
 		canvas.addMouseMotionListener(test.mouse);
 		canvas.addKeyListener(test.key);
 		UIComponents.add(test);
-		
-		UIButton test1 = new UIButton(10, 300, 400, 110);
-		test1.setText("Test");
-		canvas.addMouseListener(test1.mouse);
-		canvas.addMouseMotionListener(test1.mouse);
-		UIComponents.add(test1);
 		
 		
 		canvas.createBufferStrategy(2);//Enables double buffering

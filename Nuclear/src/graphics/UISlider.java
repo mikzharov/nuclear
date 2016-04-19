@@ -14,17 +14,9 @@ import logic.Integrator;
 
 public class UISlider extends UIComponent{
 	public boolean clicked = false;
-	private boolean visible = true;
-	private int xSize;
-	private int ySize;
-	private int x;
-	private int y;
-	private String text;
 	private Color color = new Color(174, 174, 207);
 	private Font font = new Font("Impact", Font.PLAIN, 70);
 	public Rectangle bounds;
-	public MouseAdapter mouse;
-	public KeyAdapter key;
 	public Color green = new Color(150, 212, 144);
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
