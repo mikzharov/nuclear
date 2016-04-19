@@ -58,7 +58,7 @@ public class UIText extends UIComponent{//This will make the UIText be also reco
 					nx = e.getX();
 					ny = e.getY();
 					active = true;
-				}else{
+				} else {
 					active = false;
 				}
 			}

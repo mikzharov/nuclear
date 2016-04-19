@@ -29,7 +29,7 @@ public class Integrator {
 	public static int y;//The size of the screen
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
 	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
-	public static float scale = 1f; // The scale of the game (Hopefully not UI though)
+	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
 	public Canvas canvas;//Canvas component
 	long start;
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
@@ -52,7 +52,7 @@ public class Integrator {
 		y_offset+=i;
 	}
 	public void zoom(float i){
-		scale += i;
+		scale -= i;
 	}
 	int scroll = 40;//This controls the scroll speed
 	float zoom_factor = 0.01f;//Zoom speed
@@ -60,7 +60,10 @@ public class Integrator {
 	public void start(){
 		
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
-		Reactor reactor4 = new Reactor(722, 340, 120, 128, "Reactor 4");
+		Reactor reactor4 = new Reactor(705, 240, 150, 320, "Reactor 4");
+		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "Reactor 3");
+		Reactor reactor2 = new Reactor(2330, 195, 170, 350, "Reactor 2");
+		Reactor reactor1 = new Reactor(3425, 195, 170, 350, "Reactor 1");
 		
 		ControlRodBundle rod1R4 = new ControlRodBundle(), rod2R4 = new ControlRodBundle(), rod3R4 = new ControlRodBundle(), rod4R4 = new ControlRodBundle(), rod5R4 = new ControlRodBundle(), rod6R4 = new ControlRodBundle(),
 				rod7R4 = new ControlRodBundle(), rod8R4 = new ControlRodBundle(), rod9R4 = new ControlRodBundle(), rod10R4 = new ControlRodBundle(), rod11R4 = new ControlRodBundle(), rod12R4 = new ControlRodBundle(),
@@ -94,6 +97,9 @@ public class Integrator {
 		reactor4.addObj(rod6R4);reactor4.addObj(rod13R4);
 		reactor4.addObj(rod7R4);reactor4.addObj(rod14R4);
 		
+		plant.addObj(reactor1);
+		plant.addObj(reactor2);
+		plant.addObj(reactor3);
 		plant.addObj(reactor4);
 		objects.addAll(plant.getObj());//Adds the plant to the world array so it can be rendered
 		
@@ -141,22 +147,22 @@ public class Integrator {
 	    canvas.addKeyListener(new KeyListener(){//Adds the arrow action listener
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(!paused && e.getKeyCode() == KeyEvent.VK_RIGHT){
+				if(!paused && e.getKeyCode() == KeyEvent.VK_RIGHT || !paused && e.getKeyCode() == KeyEvent.VK_D){
 					if(x_offset > -3500){
 						offset_x(-scroll);
 					}
 				}
-				if(!paused && e.getKeyCode() == KeyEvent.VK_LEFT){
+				if(!paused && e.getKeyCode() == KeyEvent.VK_LEFT || !paused && e.getKeyCode() == KeyEvent.VK_A){
 					if(x_offset < 100){
 						offset_x(scroll);
 					}
 				}
-				if(!paused && e.getKeyCode() == KeyEvent.VK_UP){
+				if(!paused && e.getKeyCode() == KeyEvent.VK_UP || !paused && e.getKeyCode() == KeyEvent.VK_W){
 					if(y_offset < 300){
 						offset_y(scroll);
 					}
 				}
-				if(!paused && e.getKeyCode() == KeyEvent.VK_DOWN){
+				if(!paused && e.getKeyCode() == KeyEvent.VK_DOWN || !paused && e.getKeyCode() == KeyEvent.VK_S){
 					if(y_offset > -400){
 						offset_y(-scroll);
 					}
@@ -207,6 +213,7 @@ public class Integrator {
 			g.translate(-x/2.0, -y/2.0);
 			for(GameObject temp : objects){
 				temp.drawObj(g);
+				g.setColor(Color.black); //individual objects that set the color will permanently change it, so we have to reset it to black
 			}
 			g.setTransform(old);
 			for(UIComponent temp : UIComponents){
