@@ -83,7 +83,6 @@ public class ControlRodBundle extends GameObject{
 		Shape temp = g.createTransformedShape(bounds);
 		if(temp.contains((e.getX()), (e.getY()))){
 			//Hit
-			System.out.println("Clicked");
 		}
 	}
 	public void drawObj(Graphics2D g){

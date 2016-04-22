@@ -12,9 +12,6 @@ import logic.Integrator;
 
 public class UIButton extends UIComponent{
 	public boolean clicked = false;
-	private Color color = new Color(174, 174, 207);
-	private Font font = new Font("Impact", Font.PLAIN, 96);
-	public Rectangle bounds;
 	private boolean usable(){
 		if(this.active && !Integrator.paused && visible){
 			return true;

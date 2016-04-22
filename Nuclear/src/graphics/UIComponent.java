@@ -1,5 +1,8 @@
 package graphics;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 
@@ -15,6 +18,9 @@ public class UIComponent {
 	int ySize;
 	int x;
 	int y;
+	Color color = new Color(174, 174, 207);
+	Font font = new Font("Impact", Font.PLAIN, 96);
+	public Rectangle bounds;
 	public UIComponent(int xPos, int yPos, int xSize, int ySize) {
 		throw new UnsupportedOperationException();
 	}
@@ -44,5 +50,14 @@ public class UIComponent {
 	}
 	public int getHeight(){
 		return ySize;
+	}
+	public Rectangle getBounds(){
+		return bounds;
+	}
+	public void setFont(Font font){
+		this.font = font;
+	}
+	public void setFontSize(int size) {
+		this.font = new Font("Impact", Font.PLAIN, size); 
 	}
 }

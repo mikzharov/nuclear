@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
 import graphics.UIComponent;
+import graphics.UISlider;
 import graphics.UIText;
 import logic.Integrator;
 
@@ -19,11 +20,16 @@ public class Reactor extends GameObject {
 	private boolean clicked = false;
 	private String name;
 	private double temperature = 300.0;
+	private double coolingFactor=0;
 	private Graphics2D g;
 	public double controlRod = 1.0;
 	UIText warning = new UIText(10, Integrator.y-150, 300, 105);//We want to reuse these
 	UIText rodDepth = new UIText(warning.getX() + warning.getWidth() + 15, warning.getY(), 400, 105);//We also want to use the relative coordinates
 	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 105);
+	UISlider rods = new UISlider(warning.getX(), warning.getY()-120, 420, 110);
+	public double roundDouble(double a){
+		return Math.round(a*100.0)/100.0;
+	}
 	public Reactor(int xPos, int yPos, int xSize, int ySize, String name) {
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
@@ -51,13 +57,15 @@ public class Reactor extends GameObject {
 		warning.setFontSize(30);
 		ui.add(warning);
 		
-		rodDepth.setText("Control Rod Depth: "+String.valueOf(this.controlRod)+"%");
+		rodDepth.setText("Control Rod Depth: "+roundDouble(controlRod)+"%");
 		rodDepth.setFontSize(30);
 		ui.add(rodDepth);//UI is a class array for ui of things
 		
-		pressure.setText("Pressure: "+String.valueOf(steamOutput())+" kPa");
+		pressure.setText("Pressure: "+roundDouble(controlRod)+" kPa");
 		pressure.setFontSize(30);
 		ui.add(pressure);
+		rods.setText("Control rods");
+		ui.add(rods);
 		
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
@@ -66,8 +74,8 @@ public class Reactor extends GameObject {
 	
 	public void updateControls() {
 		warning.setText(reactorError());
-		rodDepth.setText("Control Rod Depth: "+String.valueOf(this.controlRod)+"%");
-		pressure.setText("Pressure: "+String.valueOf(steamOutput())+" kPa");
+		rodDepth.setText("Control Rod Depth: "+roundDouble(controlRod)+"%");
+		pressure.setText("Pressure: "+roundDouble(controlRod)+" kPa");
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -79,33 +87,40 @@ public class Reactor extends GameObject {
 		Shape temp = g.createTransformedShape(bounds);
 		if(temp.contains((e.getX()), (e.getY()))){
 			//Hit
-			this.clicked=true;
+			clicked=true;
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
-		}
-		else {
-			if (e.getY() < 500) { //otherwise if you click on the controls they disappear
-				this.clicked=false;
+		} else {
+			boolean uiClicked=false;
+			for(UIComponent utemp: ui){
+				if(utemp.getBounds().contains(e.getPoint())){
+					uiClicked = true;
+				}
+			}
+			if(!uiClicked){
+				clicked=false;
 				for(UIComponent comp: ui){
 					comp.setVisible(false);
 				}
 			}
 		}
 	}
-	
 	public void update(long deltaTime) {
-		
+		controlRod=rods.getPercentage();
+		if(clicked == true) {
+			updateControls();
+		}
 	}
-	
 	public long steamOutput() {
+		double tempControl = controlRod;//Do not write to the controlRod variable
 		long steamKPa = 0;
 		
-		if(this.controlRod == 0) {
-			this.controlRod = 0.001;
+		if(tempControl == 0) {
+			tempControl = 0.001;
 		}
 		else {
-			steamKPa = (long)(1/this.controlRod);
+			steamKPa = (long)(1/tempControl);
 		}
 		
 		if(steamKPa == 1) {
@@ -116,32 +131,13 @@ public class Reactor extends GameObject {
 	}
 	
 	public String reactorError() {
-		if(this.controlRod == 0) {
-			this.controlRod = 0.001;
-		}
-		
-		this.controlRod-=0.5;
-		
-		temperature+=this.controlRod*10;
-		return name+": "+temperature+"°C";
+		double tempControl = controlRod;
+		temperature+=tempControl*10-coolingFactor;
+		return name+": "+roundDouble(temperature)+"°C";
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if(this.clicked == true) {
-			if(!Integrator.paused && e.getKeyCode() == KeyEvent.VK_W){
-				if (this.controlRod < 100.0) {
-					this.controlRod+=0.5;
-					System.out.println(this.controlRod);
-				}
-			}
-			if(!Integrator.paused && e.getKeyCode() == KeyEvent.VK_S){
-				if (this.controlRod > 0.0) {
-					this.controlRod-=0.5;
-					System.out.println(this.controlRod);
-				}
-			}
-			updateControls();
-		}	
+			
 	}
 
 }

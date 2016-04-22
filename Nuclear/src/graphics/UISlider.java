@@ -14,9 +14,6 @@ import logic.Integrator;
 
 public class UISlider extends UIComponent{
 	public boolean clicked = false;
-	private Color color = new Color(174, 174, 207);
-	private Font font = new Font("Impact", Font.PLAIN, 70);
-	public Rectangle bounds;
 	public Color green = new Color(150, 212, 144);
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
@@ -32,7 +29,7 @@ public class UISlider extends UIComponent{
 		this.x = xPos;
 		this.y = yPos;
 		bounds = new Rectangle(x, y, xSize, ySize);
-		
+		setFontSize(70);
 		mouse = new MouseAdapter(){
 			int nx;
 			int ny;
@@ -119,7 +116,10 @@ public class UISlider extends UIComponent{
 			//Draws slider
 			
 			g.setColor(oldColor);
-			g.drawString(text, x+30, y+84);
+			if(text!=null){
+				g.drawString(text, x+30, y+84);
+				//System.out.println((int)(y+84+ySize/2.0));
+			}
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
@@ -130,6 +130,14 @@ public class UISlider extends UIComponent{
 		this.x = x;
 		this.y = y;
 		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public float getPercentage(){
+		return percentage;
+	}
+	public void setPercantage(float per){
+		if(per >=0 || per <=1){
+			percentage = per;
+		}
 	}
 }
 

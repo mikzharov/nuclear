@@ -205,7 +205,7 @@ public class Integrator {
 	    last = System.currentTimeMillis();//Sets the last time to the start time
 	    long now = System.currentTimeMillis();//Sets the now time so it is not null or 0
 	    long deltaTime = System.currentTimeMillis();//Sets the delta time so it is not null or 0
-	    long dt = 100;//This is the time in milliseconds at which the game will process physics, 100 milliseconds at a time
+	    long dt = 10;//This is the time in milliseconds at which the game will process physics, 100 milliseconds at a time
 		Font defaultFont = new Font("TimesRoman", Font.PLAIN, 15);
 		AffineTransform old;
 	    while(running){
@@ -221,6 +221,10 @@ public class Integrator {
 			if(deltaTime>25)deltaTime=25;//Makes sure that the physics does not try to do too much
 			while(!paused && (deltaTime) >= dt){//As long as we still need to do physics updates, do physics updates
 				//Do physics here
+				for(GameObject temp: objects){
+					temp.update(deltaTime);
+				}
+				
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
 			float c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation

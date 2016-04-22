@@ -12,10 +12,6 @@ import logic.Integrator;
 
 public class UIText extends UIComponent{
 	public boolean clicked = false;
-	private Color color = new Color(174, 174, 207);
-	private Font font = new Font("Impact", Font.PLAIN, 96);
-	public Rectangle bounds;
-	private Graphics2D g;
 	private boolean usable(){
 		if(this.active && !Integrator.paused && visible){
 			return true;
@@ -23,10 +19,10 @@ public class UIText extends UIComponent{
 		return false;
 	}
 	public UIText(int xPos, int yPos, int x1, int y1) {
-		this.xSize = x1;
-		this.ySize = y1;
-		this.x = xPos;
-		this.y = yPos;
+		xSize = x1;
+		ySize = y1;
+		x = xPos;
+		y = yPos;
 		bounds = new Rectangle(x, y, xSize, ySize);
 		
 		mouse = new MouseAdapter(){
@@ -58,13 +54,7 @@ public class UIText extends UIComponent{
 				}
 			}
 			@Override
-			public void mouseMoved(MouseEvent e) {
-				if(visible && bounds.contains(e.getPoint())){
-					color = new Color(204, 204, 255);
-				}else if(visible){
-					color = new Color(174, 174, 207);
-				}
-			}
+			public void mouseMoved(MouseEvent e) {}
 			@Override
 			public void mouseEntered(MouseEvent e) {}
 			@Override
@@ -94,9 +84,6 @@ public class UIText extends UIComponent{
 	}
 	public void setText(String text) {
 		this.text = text;
-	}
-	public void setFontSize(int size) {
-		this.font = new Font("TimesNewRoman", Font.PLAIN, size); 
 	}
 	public void setBounds(int x, int y){
 		this.x = x;
