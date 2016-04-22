@@ -15,6 +15,7 @@ public class UIText extends UIComponent{
 	private Color color = new Color(174, 174, 207);
 	private Font font = new Font("Impact", Font.PLAIN, 96);
 	public Rectangle bounds;
+	private Graphics2D g;
 	private boolean usable(){
 		if(this.active && !Integrator.paused && visible){
 			return true;
@@ -93,6 +94,9 @@ public class UIText extends UIComponent{
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public void setFontSize(int size) {
+		this.font = new Font("TimesNewRoman", Font.PLAIN, size); 
 	}
 	public void setBounds(int x, int y){
 		this.x = x;
