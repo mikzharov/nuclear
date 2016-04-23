@@ -15,6 +15,7 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
 import graphics.*;
+import main.Main;
 import objects.ControlRodBundle;
 import objects.GameObject;
 import objects.Plant;
@@ -82,7 +83,7 @@ public class Integrator {
 	float zoom_factor = 0.01f;//Zoom speed
 	public static int int_last_x_offset, int_last_y_offset;
 	public void start(){
-		
+		running = true;
 		//Making level below
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
@@ -106,11 +107,17 @@ public class Integrator {
 		pauseText.setVisible(false);
 		add(pauseText);
 		
-		UIButton quitButton = new UIButton(x/2-x/8, y/2, x/4, UIComponent.defaultHeight);
+		UIButton quitButton = new UIButton(x/2-x/8, y/5+UIComponent.defaultHeight+10, x/4, UIComponent.defaultHeight);
 		quitButton.setText("Quit");
 		quitButton.setVisible(false);
 		quitButton.setUsableDuringPaused(true);
 		add(quitButton);
+		
+		UIButton mainButton = new UIButton(x/2-x/6, y/5+UIComponent.defaultHeight*2+20, x/3, UIComponent.defaultHeight);
+		mainButton.setText("Main Menu");
+		mainButton.setVisible(false);
+		mainButton.setUsableDuringPaused(true);
+		add(mainButton);
 		//Making paused GUI above
 		
 		canvas.createBufferStrategy(2);//Enables double buffering
@@ -225,16 +232,22 @@ public class Integrator {
 			if(paused){
 				pauseText.setVisible(true);
 				quitButton.setVisible(true);
+				mainButton.setVisible(true);
 			}else{
 				quitButton.setVisible(false);
 				pauseText.setVisible(false);
+				mainButton.setVisible(false);
 			}
-			if(quitButton.clicked)System.exit(0);
 			for(UIComponent temp : ui){
 				if(temp.getVisible())
 				temp.drawObj(g);//Draws the thing
 			}
 			buffer.show();//Shows the picture
+			if(quitButton.clicked)System.exit(0);
+			if(mainButton.clicked){
+				clear();
+				Main.resume();
+			}
 		}
 		g.dispose();//Cleans the graphics (although this is not required)
 	}
@@ -242,5 +255,12 @@ public class Integrator {
 		canvas = new Canvas();//Initializes the canvas
 		x=x1;
 		y=y1;
+	}
+	public static void clear(){
+		running = false;
+		paused = false;
+		scale = 0.6f;
+		objects.clear();
+		ui.clear();
 	}
 }

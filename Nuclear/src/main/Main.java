@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Main {
 	boolean fullscreen = true;
-	boolean run = false;
+	static boolean run = false;
 	public static void main(String[] args) {
 		try {
 			// Makes the JPanel look the same as your system default.
@@ -45,7 +45,7 @@ public class Main {
 
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
-	JLabel backgroundLabel = new JLabel();
+	static JLabel backgroundLabel = new JLabel();
 	// credit page labels
 	JLabel programmers = new JLabel("Senior Software Engineers");
 	JLabel thomas = new JLabel("Thomas Kidd");
@@ -66,7 +66,23 @@ public class Main {
 	public final static int ySize = ((int) tk.getScreenSize().getHeight());
 	// combo boxes
 	JComboBox<String> difficultyLevels = new JComboBox<String>();
-
+	public static void start(){
+		while(!run){
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		run = false;
+		Integrator integrator = new Integrator(xSize, ySize);
+		frame.remove(backgroundLabel);
+		frame.add(Integrator.canvas);
+		frame.repaint();
+		frame.revalidate();
+		frame.setIgnoreRepaint(true);
+		integrator.start();
+	}
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -225,20 +241,14 @@ public class Main {
 				frame.revalidate();
 			}
 		});
-		while(!run){
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		Integrator integrator = new Integrator(xSize, ySize);
-		frame.remove(backgroundLabel);
-		frame.add(integrator.canvas);
+		start();
+	}
+	public static void resume(){
+		frame.add(backgroundLabel);
+		frame.remove(Integrator.canvas);
 		frame.repaint();
 		frame.revalidate();
-		frame.setIgnoreRepaint(true);
-		integrator.start();
+		frame.setIgnoreRepaint(false);
+		start();
 	}
 }
