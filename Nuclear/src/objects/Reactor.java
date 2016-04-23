@@ -26,7 +26,7 @@ public class Reactor extends GameObject {
 	UIText warning = new UIText(10, Integrator.y-150, 300, 105);//We want to reuse these
 	UIText rodDepth = new UIText(warning.getX() + warning.getWidth() + 15, warning.getY(), 400, 105);//We also want to use the relative coordinates
 	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 105);
-	UISlider rods = new UISlider(warning.getX(), warning.getY()-120, 420, 110);
+	UISlider rods = new UISlider(warning.getX(), warning.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	public double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
 	}
@@ -79,6 +79,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public void mouseClicked(MouseEvent e) {
+		//Do not do physics in mouseClicked, do it in update
 		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
 		g.translate(Integrator.x/2.0, Integrator.y/2.0);
@@ -137,7 +138,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public void keyPressed(KeyEvent e) {
-			
+			//Do not do physics in keyPressed, do it in update
 	}
 
 }

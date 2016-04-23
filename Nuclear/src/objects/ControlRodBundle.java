@@ -19,16 +19,16 @@ public class ControlRodBundle extends GameObject{
 	static BufferedImage red = null;
 	static BufferedImage orange = null;
 	static BufferedImage green = null;
-	
+	public static final String path = "res/rods.png";
 	public ControlRodBundle(int x, int y, int size){
 		xSize = ySize = size;
 		bounds = new Rectangle(x, y, ySize, xSize);
 		try {
 			if(sprite==null){
-				sprite = ImageIO.read(new File("res/control.jpg"));
-				green = sprite.getSubimage(0, 0, xSize, ySize);
-				orange = sprite.getSubimage(0, ySize, xSize, ySize);
-				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
+				sprite = ImageIO.read(new File(path));
+				//green = sprite.getSubimage(0, 0, xSize, ySize);
+				//orange = sprite.getSubimage(0, ySize, xSize, ySize);
+				//red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class ControlRodBundle extends GameObject{
 		bounds = new Rectangle(x, y, xSize, ySize);
 		try {
 			if(sprite==null){
-				sprite = ImageIO.read(new File("res/control.jpg"));
+				sprite = ImageIO.read(new File(path));
 				green = sprite.getSubimage(0, 0, xSize, ySize);
 				orange = sprite.getSubimage(0, ySize, xSize, ySize);
 				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
@@ -86,6 +86,6 @@ public class ControlRodBundle extends GameObject{
 		}
 	}
 	public void drawObj(Graphics2D g){
-		g.drawImage(green, getX() + (Integrator.int_last_x_offset), getY() + Integrator.int_last_y_offset, getImageX() + Integrator.int_last_x_offset,  getImageY() + Integrator.int_last_y_offset, 0, 0, xSize, ySize, null);
+		g.drawImage(sprite, getX() + (Integrator.int_last_x_offset), getY() + Integrator.int_last_y_offset, getImageX() + Integrator.int_last_x_offset,  getImageY() + Integrator.int_last_y_offset, 0, 0, sprite.getWidth(), sprite.getHeight(), null);
 	}
 }

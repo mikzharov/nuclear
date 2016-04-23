@@ -11,13 +11,6 @@ import java.awt.event.MouseEvent;
 import logic.Integrator;
 
 public class UIText extends UIComponent{
-	public boolean clicked = false;
-	private boolean usable(){
-		if(this.active && !Integrator.paused && visible){
-			return true;
-		}
-		return false;
-	}
 	public UIText(int xPos, int yPos, int x1, int y1) {
 		xSize = x1;
 		ySize = y1;
@@ -47,7 +40,6 @@ public class UIText extends UIComponent{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(visible && bounds.contains(e.getPoint())){
-					clicked = true;
 					active = true;
 				}else{
 					active = false;

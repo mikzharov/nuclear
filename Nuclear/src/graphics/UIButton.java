@@ -12,12 +12,6 @@ import logic.Integrator;
 
 public class UIButton extends UIComponent{
 	public boolean clicked = false;
-	private boolean usable(){
-		if(this.active && !Integrator.paused && visible){
-			return true;
-		}
-		return false;
-	}
 	public UIButton(int xPos, int yPos, int x1, int y1) {
 		this.xSize = x1;
 		this.ySize = y1;
@@ -30,7 +24,7 @@ public class UIButton extends UIComponent{
 			int ny;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(visible && bounds.contains(e.getPoint())){
+				if((!Integrator.paused||usable) && visible && bounds.contains(e.getPoint())){
 					nx = e.getX() - x;
 					ny = e.getY() - y;
 					active = true;
@@ -46,7 +40,7 @@ public class UIButton extends UIComponent{
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(visible && bounds.contains(e.getPoint())){
+				if((!Integrator.paused||usable) && visible && bounds.contains(e.getPoint())){
 					clicked = true;
 					active = true;
 				}else{

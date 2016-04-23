@@ -34,19 +34,19 @@ public class Integrator {
 	BufferStrategy buffer;//Buffer for drawing and creating graphics
 	Graphics2D g;//This object will be used to draw
 	static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
-	public static ArrayList<UIComponent> UIComponents = new ArrayList<UIComponent>();//This is where all the game objects will be stored
+	public static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
 	public boolean active(){
-		for(UIComponent temp:UIComponents){
-			if(temp.active)
+		for(UIComponent temp:ui){
+			if(temp.getActive())
 				return true;
 		}
 		return false;
 	}
-	public static void add(UIComponent ui){
-		canvas.addKeyListener(ui.key);
-		canvas.addMouseListener(ui.mouse);
-		canvas.addMouseMotionListener(ui.mouse);
-		UIComponents.add(ui);
+	public static void add(UIComponent ui1){
+		canvas.addKeyListener(ui1.key);
+		canvas.addMouseListener(ui1.mouse);
+		canvas.addMouseMotionListener(ui1.mouse);
+		ui.add(ui1);
 	}
 	public static void add(GameObject ob){
 		ArrayList<UIComponent> all = ob.getUi();
@@ -83,65 +83,39 @@ public class Integrator {
 	public static int int_last_x_offset, int_last_y_offset;
 	public void start(){
 		
+		//Making level below
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
 		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "3");
 		Reactor reactor2 = new Reactor(2330, 195, 170, 350, "2");
 		Reactor reactor1 = new Reactor(3425, 195, 170, 350, "1");
-		reactor4.addObjs(ControlRodBundle.makeColumn(4, 4, 744, 369));
-		/*
-		ControlRodBundle rod1R4 = new ControlRodBundle(), rod2R4 = new ControlRodBundle(), rod3R4 = new ControlRodBundle(), rod4R4 = new ControlRodBundle(), rod5R4 = new ControlRodBundle(), rod6R4 = new ControlRodBundle(),
-				rod7R4 = new ControlRodBundle(), rod8R4 = new ControlRodBundle(), rod9R4 = new ControlRodBundle(), rod10R4 = new ControlRodBundle(), rod11R4 = new ControlRodBundle(), rod12R4 = new ControlRodBundle(),
-				rod13R4 = new ControlRodBundle(), rod14R4 = new ControlRodBundle();
-		
-		int row1 = 745;
-		int col1 = 378;
-		int row2 = 725;
-		int col2 = 395;
-		int row3 = 725;
-		int col3 = 412;
-		rod1R4.setXY(row1, col1);
-		rod2R4.setXY(row1+20, col1);
-		rod3R4.setXY(row1+40, col1);
-		rod4R4.setXY(row1+60, col1);
-		rod5R4.setXY(row2, col2);
-		rod6R4.setXY(row2+20, col2);
-		rod7R4.setXY(row2+40, col2);
-		rod8R4.setXY(row2+60, col2);
-		rod9R4.setXY(row2+80, col2);
-		rod10R4.setXY(row2+100, col2);
-		rod11R4.setXY(row3+20, col3);
-		rod12R4.setXY(row3+40, col3);
-		rod13R4.setXY(row3+60, col3);
-		rod14R4.setXY(row3+80, col3);
-		
-		reactor4.addObj(rod1R4);reactor4.addObj(rod8R4);
-		reactor4.addObj(rod2R4);reactor4.addObj(rod9R4);
-		reactor4.addObj(rod3R4);reactor4.addObj(rod10R4);
-		reactor4.addObj(rod4R4);reactor4.addObj(rod11R4);
-		reactor4.addObj(rod5R4);reactor4.addObj(rod12R4);
-		reactor4.addObj(rod6R4);reactor4.addObj(rod13R4);
-		reactor4.addObj(rod7R4);reactor4.addObj(rod14R4);*/
-		
-		
+		reactor4.addObj(new ControlRodBundle(736, 357, 90));
+		reactor3.addObj(new ControlRodBundle(1378, 357, 90));
+		reactor2.addObj(new ControlRodBundle(2369, 418, 90));
+		reactor1.addObj(new ControlRodBundle(3465, 418, 90));
 		plant.addObj(reactor1);
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
 		add(plant);//Adds the plant to the world array so it can be rendered
+		//Making level above
 		
-		UISlider test = new UISlider(10, 10, 400, 110);
-		test.setText("Test");
-		canvas.addMouseListener(test.mouse);
-		canvas.addMouseMotionListener(test.mouse);
-		canvas.addKeyListener(test.key);
-		UIComponents.add(test);
+		//Making paused GUI below
+		UIText pauseText = new UIText(x/2-x/8, y/5, x/4, UIComponent.defaultHeight);
+		pauseText.setText("Paused");
+		pauseText.setVisible(false);
+		add(pauseText);
 		
+		UIButton quitButton = new UIButton(x/2-x/8, y/2, x/4, UIComponent.defaultHeight);
+		quitButton.setText("Quit");
+		quitButton.setVisible(false);
+		quitButton.setUsableDuringPaused(true);
+		add(quitButton);
+		//Making paused GUI above
 		
 		canvas.createBufferStrategy(2);//Enables double buffering
 		buffer = canvas.getBufferStrategy();//Initializes the buffer
 		start = System.currentTimeMillis();//Initializes the time the program started (to display FPS)
-		double frames = 0;
 		g = (Graphics2D) buffer.getDrawGraphics();//Gets the graphics object
 		
 		RenderingHints rh = new RenderingHints(//Turns ANTIALIASING on
@@ -158,8 +132,10 @@ public class Integrator {
 				}
 			}
 			public void mouseClicked(MouseEvent e){
-				for(GameObject temp: objects){
-					temp.mouseClicked(e);
+				if(!paused){
+					for(GameObject temp: objects){
+						temp.mouseClicked(e);
+					}
 				}
 			}
 	    };
@@ -227,6 +203,7 @@ public class Integrator {
 				
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
+			
 			float c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
 			int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
 			int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
@@ -236,17 +213,25 @@ public class Integrator {
 			g.translate(x/2.0, y/2.0);
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
+			
 			for(GameObject temp : objects){
 				temp.drawObj(g);
 				g.setColor(Color.black); //individual objects that set the color will permanently change it, so we have to reset it to black
 			}
 			g.setTransform(old);
-			for(UIComponent temp : UIComponents){
+			
+			if(paused){
+				pauseText.setVisible(true);
+				quitButton.setVisible(true);
+			}else{
+				quitButton.setVisible(false);
+				pauseText.setVisible(false);
+			}
+			if(quitButton.clicked)System.exit(0);
+			for(UIComponent temp : ui){
+				if(temp.getVisible())
 				temp.drawObj(g);//Draws the thing
 			}
-			//Render here
-			frames++;//Increases frame count to display FPS
-			test.setText("FPS: "+(int)(((frames / ((System.currentTimeMillis()-start))))*1000)+"");
 			buffer.show();//Shows the picture
 		}
 		g.dispose();//Cleans the graphics (although this is not required)

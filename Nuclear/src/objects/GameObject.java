@@ -83,7 +83,7 @@ public class GameObject {
 	public void addObj(GameObject a){
 		objects.add(a);
 	}
-	public void addObjs(ArrayList<GameObject> all){
+	public void addObj(ArrayList<GameObject> all){
 		objects.addAll(all);
 	}
 	public void update(long deltaTime) {

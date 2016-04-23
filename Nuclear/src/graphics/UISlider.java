@@ -17,12 +17,6 @@ public class UISlider extends UIComponent{
 	public Color green = new Color(150, 212, 144);
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
-	private boolean usable(){
-		if(active && !Integrator.paused && visible){
-			return true;
-		}
-		return false;
-	}
 	public UISlider(int xPos, int yPos, int x1, int y1) {
 		this.xSize = x1;
 		this.ySize = y1;
@@ -35,7 +29,7 @@ public class UISlider extends UIComponent{
 			int ny;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(visible && bounds.contains(e.getPoint())){
+				if((!Integrator.paused||usable) && visible && bounds.contains(e.getPoint())){
 					nx = e.getX() - x;
 					ny = e.getY() - y;
 					active = true;
