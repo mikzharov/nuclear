@@ -167,8 +167,10 @@ public class Integrator {
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					paused = !paused;
 				}
-				for(GameObject temp: objects){
-					temp.keyPressed(e);
+				if(!paused){
+					for(GameObject temp: objects){
+						temp.keyPressed(e);
+					}
 				}
 			}
 			@Override
