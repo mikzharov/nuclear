@@ -54,6 +54,6 @@ public class PowerProduction extends GameObject {
 		power2.setText(reactor3+" MW");
 		power3.setText(reactor2+" MW");
 		power4.setText(reactor1+" MW");
-		totalPower.setText(reactor4+reactor3+reactor2+reactor1+" MW");
+		totalPower.setText((reactor4+reactor3+reactor2+reactor1)+" MW");
 	}
 }

@@ -16,9 +16,6 @@ import logic.Integrator;
 
 public class ControlRodBundle extends GameObject{
 	static BufferedImage sprite = null;
-	static BufferedImage red = null;
-	static BufferedImage orange = null;
-	static BufferedImage green = null;
 	public static final String path = "res/rods.png";
 	public ControlRodBundle(int x, int y, int size){
 		xSize = ySize = size;
@@ -26,9 +23,6 @@ public class ControlRodBundle extends GameObject{
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File(path));
-				green = sprite.getSubimage(0, 0, xSize, ySize);
-				orange = sprite.getSubimage(0, ySize, xSize, ySize);
-				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,9 +58,6 @@ public class ControlRodBundle extends GameObject{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	public BufferedImage getImage(){
-		return green;
 	}
 	public int getImageX(){
 		return xSize + this.x;
