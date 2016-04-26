@@ -22,10 +22,10 @@ public class PowerProduction extends GameObject {
 	
 	public void drawObj(Graphics2D g) {
 		
-		power1.setText(" MW");
-		power2.setText(" MW");
-		power3.setText(" MW");
-		power4.setText(" MW");
+		power1.setText("MW");
+		power2.setText("MW");
+		power3.setText("MW");
+		power4.setText("MW");
 		totalPower.setText("MW");
 		
 		power1.setFontSize(50);
