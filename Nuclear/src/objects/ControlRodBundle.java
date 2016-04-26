@@ -26,9 +26,9 @@ public class ControlRodBundle extends GameObject{
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File(path));
-				//green = sprite.getSubimage(0, 0, xSize, ySize);
-				//orange = sprite.getSubimage(0, ySize, xSize, ySize);
-				//red = sprite.getSubimage(0, ySize*2, xSize, ySize);
+				green = sprite.getSubimage(0, 0, xSize, ySize);
+				orange = sprite.getSubimage(0, ySize, xSize, ySize);
+				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -57,9 +57,9 @@ public class ControlRodBundle extends GameObject{
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File(path));
-				green = sprite.getSubimage(0, 0, xSize, ySize);
-				orange = sprite.getSubimage(0, ySize, xSize, ySize);
-				red = sprite.getSubimage(0, ySize*2, xSize, ySize);
+				//green = sprite.getSubimage(0, 0, xSize, ySize);
+				//orange = sprite.getSubimage(0, ySize, xSize, ySize);
+				//red = sprite.getSubimage(0, ySize*2, xSize, ySize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

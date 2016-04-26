@@ -28,7 +28,7 @@ public class Integrator {
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
 	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
-	int y_offset = 0;//The horizontal offset of the gameworld (not UI though)
+	int y_offset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
 	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
 	public static Canvas canvas;//Canvas component
 	long start;

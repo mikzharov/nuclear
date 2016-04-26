@@ -68,9 +68,10 @@ public class UIText extends UIComponent{
 			g.setFont(font);
 			g.setStroke(new BasicStroke(5));
 			g.fillRect(x+2, y+2, xSize-4, ySize-4);
-				
+			
+			g.setColor(textColor);
+			g.drawString(text, x+x_displace, y+y_displace);
 			g.setColor(oldColor);
-			g.drawString(text, x+20, y+90);
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
@@ -81,5 +82,12 @@ public class UIText extends UIComponent{
 		this.x = x;
 		this.y = y;
 		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public void setTextDisplacement(int x, int y) {
+		this.x_displace=x;
+		this.y_displace=y;
+	}
+	public void setTextColor(Color co) {
+		this.textColor = co;
 	}
 }

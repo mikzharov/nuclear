@@ -22,7 +22,10 @@ public class UIComponent {
 	protected int ySize;
 	protected int x;
 	protected int y;
+	protected int x_displace=20; //default setting
+	protected int y_displace=90; //default setting
 	protected Color color = new Color(174, 174, 207);
+	protected Color textColor = Color.black; //default setting
 	protected Font font = new Font("Impact", Font.PLAIN, 96);
 	protected Rectangle bounds;
 	public UIComponent(int xPos, int yPos, int xSize, int ySize) {
