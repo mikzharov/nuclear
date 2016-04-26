@@ -193,6 +193,7 @@ public class Integrator {
 	    long dt = 10;//This is the time in milliseconds at which the game will process physics, 100 milliseconds at a time
 		Font defaultFont = new Font("TimesRoman", Font.PLAIN, 15);
 		AffineTransform old;
+		float c = 0;
 	    while(running){
 
 			g.setColor(Color.white);//Clears the screen
@@ -212,13 +213,15 @@ public class Integrator {
 				
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
+			old = g.getTransform();
 			
-			float c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
+			if(!paused){
+				c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
+			}
 			int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
 			int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
 			last_x_offset = int_last_x_offset;//Updates last time for interpolation
 			last_y_offset = int_last_y_offset;//Updates last time for interpolation
-			old = g.getTransform();
 			g.translate(x/2.0, y/2.0);
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
