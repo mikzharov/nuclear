@@ -109,16 +109,14 @@ public class UISlider extends UIComponent{
 			g.fillRect(x+20, y+20, (int)((xSize-40)*percentage), ySize-40);
 			//Draws slider
 			
-			g.setColor(oldColor);
 			if(text!=null){
+				g.setColor(textColor);
 				g.drawString(text, x+30, y+84);
 				//System.out.println((int)(y+84+ySize/2.0));
 			}
+			g.setColor(oldColor);
 			g.setFont(oldFont);//Restores previous information
 		}
-	}
-	public void setText(String text) {
-		this.text = text;
 	}
 	public void setBounds(int x, int y){
 		this.x = x;
