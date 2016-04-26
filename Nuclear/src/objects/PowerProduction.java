@@ -16,12 +16,6 @@ public class PowerProduction extends GameObject {
 	UIText totalPower = new UIText(power4.getX()+power4.getWidth()+15, power1.getY(), 325, 100);
 	
 	public PowerProduction(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public void drawObj(Graphics2D g) {
-		
 		power1.setText("MW");
 		power2.setText("MW");
 		power3.setText("MW");
@@ -35,15 +29,21 @@ public class PowerProduction extends GameObject {
 		totalPower.setFontSize(50);
 		
 		ui.add(power1);
-		ui.add(power2);
+		ui.add(power2);//Components only need to be put into the ui array once, not every time drawObj is called
 		ui.add(power3);
 		ui.add(power4);
 		ui.add(totalPower);
 		
+		this.x = x;
+		this.y = y;
+		
 		for(UIComponent comp: ui){
-			comp.drawObj(g);
 			comp.setVisible(true);
 		}
+	}
+	
+	public void drawObj(Graphics2D g) {
+		//Do not update things in here! Only update stuff when it changes to prevent overhead
 	}
 	
 	public void update(long deltaTime) {
