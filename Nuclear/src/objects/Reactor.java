@@ -25,11 +25,12 @@ public class Reactor extends GameObject {
 	private double steamkPa = 101.3; //atmospheric pressure
 	private Graphics2D g;
 	public double controlRod = 1.0;
+	private Color reactorOutline = Color.cyan;
 	UIText currentTemp = new UIText(10, Integrator.y-90, 300, 65);//renamed from warning to currentTemp, warning is for the warning messages
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
 	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
 	UISlider rods = new UISlider(currentTemp.getX(), currentTemp.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
-	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 850, 65);
+	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	
 	public double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
@@ -49,7 +50,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public void drawObj(Graphics2D g) {
-		g.setColor(Color.cyan);
+		g.setColor(reactorOutline);
 		float thickness = 5.0f;
 		Stroke oldStroke = g.getStroke();
 		g.setStroke(new BasicStroke(thickness));
@@ -77,7 +78,7 @@ public class Reactor extends GameObject {
 		ui.add(rods);
 		
 		warning.setText(reactorErrorMessage());
-		warning.setFontSize(25);
+		warning.setFontSize(30);
 		warning.setTextDisplacement(10, 45);
 		ui.add(warning);
 		
@@ -173,7 +174,7 @@ public class Reactor extends GameObject {
 		//if the control rods are 75% in or more the temperature should drop
 		tempControl-=0.25;
 		
-		temperature+=tempControl*0.45; //-coolingFactor;
+		temperature+=tempControl*0.45; //set at 0.45 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
 		if (temperature <= 25.0) {
@@ -184,34 +185,46 @@ public class Reactor extends GameObject {
 	
 	public String reactorErrorMessage() {
 		String errorMessage = "WARNING: ";
+		
 		//temperature melt down
 		if (temperature > 450) {
 			error=true;
-			errorMessage+="OVERHEATING! ";
+			reactorOutline=Color.red;
+			//melt down
+			if (temperature > 700) {
+				errorMessage+="REACTOR MELTDOWN! ";
+			}
+			else {
+				errorMessage+="OVERHEATING! ";
+			}
 		}
 		
 		//pressure bursting
 		if (steamkPa > 800) {
 			error=true;
-			errorMessage+="PRESSURE OVERLOAD! ";
-		}
-		
-		//radiation leak
-		if (steamkPa > 1000) {
-			error=true;
-			errorMessage+="RADIATION LEAK! ";
-		}
-		
-		//melt down
-		if (temperature > 700) {
-			error=true;
-			errorMessage+="REACTOR MELTDOWN! ";
+			reactorOutline=Color.red;
+			//radiation leak
+			if (steamkPa > 1000) {
+				errorMessage+="RADIATION LEAK! ";
+			}
+			else {
+				errorMessage+="PRESSURE OVERLOAD! ";
+			}
 		}
 		
 		if (temperature < 450 && steamkPa < 800) {
+			reactorOutline=Color.cyan;
 			error=false;
 		}
 		return errorMessage;
+	}
+	
+	public int powerGeneration() {
+		double tempPressure = steamOutput();
+		
+		double megaWatts = (0.0025*(tempPressure*tempPressure)-101.3);
+		
+		return (int)megaWatts;
 	}
 
 }

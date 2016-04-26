@@ -19,6 +19,7 @@ import main.Main;
 import objects.ControlRodBundle;
 import objects.GameObject;
 import objects.Plant;
+import objects.PowerProduction;
 import objects.Reactor;
 
 public class Integrator {
@@ -99,6 +100,9 @@ public class Integrator {
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
 		add(plant);//Adds the plant to the world array so it can be rendered
+		
+		PowerProduction powerDisplay = new PowerProduction(0, 0);
+		add(powerDisplay);
 		//Making level above
 		
 		//Making paused GUI below
@@ -210,6 +214,8 @@ public class Integrator {
 				for(GameObject temp: objects){
 					temp.update(deltaTime);
 				}
+				
+				powerDisplay.updatePower(reactor1.powerGeneration(), reactor2.powerGeneration(), reactor3.powerGeneration(), reactor4.powerGeneration());
 				
 				deltaTime-=dt;//Counts down the time that needs to be processed
 			}
