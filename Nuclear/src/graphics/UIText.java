@@ -75,19 +75,9 @@ public class UIText extends UIComponent{
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
-	public void setText(String text) {
-		this.text = text;
-	}
 	public void setBounds(int x, int y){
 		this.x = x;
 		this.y = y;
 		bounds = new Rectangle(x, y, xSize, ySize);
-	}
-	public void setTextDisplacement(int x, int y) {
-		this.x_displace=x;
-		this.y_displace=y;
-	}
-	public void setTextColor(Color co) {
-		this.textColor = co;
 	}
 }

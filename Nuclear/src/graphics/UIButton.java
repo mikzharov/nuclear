@@ -77,9 +77,10 @@ public class UIButton extends UIComponent{
 			g.setStroke(new BasicStroke(5));
 			g.fillRect(x+2, y+2, xSize-4, ySize-4);
 				
-			g.setColor(oldColor);
-			g.drawString(text, x+20, y+90);
+			g.setColor(textColor);
+			g.drawString(text, x+x_displace, y+y_displace);
 			g.setFont(oldFont);//Restores previous information
+			g.setColor(oldColor);
 		}
 	}
 	public void setText(String text) {

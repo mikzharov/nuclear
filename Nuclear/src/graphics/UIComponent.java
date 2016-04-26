@@ -34,11 +34,15 @@ public class UIComponent {
 	public UIComponent(){
 		//Do nothing
 	}
+	public void setTextDisplacement(int x, int y) {
+		this.x_displace=x;
+		this.y_displace=y;
+	}
 	public void drawObj(Graphics2D g) {
 		throw new UnsupportedOperationException();
 	}
 	public void setText(String text) {
-		throw new UnsupportedOperationException();
+		this.text = text;
 	}
 	public String getText(){
 		return text;
@@ -88,5 +92,8 @@ public class UIComponent {
 			return true;
 		}
 		return false;
+	}
+	public void setTextColor(Color co) {
+		this.textColor = co;
 	}
 }

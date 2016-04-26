@@ -18,6 +18,7 @@ public class UISlider extends UIComponent{
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
 	public UISlider(int xPos, int yPos, int x1, int y1) {
+		y_displace=84;//Default for this obj
 		this.xSize = x1;
 		this.ySize = y1;
 		this.x = xPos;
@@ -109,16 +110,14 @@ public class UISlider extends UIComponent{
 			g.fillRect(x+20, y+20, (int)((xSize-40)*percentage), ySize-40);
 			//Draws slider
 			
-			g.setColor(oldColor);
 			if(text!=null){
-				g.drawString(text, x+30, y+84);
+				g.setColor(textColor);
+				g.drawString(text, x+x_displace, y+y_displace);
 				//System.out.println((int)(y+84+ySize/2.0));
 			}
+			g.setColor(oldColor);
 			g.setFont(oldFont);//Restores previous information
 		}
-	}
-	public void setText(String text) {
-		this.text = text;
 	}
 	public void setBounds(int x, int y){
 		this.x = x;
