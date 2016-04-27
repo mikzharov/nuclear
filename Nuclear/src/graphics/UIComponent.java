@@ -28,6 +28,7 @@ public class UIComponent {
 	protected Color textColor = Color.black; //default setting
 	protected Font font = new Font("Impact", Font.PLAIN, 96);
 	protected Rectangle bounds;
+	protected boolean movable = true;
 	public UIComponent(int xPos, int yPos, int xSize, int ySize) {
 		throw new UnsupportedOperationException();
 	}
@@ -95,5 +96,8 @@ public class UIComponent {
 	}
 	public void setTextColor(Color co) {
 		this.textColor = co;
+	}
+	public void setMovable(boolean move){
+		movable = move;
 	}
 }

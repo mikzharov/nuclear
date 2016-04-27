@@ -18,6 +18,8 @@ import graphics.*;
 import main.Main;
 import objects.ControlRodBundle;
 import objects.GameObject;
+import objects.Pipe;
+import objects.Pipe.Orientation;
 import objects.Plant;
 import objects.PowerProduction;
 import objects.Reactor;
@@ -89,20 +91,44 @@ public class Integrator {
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
 		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "3");
-		Reactor reactor2 = new Reactor(2330, 195, 170, 350, "2");
-		Reactor reactor1 = new Reactor(3425, 195, 170, 350, "1");
+		Reactor reactor2 = new Reactor(2850, 195, 170, 350, "2");
+		Reactor reactor1 = new Reactor(3945, 195, 170, 350, "1");
 		reactor4.addObj(new ControlRodBundle(736, 357, 90));
 		reactor3.addObj(new ControlRodBundle(1378, 357, 90));
-		reactor2.addObj(new ControlRodBundle(2369, 418, 90));
-		reactor1.addObj(new ControlRodBundle(3465, 418, 90));
+		reactor2.addObj(new ControlRodBundle(2890, 418, 90));
+		reactor1.addObj(new ControlRodBundle(3985, 418, 90));
 		plant.addObj(reactor1);
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
 		add(plant);//Adds the plant to the world array so it can be rendered
 		
-		PowerProduction powerDisplay = new PowerProduction(0, 0);
+		PowerProduction powerDisplay = new PowerProduction(10, 10);
 		add(powerDisplay);
+		
+		//PIPES BELOW
+		//Pipes are just for aesthetics, do not include them in physics
+		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10);
+		pipe.setColor(Color.blue);
+		add(pipe);
+		
+		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
+		pipe1.setColor(Color.blue);
+		add(pipe1);
+		
+		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
+		add(pipe2);
+		
+		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
+		add(pipe3);
+		
+		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
+		add(pipe4);
+		
+		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4500, 10);
+		add(mainElectric);
+		//PIPES ABOVE
+		
 		//Making level above
 		
 		//Making paused GUI below

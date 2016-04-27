@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import logic.Integrator;
 
 public class UIText extends UIComponent{
 	public UIText(int xPos, int yPos, int x1, int y1) {
@@ -33,7 +32,7 @@ public class UIText extends UIComponent{
 			}
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(usable() && bounds.contains(e.getPoint())){
+				if(movable && usable() && bounds.contains(e.getPoint())){
 					setBounds(e.getX() - nx, e.getY() - ny);
 				}
 			}

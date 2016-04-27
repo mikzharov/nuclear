@@ -40,7 +40,7 @@ public class UISlider extends UIComponent{
 			}
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(usable() && bounds.contains(e.getPoint())){
+				if(movable && usable() && bounds.contains(e.getPoint())){
 					setBounds(e.getX() - nx, e.getY() - ny);
 				}
 			}

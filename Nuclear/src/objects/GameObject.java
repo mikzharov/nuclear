@@ -76,9 +76,7 @@ public class GameObject {
 		return all;
 	}
 	public ArrayList<UIComponent> getUi(){
-		ArrayList<UIComponent> all = new ArrayList<UIComponent>();
-		all.addAll(ui);
-		return all;
+		return ui;
 	}
 	public void addObj(GameObject a){
 		objects.add(a);

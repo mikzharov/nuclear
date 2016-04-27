@@ -1,21 +1,25 @@
 package objects;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 import graphics.UIComponent;
 import graphics.UIText;
-import logic.Integrator;
 
 public class PowerProduction extends GameObject {
 	
-	UIText power1 = new UIText(-240, -275, 325, 100);
-	UIText power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 325, 100);
-	UIText power3 = new UIText(power2.getX()+power2.getWidth()+15, power1.getY(), 325, 100);
-	UIText power4 = new UIText(power3.getX()+power3.getWidth()+15, power1.getY(), 325, 100);
-	UIText totalPower = new UIText(power4.getX()+power4.getWidth()+15, power1.getY(), 325, 100);
+	UIText power1;
+	UIText power2;
+	UIText power3;
+	UIText power4;
+	UIText totalPower;
 	
 	public PowerProduction(int x, int y) {
+		power1 = new UIText(x, y, 325, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
+		power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 325, 100);
+		power3 = new UIText(power2.getX()+power2.getWidth()+15, power1.getY(), 325, 100);
+		power4 = new UIText(power3.getX()+power3.getWidth()+15, power1.getY(), 325, 100);
+		totalPower = new UIText(power4.getX()+power4.getWidth()+15, power1.getY(), 325, 100);
+		
 		power1.setText("MW");
 		power2.setText("MW");
 		power3.setText("MW");
@@ -41,12 +45,12 @@ public class PowerProduction extends GameObject {
 			comp.setVisible(true);
 		}
 	}
-	
 	public void drawObj(Graphics2D g) {
 		//Do not update things in here! Only update stuff when it changes to prevent overhead
 	}
 	
 	public void update(long deltaTime) {
+		
 	}
 	
 	public void updatePower(int reactor1, int reactor2, int reactor3, int reactor4) {
