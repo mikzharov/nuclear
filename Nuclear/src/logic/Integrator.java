@@ -125,7 +125,7 @@ public class Integrator {
 		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
 		add(pipe4);
 		
-		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4500, 10);
+		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 10);
 		add(mainElectric);
 		//PIPES ABOVE
 		
