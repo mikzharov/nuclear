@@ -16,7 +16,7 @@ public class UIComponent {
 	protected String text;
 	public KeyAdapter key;
 	public static int defaultHeight = 110;
-	protected boolean active = false;
+	public boolean active = false;
 	protected boolean visible = true;
 	protected int xSize;
 	protected int ySize;

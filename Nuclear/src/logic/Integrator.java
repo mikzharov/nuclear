@@ -25,21 +25,26 @@ import objects.PowerProduction;
 import objects.Reactor;
 
 public class Integrator {
+	
+	private static boolean clicked = false;
+	private static int tutorialStep = 0;
+	private long tutorialTime = 0;
+	
+	private static int level = 1;
 	public static boolean running = true;//If false, the game quits
 	public static boolean paused = false;
-	long last;//The long which stores the time in milliseconds at the last update
+	private long last;//The long which stores the time in milliseconds at the last update
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
-	int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
-	int y_offset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
+	private int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
+	private int y_offset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
 	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
 	public static Canvas canvas;//Canvas component
-	long start;
-	BufferStrategy buffer;//Buffer for drawing and creating graphics
-	Graphics2D g;//This object will be used to draw
-	static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
-	public static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
-	public boolean active(){
+	private BufferStrategy buffer;//Buffer for drawing and creating graphics
+	private Graphics2D g;//This object will be used to draw
+	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
+	private static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
+	private boolean active(){
 		for(UIComponent temp:ui){
 			if(temp.getActive())
 				return true;
@@ -101,58 +106,94 @@ public class Integrator {
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
-		add(plant);//Adds the plant to the world array so it can be rendered
-		
-		PowerProduction powerDisplay = new PowerProduction(10, 10);
-		add(powerDisplay);
+		if(level != 1){
+			add(plant);//Adds the plant to the world array so it can be rendered
+		}
+		//Making the level above
 		
 		//PIPES BELOW
 		//Pipes are just for aesthetics, do not include them in physics
 		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10);
 		pipe.setColor(Color.blue);
-		add(pipe);
+		
 		
 		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
 		pipe1.setColor(Color.blue);
-		add(pipe1);
 		
 		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
-		add(pipe2);
 		
 		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		add(pipe3);
 		
 		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		add(pipe4);
 		
 		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 10);
-		add(mainElectric);
+		
+		if(level != 1){
+			add(pipe);
+			add(pipe1);
+			add(pipe2);
+			add(pipe3);
+			add(pipe4);
+			add(mainElectric);
+		}
 		//PIPES ABOVE
 		
-		//Making level above
 		
 		//Making paused GUI below
 		UIText pauseText = new UIText(x/2-x/8, y/5, x/4, UIComponent.defaultHeight);
 		pauseText.setText("Paused");
 		pauseText.setVisible(false);
-		add(pauseText);
+		
 		
 		UIButton quitButton = new UIButton(x/2-x/8, y/5+UIComponent.defaultHeight+10, x/4, UIComponent.defaultHeight);
 		quitButton.setText("Quit");
 		quitButton.setVisible(false);
 		quitButton.setUsableDuringPaused(true);
-		add(quitButton);
+		
 		
 		UIButton mainButton = new UIButton(x/2-x/6, y/5+UIComponent.defaultHeight*2+20, x/3, UIComponent.defaultHeight);
 		mainButton.setText("Main Menu");
 		mainButton.setVisible(false);
 		mainButton.setUsableDuringPaused(true);
-		add(mainButton);
+		
 		//Making paused GUI above
 		
+		//UI below
+		PowerProduction powerDisplay = new PowerProduction(10, 10);
+		if(level != 1){
+			add(powerDisplay);
+		}
+		//Tutorial UI below
+		UIText tutorial = new UIText(10, 10, x-30, 100);
+		tutorial.setTextDisplacement(25, 74);
+		tutorial.setMovable(false);
+		tutorial.setFontSize(50);
+		tutorial.setText("Welcome to Nuclear Reactor simulator (click to continue)");
+		
+		UIButton tutButton = new UIButton(x/2-150, y/2, 300, 100);
+		tutButton.setText("Button");
+		tutButton.setVisible(false);
+
+		UISlider tutSlider = new UISlider(x/2-150, y/2, 300, 100);
+		tutSlider.setText("Slider");
+		tutSlider.setFontSize(55);
+		tutSlider.setTextDisplacement(25, 75);
+		tutSlider.setVisible(false);
+		if(level == 1){
+			add(tutButton);
+			add(tutSlider);
+			add(tutorial);
+		}
+		//Tutorial UI above
+		//UI above
+		
+		quitButton.setMovable(false);
+		mainButton.setMovable(false);
+		add(pauseText);
+		add(quitButton);
+		add(mainButton);
 		canvas.createBufferStrategy(2);//Enables double buffering
 		buffer = canvas.getBufferStrategy();//Initializes the buffer
-		start = System.currentTimeMillis();//Initializes the time the program started (to display FPS)
 		g = (Graphics2D) buffer.getDrawGraphics();//Gets the graphics object
 		
 		RenderingHints rh = new RenderingHints(//Turns ANTIALIASING on
@@ -169,6 +210,7 @@ public class Integrator {
 				}
 			}
 			public void mouseClicked(MouseEvent e){
+				clicked = true;
 				if(!paused){
 					for(GameObject temp: objects){
 						temp.mouseClicked(e);
@@ -258,7 +300,7 @@ public class Integrator {
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
 			
-			powerDisplay.updatePower(reactor1.powerGeneration(), reactor2.powerGeneration(), reactor3.powerGeneration(), reactor4.powerGeneration());
+			
 			for(GameObject temp : objects){
 				temp.drawObj(g);
 				g.setColor(Color.black); //individual objects that set the color will permanently change it, so we have to reset it to black
@@ -284,6 +326,74 @@ public class Integrator {
 				clear();
 				Main.resume();
 			}
+			if(level == 1){
+				switch(tutorialStep){
+				case 0:
+					if(clicked){
+						tutorialStep++;
+						tutorial.setText("Here you will learn the basics of the game (click)");
+						clicked = false;
+					}
+					break;
+				case 1:
+					if(clicked){
+						tutorialStep++;
+						clicked = false;
+					}
+					break;
+				case 2:
+					tutButton.setVisible(true);
+					tutorial.setText("This is a button (click)");
+					if(clicked){
+						tutorialStep++;
+						clicked = false;
+						tutorial.setText("It can be dragged around like most components (wait)");
+						if(tutorialTime == 0){
+							tutorialTime = System.currentTimeMillis();
+						}
+						tutButton.clicked = false;
+					}
+					break;
+				case 3:
+					if(tutorialTime + 10000 < System.currentTimeMillis()){
+						tutorial.setText("Try clicking it (click it)");
+						tutorialTime=0;
+						if(tutButton.clicked)tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					tutButton.clicked=false;
+					break;
+				case 4:
+					tutorial.setText("Good. This is a slider (click)");
+					tutButton.setVisible(false);
+					tutSlider.setVisible(true);
+					if(clicked){
+						tutorialStep++;
+						clicked = false;
+						tutorial.setText("Click it to bring it into focus");
+					}
+					tutSlider.active = false;
+					break;
+				case 5:
+					if(tutSlider.active){
+						tutorial.setText("Now press '↓' to bring down the slider level to 0");
+						tutorialStep++;
+					}
+					break;
+				case 6:
+					if(tutSlider.getPercentage() == 0){
+						tutorial.setText("Now press '↑' to bring down the slider level to max");
+						tutorialStep++;
+					}
+					break;
+				case 7:
+					if(tutSlider.getPercentage() == 1){
+						tutorial.setText("Good");
+						tutorialStep++;
+					}
+					break;
+				}
+			}
 		}
 		g.dispose();//Cleans the graphics (although this is not required)
 	}
@@ -298,5 +408,8 @@ public class Integrator {
 		scale = 0.6f;
 		objects.clear();
 		ui.clear();
+	}
+	public static void setLevel(int lvl) {
+		level = lvl;
 	}
 }

@@ -65,16 +65,20 @@ public class Main {
 	public final static int xSize = ((int) tk.getScreenSize().getWidth());
 	public final static int ySize = ((int) tk.getScreenSize().getHeight());
 	// combo boxes
-	JComboBox<String> difficultyLevels = new JComboBox<String>();
+	static JComboBox<String> difficultyLevels = new JComboBox<String>();
 	public static void start(){
-		while(!run){
+		while(!run){//Weird work around to prevent this running in the EDT.
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		run = false;
+		if((String) difficultyLevels.getSelectedItem() != null){
+			Integrator.setLevel((int)((String) difficultyLevels.getSelectedItem()).charAt(0)-48);
+		}
 		Integrator integrator = new Integrator(xSize, ySize);
 		frame.remove(backgroundLabel);
 		frame.add(Integrator.canvas);
@@ -138,7 +142,13 @@ public class Main {
 		panel.add(settings);
 		panel.add(credits);
 		panel.add(quit);
-
+		
+		difficultyLevels.setBounds(xSize / 2, 280, 200, 50);
+		difficultyLevels.setFont(new Font("Sans Serif", Font.BOLD, 25));
+		difficultyLevels.addItem("1. Tutorial");
+		difficultyLevels.addItem("2. Normal");
+		difficultyLevels.addItem("3. Chernobyl");
+		
 		quit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -211,11 +221,7 @@ public class Main {
 
 				// combo box
 				panel.add(difficultyLevels);
-				difficultyLevels.setBounds(xSize / 2, 280, 200, 50);
-				difficultyLevels.setFont(new Font("Sans Serif", Font.BOLD, 25));
-				difficultyLevels.addItem("Tutorial");
-				difficultyLevels.addItem("Normal");
-				difficultyLevels.addItem("Chernobyl");
+				
 
 				// sliders
 				panel.add(soundSlider);
