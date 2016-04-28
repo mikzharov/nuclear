@@ -15,7 +15,7 @@ import graphics.UIText;
 import logic.Integrator;
 
 public class Reactor extends GameObject {
-	
+	private PipeSystem sys = null;//This is for the components that need to be controlled by the reactor
 	private boolean clicked = false;
 	private boolean error = false;
 	private String name;
@@ -179,7 +179,7 @@ public class Reactor extends GameObject {
 		if (temperature <= 25.0) {
 			temperature=25.0;
 		}
-		return name+": "+roundDouble(temperature)+"°C";
+		return name+": "+roundDouble(temperature)+"ï¿½C";
 	}
 	
 	public String reactorErrorMessage() {
@@ -224,6 +224,12 @@ public class Reactor extends GameObject {
 		double megaWatts = (0.0025*(tempPressure*tempPressure)-101.3);
 		
 		return (int)megaWatts;
+	}
+	
+	public void setPipeSystem(PipeSystem s){
+		objects.remove(sys);//Removes old one
+		sys = s;
+		objects.add(sys);
 	}
 
 }

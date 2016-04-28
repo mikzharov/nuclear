@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import graphics.*;
 import main.Main;
+import objects.PipeSystem;
 import objects.ControlRodBundle;
 import objects.GameObject;
 import objects.Pipe;
@@ -113,29 +114,26 @@ public class Integrator {
 		
 		//PIPES BELOW
 		//Pipes are just for aesthetics, do not include them in physics
+		PipeSystem sys4 = new PipeSystem();//For reactor 4
+		PipeSystem sysM = new PipeSystem();//For the whole plant
 		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10);
 		pipe.setColor(Color.blue);
-		
-		
 		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
 		pipe1.setColor(Color.blue);
-		
 		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
-		
 		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		
 		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		
 		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 10);
 		
-		if(level != 1){
-			add(pipe);
-			add(pipe1);
-			add(pipe2);
-			add(pipe3);
-			add(pipe4);
-			add(mainElectric);
-		}
+		sys4.addPipe(pipe);
+		sys4.addPipe(pipe1);
+		sys4.addPipe(pipe2);
+		sys4.addPipe(pipe3);
+		sys4.addPipe(pipe4);
+		sysM.addPipe(mainElectric);
+		
+		reactor4.setPipeSystem(sys4);
+		plant.setPipeSystem(sysM);
 		//PIPES ABOVE
 		
 		
@@ -388,7 +386,16 @@ public class Integrator {
 					break;
 				case 7:
 					if(tutSlider.getPercentage() == 1){
-						tutorial.setText("Good");
+						tutorial.setText("Good, lets move onto reactor basics (click)");
+						tutorialStep++;
+					}
+					clicked = false;
+					break;
+				case 8:
+					if(clicked){
+						add(plant);
+						tutSlider.setVisible(false);
+						tutorial.setText("This is the reactor (click)");
 						tutorialStep++;
 					}
 					break;
