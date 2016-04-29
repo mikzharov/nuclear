@@ -66,7 +66,7 @@ public class ControlRodBundle extends GameObject{
 		return ySize + this.y;
 	}
 	public void mouseClicked(MouseEvent e){
-		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
+		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();
 		g.translate(Integrator.x/2.0, Integrator.y/2.0);
 		g.scale(Integrator.scale, Integrator.scale);
@@ -77,6 +77,6 @@ public class ControlRodBundle extends GameObject{
 		}
 	}
 	public void drawObj(Graphics2D g){
-		g.drawImage(sprite, getX() + (Integrator.int_last_x_offset), getY() + Integrator.int_last_y_offset, getImageX() + Integrator.int_last_x_offset,  getImageY() + Integrator.int_last_y_offset, 0, 0, sprite.getWidth(), sprite.getHeight(), null);
+		g.drawImage(sprite, getX() + (Integrator.intLastXOffset), getY() + Integrator.intLastYOffset, getImageX() + Integrator.intLastXOffset,  getImageY() + Integrator.intLastYOffset, 0, 0, sprite.getWidth(), sprite.getHeight(), null);
 	}
 }

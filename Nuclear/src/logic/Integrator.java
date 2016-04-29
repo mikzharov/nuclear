@@ -24,21 +24,26 @@ import objects.Pipe.Orientation;
 import objects.Plant;
 import objects.PowerProduction;
 import objects.Reactor;
+import objects.Turbine;
+import objects.TurbineSystem;
 
 public class Integrator {
+	//Tutorial things
+	private static boolean clicked = false;//Not strictly for the tutorial, but heavily used to check if anything at all was clicked (to proceed)
+	private static int tutorialStep = 0;//Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
+	private long tutorialTime = 0;//For measuring passed time in the tutorial
+	private int tutX = 0;//To test if user moved
+	private int tutY = 0;//To test if user moved
+	//Tutorial things
 	
-	private static boolean clicked = false;
-	private static int tutorialStep = 0;
-	private long tutorialTime = 0;
-	
-	private static int level = 1;
+	private static int level = 1;//Sets the default, it is always overriden though
 	public static boolean running = true;//If false, the game quits
 	public static boolean paused = false;
 	private long last;//The long which stores the time in milliseconds at the last update
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
-	private int x_offset = 0;//The horizontal offset of the gameworld (not UI though)
-	private int y_offset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
+	private int xOffset = 0;//The horizontal offset of the gameworld (not UI though)
+	private int yOffset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
 	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
 	public static Canvas canvas;//Canvas component
 	private BufferStrategy buffer;//Buffer for drawing and creating graphics
@@ -75,11 +80,11 @@ public class Integrator {
 	}
 	public void offset_x(int i){
 		if(!active())
-		x_offset+=i;
+		xOffset+=i;
 	}
 	public void offset_y(int i){
 		if(!active())
-		y_offset+=i;
+		yOffset+=i;
 	}
 	public void zoom(float i){
 		if(scale - i < 0){
@@ -90,7 +95,7 @@ public class Integrator {
 	}
 	int scroll = 40;//This controls the scroll speed
 	float zoom_factor = 0.01f;//Zoom speed
-	public static int int_last_x_offset, int_last_y_offset;
+	public static int intLastXOffset, intLastYOffset;
 	public void start(){
 		running = true;
 		//Making level below
@@ -107,9 +112,10 @@ public class Integrator {
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
-		if(level != 1){
-			add(plant);//Adds the plant to the world array so it can be rendered
-		}
+		
+		
+		
+
 		//Making the level above
 		
 		//PIPES BELOW
@@ -120,10 +126,11 @@ public class Integrator {
 		pipe.setColor(Color.blue);
 		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
 		pipe1.setColor(Color.blue);
+		//4th parameter in pipe is length, not y pos. 
 		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
 		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
 		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 10);
+		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 15);
 		
 		sys4.addPipe(pipe);
 		sys4.addPipe(pipe1);
@@ -135,8 +142,18 @@ public class Integrator {
 		reactor4.setPipeSystem(sys4);
 		plant.setPipeSystem(sysM);
 		//PIPES ABOVE
-		
-		
+		//Turbines below
+		TurbineSystem tSys4 = new TurbineSystem();
+		tSys4.addTurbine(new Turbine(74, 864, 39, 57));
+		tSys4.addTurbine(new Turbine(122, 864, 48, 57));
+		tSys4.addTurbine(new Turbine(178, 869, 35, 48));
+		tSys4.addTurbine(new Turbine(219, 864, 48, 57));
+		tSys4.addTurbine(new Turbine(275, 864, 45, 57));
+		reactor4.setTurbineSystem(tSys4);
+		//Turbines above
+		if(level != 1){
+			add(plant);//Adds the plant to the world array so it can be rendered
+		}
 		//Making paused GUI below
 		UIText pauseText = new UIText(x/2-x/8, y/5, x/4, UIComponent.defaultHeight);
 		pauseText.setText("Paused");
@@ -222,22 +239,22 @@ public class Integrator {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(!paused && e.getKeyCode() == KeyEvent.VK_RIGHT || !paused && e.getKeyCode() == KeyEvent.VK_D){
-					if(x_offset > -3500){
+					if(xOffset > -3500){
 						offset_x(-scroll);
 					}
 				}
 				if(!paused && e.getKeyCode() == KeyEvent.VK_LEFT || !paused && e.getKeyCode() == KeyEvent.VK_A){
-					if(x_offset < 100){
+					if(xOffset < 100){
 						offset_x(scroll);
 					}
 				}
 				if(!paused && e.getKeyCode() == KeyEvent.VK_UP || !paused && e.getKeyCode() == KeyEvent.VK_W){
-					if(y_offset < 300){
+					if(yOffset < 300){
 						offset_y(scroll);
 					}
 				}
 				if(!paused && e.getKeyCode() == KeyEvent.VK_DOWN || !paused && e.getKeyCode() == KeyEvent.VK_S){
-					if(y_offset > -400){
+					if(yOffset > -400){
 						offset_y(-scroll);
 					}
 				}
@@ -255,8 +272,8 @@ public class Integrator {
 			@Override
 			public void keyTyped(KeyEvent arg0) {}//These are required, but not used
 	    });
-	    int last_x_offset = x_offset;//This is for interpolation purposes, initially sets the values as the same
-	    int last_y_offset = x_offset;//This is for interpolation purposes, initially sets the values as the same
+	    int lastXOffset = xOffset;//This is for interpolation purposes, initially sets the values as the same
+	    int lastYOffset = xOffset;//This is for interpolation purposes, initially sets the values as the same
 	    last = System.currentTimeMillis();//Sets the last time to the start time
 	    long now = System.currentTimeMillis();//Sets the now time so it is not null or 0
 	    long deltaTime = System.currentTimeMillis();//Sets the delta time so it is not null or 0
@@ -290,10 +307,10 @@ public class Integrator {
 			if(!paused){
 				c = deltaTime/(float)dt;//Calculates a time which will be used for linear interpolation
 			}
-			int_last_x_offset = (int) (x_offset * c + (1-c) * last_x_offset);//Does the linear interpolation
-			int_last_y_offset = (int) (y_offset * c + (1-c) * last_y_offset);//Does the linear interpolation
-			last_x_offset = int_last_x_offset;//Updates last time for interpolation
-			last_y_offset = int_last_y_offset;//Updates last time for interpolation
+			intLastXOffset = (int) (xOffset * c + (1-c) * lastXOffset);//Does the linear interpolation
+			intLastYOffset = (int) (yOffset * c + (1-c) * lastYOffset);//Does the linear interpolation
+			lastXOffset = intLastXOffset;//Updates last time for interpolation
+			lastYOffset = intLastYOffset;//Updates last time for interpolation
 			g.translate(x/2.0, y/2.0);
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
@@ -368,26 +385,37 @@ public class Integrator {
 					if(clicked){
 						tutorialStep++;
 						clicked = false;
-						tutorial.setText("Click it to bring it into focus");
 					}
 					tutSlider.active = false;
 					break;
 				case 5:
 					if(tutSlider.active){
-						tutorial.setText("Now press '↓' to bring down the slider level to 0");
+						tutorial.setText("Now press 'down arrow' to bring down the slider level to 0");
 						tutorialStep++;
+					}else{
+						tutorial.setText("Click it to bring it into focus");
 					}
 					break;
 				case 6:
 					if(tutSlider.getPercentage() == 0){
-						tutorial.setText("Now press '↑' to bring down the slider level to max");
+						tutorial.setText("Now press 'up arrow' to bring the slider up to max");
 						tutorialStep++;
+					}else{
+						tutorial.setText("Now press 'down arrow' to bring down the slider level to 0");
+					}
+					if(!tutSlider.active){
+						tutorial.setText("Click it to bring it into focus");
 					}
 					break;
 				case 7:
 					if(tutSlider.getPercentage() == 1){
 						tutorial.setText("Good, lets move onto reactor basics (click)");
 						tutorialStep++;
+					}else{
+						tutorial.setText("Now press 'up arrow' to bring the slider up to max");
+					}
+					if(!tutSlider.active){
+						tutorial.setText("Click it to bring it into focus");
 					}
 					clicked = false;
 					break;
@@ -397,7 +425,33 @@ public class Integrator {
 						tutSlider.setVisible(false);
 						tutorial.setText("This is the reactor (click)");
 						tutorialStep++;
+						clicked = false;
 					}
+					break;
+				case 9:
+					if(clicked){
+						tutorial.setText("It is big, so you need to move (WASD | arrows) (try moving)");
+						tutorialStep++;
+						clicked = false;
+						tutX = xOffset;
+						tutY = yOffset;
+					}
+					break;
+				case 10:
+					if(Math.abs(xOffset - tutX) > 100 || Math.abs(yOffset - tutY) > 100){
+						tutorial.setText("Also try zooming (mouse wheel)");
+						tutorialStep++;
+						scale = 0.6f;
+					}
+					break;
+				case 11:
+					if(Math.abs(scale-0.6f) > 0.2f){
+						tutorialStep++;
+						tutorial.setText("Now click on the blue outline of a reactor to bring it into focus");
+					}
+					break;
+				case 12:
+					
 					break;
 				}
 			}

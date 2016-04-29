@@ -52,20 +52,20 @@ public class Pipe extends GameObject{
 	public void drawObj(Graphics2D g){
 		Color oldColor = g.getColor();
 		g.setColor(Color.black);
-		g.fillRect(x + Integrator.int_last_x_offset, y + Integrator.int_last_y_offset, xSize, ySize);
+		g.fillRect(x + Integrator.intLastXOffset, y + Integrator.intLastYOffset, xSize, ySize);
 		g.setColor(color);
 		if(or == Orientation.HORIZONTAL){
 			for(int i = x; i + position < x + xSize; i += width * 2){
 				if(i + position < x)continue;//prevents particles from being drawn outside the pipe
 				if(i + position > x + xSize)continue;
-				g.fillRect(i + position + Integrator.int_last_x_offset, y + Integrator.int_last_y_offset, width, width);
+				g.fillRect(i + position + Integrator.intLastXOffset, y + Integrator.intLastYOffset, width, width);
 			}
 		}
 		if(or == Orientation.VERTICAL){
 			for(int i = y; i + position < y + ySize; i += width * 2){
 				if(i + position < y)continue;//prevents particles from being drawn outside the pipe
 				if(i + position > y + ySize)continue;
-				g.fillRect(x + Integrator.int_last_x_offset, i + position + Integrator.int_last_y_offset, width, width);
+				g.fillRect(x + Integrator.intLastXOffset, i + position + Integrator.intLastYOffset, width, width);
 			}
 		}
 		
@@ -80,7 +80,7 @@ public class Pipe extends GameObject{
 	}
 	public void mouseClicked(MouseEvent e) {
 		//Do not do physics in mouseClicked, do it in update
-		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
+		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
 		g.translate(Integrator.x/2.0, Integrator.y/2.0);
 		g.scale(Integrator.scale, Integrator.scale);

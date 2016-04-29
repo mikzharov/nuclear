@@ -11,6 +11,7 @@ import logic.Integrator;
 
 public class Plant extends GameObject{
 	private PipeSystem sys = null;
+	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
 	BufferedImage floorPlans = null;
 	int x = 0;
 	int y = 0;
@@ -43,11 +44,16 @@ public class Plant extends GameObject{
 		this.y = y;
 	}
 	public void drawObj(Graphics2D g){
-		g.drawImage(floorPlans, this.getX() + (Integrator.int_last_x_offset), this.getY() + Integrator.int_last_y_offset, this.getImageX() + Integrator.int_last_x_offset,  this.getImageY() + Integrator.int_last_y_offset, 0, 0, floorPlans.getWidth(), floorPlans.getHeight(), null);
+		g.drawImage(floorPlans, this.getX() + (Integrator.intLastXOffset), this.getY() + Integrator.intLastYOffset, this.getImageX() + Integrator.intLastXOffset,  this.getImageY() + Integrator.intLastYOffset, 0, 0, floorPlans.getWidth(), floorPlans.getHeight(), null);
 	}
 	public void setPipeSystem(PipeSystem s){
 		objects.remove(sys);//Removes old one
 		sys = s;
 		objects.add(sys);
+	}
+	public void setTurbineSystem(TurbineSystem s){
+		objects.remove(tSys);//Removes old one
+		tSys = s;
+		objects.add(tSys);
 	}
 }

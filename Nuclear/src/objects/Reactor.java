@@ -15,7 +15,8 @@ import graphics.UIText;
 import logic.Integrator;
 
 public class Reactor extends GameObject {
-	private PipeSystem sys = null;//This is for the components that need to be controlled by the reactor
+	private PipeSystem pSys = null;//This is for the components that need to be controlled by the reactor
+	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
 	private boolean clicked = false;
 	private boolean error = false;
 	private String name;
@@ -53,7 +54,7 @@ public class Reactor extends GameObject {
 		float thickness = 5.0f;
 		Stroke oldStroke = g.getStroke();
 		g.setStroke(new BasicStroke(thickness));
-		g.drawRect(x+Integrator.int_last_x_offset, y+Integrator.int_last_y_offset, xSize, ySize);
+		g.drawRect(x+Integrator.intLastXOffset, y+Integrator.intLastYOffset, xSize, ySize);
 		g.setStroke(oldStroke);
 	}
 	
@@ -110,7 +111,7 @@ public class Reactor extends GameObject {
 	
 	public void mouseClicked(MouseEvent e) {
 		//Do not do physics in mouseClicked, do it in update
-		bounds.setLocation(x+Integrator.int_last_x_offset, y + Integrator.int_last_y_offset);
+		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
 		g.translate(Integrator.x/2.0, Integrator.y/2.0);
 		g.scale(Integrator.scale, Integrator.scale);
@@ -227,9 +228,14 @@ public class Reactor extends GameObject {
 	}
 	
 	public void setPipeSystem(PipeSystem s){
-		objects.remove(sys);//Removes old one
-		sys = s;
-		objects.add(sys);
+		objects.remove(pSys);//Removes old one
+		pSys = s;
+		objects.add(pSys);
 	}
-
+	
+	public void setTurbineSystem(TurbineSystem s){
+		objects.remove(tSys);//Removes old one
+		tSys = s;
+		objects.add(tSys);
+	}
 }
