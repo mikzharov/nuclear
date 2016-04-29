@@ -31,7 +31,7 @@ public class PowerProduction extends GameObject {
 		power3.setFontSize(40);
 		power4.setFontSize(40);
 		totalPower.setFontSize(40);
-		
+		setActive(false);
 		ui.add(power1);
 		ui.add(power2);//Components only need to be put into the ui array once, not every time drawObj is called
 		ui.add(power3);
@@ -44,6 +44,7 @@ public class PowerProduction extends GameObject {
 		for(UIComponent comp: ui){
 			comp.setVisible(true);
 		}
+		
 	}
 	public void drawObj(Graphics2D g) {
 		//Do not update things in here! Only update stuff when it changes to prevent overhead
@@ -59,5 +60,11 @@ public class PowerProduction extends GameObject {
 		power3.setText(reactor2+" MW");
 		power4.setText(reactor1+" MW");
 		totalPower.setText((reactor4+reactor3+reactor2+reactor1)+" MW");
+	}
+	public void setActive(boolean bol){
+		power1.setActive(bol);
+		power2.setActive(bol);
+		power3.setActive(bol);
+		power4.setActive(bol);
 	}
 }

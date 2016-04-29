@@ -49,7 +49,6 @@ public class UIComponent {
 		return text;
 	}
 	public void setVisible(boolean bool){
-		active = bool;
 		visible = bool;
 	}
 	public int getX(){
@@ -99,5 +98,8 @@ public class UIComponent {
 	}
 	public void setMovable(boolean move){
 		movable = move;
+	}
+	public void setActive(boolean bol){
+		active = bol;
 	}
 }

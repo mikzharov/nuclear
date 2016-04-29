@@ -123,31 +123,48 @@ public class Integrator {
 		PipeSystem sys4 = new PipeSystem();//For reactor 4
 		PipeSystem sysM = new PipeSystem();//For the whole plant
 		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10);
-		pipe.setColor(Color.blue);
 		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
 		pipe1.setColor(Color.blue);
-		//4th parameter in pipe is length, not y pos. 
+		pipe.setColor(Color.blue);
 		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
 		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
 		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
+		Pipe pipe_1 = new Pipe(100, 650, Orientation.VERTICAL, -205, 10);//_1 for second pipe section
+		Pipe pipe_2 = new Pipe(100, 650, Orientation.HORIZONTAL, 620, 10);
+		Pipe pipe_3 = new Pipe(300, 750, Orientation.VERTICAL, 105, 10);
+		Pipe pipe_4 = new Pipe(300, 750, Orientation.HORIZONTAL, -545, 10);
 		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 15);
-		
+		pipe_1.setColor(Color.blue);
+		pipe_2.setColor(Color.blue);
+		pipe_3.setColor(Color.blue);
+		pipe_4.setColor(Color.blue);
 		sys4.addPipe(pipe);
 		sys4.addPipe(pipe1);
 		sys4.addPipe(pipe2);
 		sys4.addPipe(pipe3);
 		sys4.addPipe(pipe4);
+		sys4.addPipe(pipe_1);
+		sys4.addPipe(pipe_2);
+		sys4.addPipe(pipe_3);
+		sys4.addPipe(pipe_4);
 		sysM.addPipe(mainElectric);
 		
 		reactor4.setPipeSystem(sys4);
 		plant.setPipeSystem(sysM);
 		
 		PipeSystem sys3 = new PipeSystem(); //for reactor 3
-		//water pipes
 		Pipe pipe5 = new Pipe(1475, 560, Orientation.VERTICAL, 300, 10);
-		pipe5.setColor(Color.blue);
 		Pipe pipe6 = new Pipe(1350, 560, Orientation.VERTICAL, -300, 10);
+		Pipe pipe6_1 = new Pipe(1900, 788, Orientation.VERTICAL, 70, 10);
+		Pipe pipe6_2 = new Pipe(1475, 788, Orientation.HORIZONTAL, 425, 10);
+		Pipe pipe6_3 = new Pipe(2060, 650, Orientation.VERTICAL, -206, 10);
+		Pipe pipe6_4 = new Pipe(1350, 650, Orientation.HORIZONTAL, -710, 10);
 		pipe6.setColor(Color.blue);
+		pipe6_1.setColor(Color.blue);
+		pipe6_2.setColor(Color.blue);
+		pipe6_3.setColor(Color.blue);
+		pipe6_4.setColor(Color.blue);
+		pipe5.setColor(Color.blue);
 		//steam pipes
 		Pipe pipe7 = new Pipe(1455, 937, Orientation.VERTICAL, 172, 10);
 		Pipe pipe8 = new Pipe(1975, 937, Orientation.VERTICAL, 172, 10);
@@ -156,6 +173,10 @@ public class Integrator {
 		sys3.addPipe(pipe6);
 		sys3.addPipe(pipe7);
 		sys3.addPipe(pipe8);
+		sys3.addPipe(pipe6_1);
+		sys3.addPipe(pipe6_2);
+		sys3.addPipe(pipe6_3);
+		sys3.addPipe(pipe6_4);
 		reactor3.setPipeSystem(sys3);
 		
 		PipeSystem sys2 = new PipeSystem(); //for reactor 2
@@ -252,9 +273,11 @@ public class Integrator {
 		
 		//UI below
 		PowerProduction powerDisplay = new PowerProduction(10, 10);
+		
 		if(level != 1){
 			add(powerDisplay);
 		}
+	
 		//Tutorial UI below
 		UIText tutorial = new UIText(10, 10, x-30, 100);
 		tutorial.setTextDisplacement(25, 74);
@@ -358,6 +381,7 @@ public class Integrator {
 		Font defaultFont = new Font("TimesRoman", Font.PLAIN, 15);
 		AffineTransform old;
 		float c = 0;
+		
 	    while(running){
 
 			g.setColor(Color.white);//Clears the screen
@@ -508,6 +532,7 @@ public class Integrator {
 					break;
 				case 9:
 					if(clicked){
+						if(x < 1290)tutorial.setFontSize(40);
 						tutorial.setText("It is big, so you need to move (WASD | arrows) (try moving)");
 						tutorialStep++;
 						clicked = false;
@@ -529,7 +554,60 @@ public class Integrator {
 					}
 					break;
 				case 12:
-					
+					if(reactor4.getActive()||reactor3.getActive()||reactor2.getActive()||reactor1.getActive()){
+						tutorialStep++;
+						tutorial.setText("Great, notice that you have a control rod slider. (click)");
+					}
+					clicked = false;
+					break;
+				case 13:
+					if(clicked){
+						tutorial.setText("The control rods will absorb neutrons from uranium atoms (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 14:
+					if(clicked){
+						tutorial.setText("Uranium atoms release neutrons when other neutrons hit them (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 15:
+					if(clicked){
+						tutorial.setText("This process is called a chain reaction (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 16:
+					if(clicked){
+						tutorial.setText("When you start it, it is hard to stop (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 17:
+					if(clicked){
+						tutorial.setText("To stop it, prevent neutrons from hitting the uranium (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 18:
+					if(clicked){
+						tutorial.setText("You can do this with the control rods, they go into the reactor to absorb neutrons (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
+					break;
+				case 19:
+					if(clicked){
+						tutorial.setText("Which prevents them from hitting the uranium (click)");
+						tutorialStep++;
+						clicked = false;//This prevents the current click from setting off the next one
+					}
 					break;
 				}
 			}
@@ -551,5 +629,6 @@ public class Integrator {
 	public static void setLevel(int lvl) {
 		//level = lvl;
 		level = 2; //for testing
+		//TODO change value from testing
 	}
 }

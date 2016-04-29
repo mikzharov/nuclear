@@ -238,4 +238,8 @@ public class Reactor extends GameObject {
 		tSys = s;
 		objects.add(tSys);
 	}
+	
+	public boolean getActive(){
+		return clicked;
+	}
 }
