@@ -141,6 +141,83 @@ public class Integrator {
 		
 		reactor4.setPipeSystem(sys4);
 		plant.setPipeSystem(sysM);
+		
+		PipeSystem sys3 = new PipeSystem(); //for reactor 3
+		//water pipes
+		Pipe pipe5 = new Pipe(1475, 560, Orientation.VERTICAL, 300, 10);
+		pipe5.setColor(Color.blue);
+		Pipe pipe6 = new Pipe(1350, 560, Orientation.VERTICAL, -300, 10);
+		pipe6.setColor(Color.blue);
+		//steam pipes
+		Pipe pipe7 = new Pipe(1455, 937, Orientation.VERTICAL, 172, 10);
+		Pipe pipe8 = new Pipe(1975, 937, Orientation.VERTICAL, 172, 10);
+		
+		sys3.addPipe(pipe5);
+		sys3.addPipe(pipe6);
+		sys3.addPipe(pipe7);
+		sys3.addPipe(pipe8);
+		reactor3.setPipeSystem(sys3);
+		
+		PipeSystem sys2 = new PipeSystem(); //for reactor 2
+		//water pipes
+		Pipe pipe9 = new Pipe(2980, 545, Orientation.VERTICAL, 160, 10);
+		Pipe pipe10 = new Pipe(2980, 705, Orientation.HORIZONTAL, 233, 10);
+		Pipe pipe11 = new Pipe(3213, 705, Orientation.VERTICAL, 145, 10);
+		pipe9.setColor(Color.blue);
+		pipe10.setColor(Color.blue);
+		pipe11.setColor(Color.blue);
+		
+		Pipe pipe12 = new Pipe(2880, 545, Orientation.VERTICAL, -200, 10);
+		Pipe pipe13 = new Pipe(2880, 745, Orientation.HORIZONTAL, -236, 10);
+		Pipe pipe14 = new Pipe(3112, 745, Orientation.VERTICAL, -105, 10);
+		pipe12.setColor(Color.blue);
+		pipe13.setColor(Color.blue);
+		pipe14.setColor(Color.blue);
+		
+		//steam pipes
+		Pipe pipe15 = new Pipe(2573, 930, Orientation.VERTICAL, 172, 10);
+		Pipe pipe16 = new Pipe(3163, 930, Orientation.VERTICAL, 172, 10);
+		
+		sys2.addPipe(pipe9);
+		sys2.addPipe(pipe10);
+		sys2.addPipe(pipe11);
+		sys2.addPipe(pipe12);
+		sys2.addPipe(pipe13);
+		sys2.addPipe(pipe14);
+		sys2.addPipe(pipe15);
+		sys2.addPipe(pipe16);
+		reactor2.setPipeSystem(sys2);
+		
+		PipeSystem sys1 = new PipeSystem(); //for reactor 1
+		//water pipes
+		Pipe pipe17 = new Pipe(4075, 545, Orientation.VERTICAL, 200, 10);
+		Pipe pipe18 = new Pipe(3877, 745, Orientation.HORIZONTAL, -208, 10);
+		Pipe pipe19 = new Pipe(3877, 745, Orientation.VERTICAL, 105, 10);
+		pipe17.setColor(Color.blue);
+		pipe18.setColor(Color.blue);
+		pipe19.setColor(Color.blue);
+		
+		Pipe pipe20 = new Pipe(3975, 545, Orientation.VERTICAL, -160, 10);
+		Pipe pipe21 = new Pipe(3774, 705, Orientation.HORIZONTAL, 211, 10);
+		Pipe pipe22 = new Pipe(3774, 705, Orientation.VERTICAL, -145, 10);
+		pipe20.setColor(Color.blue);
+		pipe21.setColor(Color.blue);
+		pipe22.setColor(Color.blue);
+		
+		//steam pipes
+		Pipe pipe23 = new Pipe(3830, 930, Orientation.VERTICAL, 172, 10);
+		Pipe pipe24 = new Pipe(4415, 930, Orientation.VERTICAL, 172, 10);
+		
+		sys2.addPipe(pipe17);
+		sys2.addPipe(pipe18);
+		sys2.addPipe(pipe19);
+		sys2.addPipe(pipe20);
+		sys2.addPipe(pipe21);
+		sys2.addPipe(pipe22);
+		sys2.addPipe(pipe23);
+		sys2.addPipe(pipe24);
+		reactor1.setPipeSystem(sys1);
+		
 		//PIPES ABOVE
 		//Turbines below
 		TurbineSystem tSys4 = new TurbineSystem();
@@ -166,7 +243,7 @@ public class Integrator {
 		quitButton.setUsableDuringPaused(true);
 		
 		
-		UIButton mainButton = new UIButton(x/2-x/6, y/5+UIComponent.defaultHeight*2+20, x/3, UIComponent.defaultHeight);
+		UIButton mainButton = new UIButton(x/2-x/6-25, y/5+UIComponent.defaultHeight*2+20, x/3+40, UIComponent.defaultHeight);
 		mainButton.setText("Main Menu");
 		mainButton.setVisible(false);
 		mainButton.setUsableDuringPaused(true);
@@ -321,7 +398,8 @@ public class Integrator {
 				g.setColor(Color.black); //individual objects that set the color will permanently change it, so we have to reset it to black
 			}
 			g.setTransform(old);
-			powerDisplay.updatePower(reactor1.powerGeneration(), reactor2.powerGeneration(), reactor3.powerGeneration(), reactor4.powerGeneration());
+			if(!paused)
+				powerDisplay.updatePower(reactor1.powerGeneration(), reactor2.powerGeneration(), reactor3.powerGeneration(), reactor4.powerGeneration());
 			if(paused){
 				pauseText.setVisible(true);
 				quitButton.setVisible(true);
@@ -471,6 +549,7 @@ public class Integrator {
 		ui.clear();
 	}
 	public static void setLevel(int lvl) {
-		level = lvl;
+		//level = lvl;
+		level = 2; //for testing
 	}
 }

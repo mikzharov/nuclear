@@ -14,11 +14,11 @@ public class PowerProduction extends GameObject {
 	UIText totalPower;
 	
 	public PowerProduction(int x, int y) {
-		power1 = new UIText(x, y, 325, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
-		power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 325, 100);
-		power3 = new UIText(power2.getX()+power2.getWidth()+15, power1.getY(), 325, 100);
-		power4 = new UIText(power3.getX()+power3.getWidth()+15, power1.getY(), 325, 100);
-		totalPower = new UIText(power4.getX()+power4.getWidth()+15, power1.getY(), 325, 100);
+		power1 = new UIText(x, y, 240, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
+		power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 240, 100);
+		power3 = new UIText(power2.getX()+power2.getWidth()+15, power1.getY(), 240, 100);
+		power4 = new UIText(power3.getX()+power3.getWidth()+15, power1.getY(), 240, 100);
+		totalPower = new UIText(power4.getX()+power4.getWidth()+15, power1.getY(), 240, 100);
 		
 		power1.setText("MW");
 		power2.setText("MW");
@@ -26,11 +26,11 @@ public class PowerProduction extends GameObject {
 		power4.setText("MW");
 		totalPower.setText("MW");
 		
-		power1.setFontSize(50);
-		power2.setFontSize(50);
-		power3.setFontSize(50);
-		power4.setFontSize(50);
-		totalPower.setFontSize(50);
+		power1.setFontSize(40);
+		power2.setFontSize(40);
+		power3.setFontSize(40);
+		power4.setFontSize(40);
+		totalPower.setFontSize(40);
 		
 		ui.add(power1);
 		ui.add(power2);//Components only need to be put into the ui array once, not every time drawObj is called

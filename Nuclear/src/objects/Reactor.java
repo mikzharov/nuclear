@@ -180,7 +180,7 @@ public class Reactor extends GameObject {
 		if (temperature <= 25.0) {
 			temperature=25.0;
 		}
-		return name+": "+roundDouble(temperature)+"�C";
+		return name+": "+roundDouble(temperature)+" C";
 	}
 	
 	public String reactorErrorMessage() {
@@ -222,7 +222,7 @@ public class Reactor extends GameObject {
 	public int powerGeneration() {
 		double tempPressure = steamOutput();
 		
-		double megaWatts = (0.0025*(tempPressure*tempPressure)-101.3);
+		double megaWatts = (0.0025*(tempPressure*tempPressure)-25);
 		
 		return (int)megaWatts;
 	}
