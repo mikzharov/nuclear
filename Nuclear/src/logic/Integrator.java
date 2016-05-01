@@ -268,13 +268,65 @@ public class Integrator {
 		
 		//PIPES ABOVE
 		//Turbines below
+		//reactor 4 turbines
 		TurbineSystem tSys4 = new TurbineSystem();
 		tSys4.addTurbine(new Turbine(74, 864, 39, 57));
 		tSys4.addTurbine(new Turbine(122, 864, 48, 57));
 		tSys4.addTurbine(new Turbine(178, 869, 35, 48));
 		tSys4.addTurbine(new Turbine(219, 864, 48, 57));
 		tSys4.addTurbine(new Turbine(275, 864, 45, 57));
+		
+		tSys4.addTurbine(new Turbine(660, 869, 39, 57));
+		tSys4.addTurbine(new Turbine(708, 869, 48, 57));
+		tSys4.addTurbine(new Turbine(764, 874, 35, 48));
+		tSys4.addTurbine(new Turbine(807, 869, 48, 57));
+		tSys4.addTurbine(new Turbine(861, 869, 45, 57));
 		reactor4.setTurbineSystem(tSys4);
+		
+		//reactor 3 turbines
+		TurbineSystem tSys3 = new TurbineSystem();
+		tSys3.addTurbine(new Turbine(1345, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(1391, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(1445, 870, 31, 48));
+		tSys3.addTurbine(new Turbine(1486, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(1535, 865, 38, 59));
+		
+		tSys3.addTurbine(new Turbine(1867, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(1913, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(1964, 870, 31, 48));
+		tSys3.addTurbine(new Turbine(2007, 865, 38, 59));
+		tSys3.addTurbine(new Turbine(2056, 865, 38, 59));
+		reactor3.setTurbineSystem(tSys3);
+		
+		//reactor 2 turbines
+		TurbineSystem tSys2 = new TurbineSystem();
+		tSys2.addTurbine(new Turbine(2459, 860, 39, 57));
+		tSys2.addTurbine(new Turbine(2459+48, 860, 48, 57));
+		tSys2.addTurbine(new Turbine(2459+104, 865, 35, 48));
+		tSys2.addTurbine(new Turbine(2459+145, 860, 48, 57));
+		tSys2.addTurbine(new Turbine(2459+201, 860, 45, 57));
+		
+		tSys2.addTurbine(new Turbine(3049, 860, 39, 57));
+		tSys2.addTurbine(new Turbine(3049+48, 860, 48, 57));
+		tSys2.addTurbine(new Turbine(3049+104, 865, 35, 48));
+		tSys2.addTurbine(new Turbine(3049+145, 860, 48, 57));
+		tSys2.addTurbine(new Turbine(3049+201, 860, 45, 57));
+		reactor2.setTurbineSystem(tSys2);
+		
+		//reactor 1 turbines
+		TurbineSystem tSys1 = new TurbineSystem();
+		tSys1.addTurbine(new Turbine(3714, 860, 39, 57));
+		tSys1.addTurbine(new Turbine(3714+48, 860, 48, 57));
+		tSys1.addTurbine(new Turbine(3714+104, 865, 35, 48));
+		tSys1.addTurbine(new Turbine(3714+145, 860, 48, 57));
+		tSys1.addTurbine(new Turbine(3714+201, 860, 45, 57));
+		
+		tSys1.addTurbine(new Turbine(4298, 860, 39, 57));
+		tSys1.addTurbine(new Turbine(4298+48, 860, 48, 57));
+		tSys1.addTurbine(new Turbine(4298+104, 865, 35, 48));
+		tSys1.addTurbine(new Turbine(4298+145, 860, 48, 57));
+		tSys1.addTurbine(new Turbine(4298+201, 860, 45, 57));
+		reactor1.setTurbineSystem(tSys1);
 		//Turbines above
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered

@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
+import graphics.UIButton;
 import graphics.UIComponent;
 import graphics.UISlider;
 import graphics.UIText;
@@ -31,6 +32,8 @@ public class Reactor extends GameObject {
 	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
 	UISlider rods = new UISlider(currentTemp.getX(), currentTemp.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
+	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
+	UIButton neutronPoison = new UIButton(emergencyCooling.getX()+emergencyCooling.getWidth()+15, rods.getY(), 170, 35);
 	
 	public double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
@@ -82,6 +85,16 @@ public class Reactor extends GameObject {
 		warning.setTextDisplacement(10, 45);
 		ui.add(warning);
 		
+		emergencyCooling.setText("Emr. Cooling");
+		emergencyCooling.setTextDisplacement(10, 25);
+		emergencyCooling.setFontSize(20);
+		ui.add(emergencyCooling);
+		
+		neutronPoison.setText("Neutron Poison");
+		neutronPoison.setTextDisplacement(10, 25);
+		neutronPoison.setFontSize(20);
+		ui.add(neutronPoison);
+		
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
 		}
@@ -106,6 +119,18 @@ public class Reactor extends GameObject {
 			
 		if (clicked == true) { //otherwise the error text box won't go away when desired
 			warning.setVisible(error); //if an error message has been added
+		}
+		
+		if (emergencyCooling.clicked) {
+			emergencyCooling.clicked=false;
+			if (coolingFactor == 0) {
+				emergencyCooling.setTextColor(Color.blue);
+				coolingFactor = 10;
+			}
+			else if (coolingFactor == 10) {
+				emergencyCooling.setTextColor(Color.black);
+				coolingFactor = 0;
+			}
 		}
 	}
 	
@@ -174,7 +199,7 @@ public class Reactor extends GameObject {
 		//if the control rods are 75% in or more the temperature should drop
 		tempControl-=0.25;
 		
-		temperature+=tempControl*0.45; //set at 0.45 for testing, final should be 0.05 //-coolingFactor;
+		temperature+=tempControl*0.45-coolingFactor; //set at 0.45 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
 		if (temperature <= 25.0) {
@@ -222,7 +247,7 @@ public class Reactor extends GameObject {
 	public int powerGeneration() {
 		double tempPressure = steamOutput();
 		
-		double megaWatts = (0.0025*(tempPressure*tempPressure)-25);
+		double megaWatts = (0.002*(tempPressure*tempPressure)-21);
 		
 		return (int)megaWatts;
 	}

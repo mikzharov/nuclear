@@ -13,6 +13,8 @@ public class PowerProduction extends GameObject {
 	UIText power4;
 	UIText totalPower;
 	
+	public int powerProduced = 0;
+	
 	public PowerProduction(int x, int y) {
 		power1 = new UIText(x, y, 240, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
 		power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 240, 100);
@@ -55,11 +57,15 @@ public class PowerProduction extends GameObject {
 	}
 	
 	public void updatePower(int reactor1, int reactor2, int reactor3, int reactor4) {
-		power1.setText(reactor4+" MW");
-		power2.setText(reactor3+" MW");
-		power3.setText(reactor2+" MW");
-		power4.setText(reactor1+" MW");
-		totalPower.setText((reactor4+reactor3+reactor2+reactor1)+" MW");
+		power1.setText(reactor4+" kW/s");
+		power2.setText(reactor3+" kW/s");
+		power3.setText(reactor2+" kW/s");
+		power4.setText(reactor1+" kW/s");
+		//every second the total power produced adds all the kiloWattseconds of the four reactors, giving the total power
+		if (System.currentTimeMillis()%100 == 0) {
+			powerProduced+=reactor4+reactor3+reactor2+reactor1;
+			totalPower.setText(powerProduced+" kW");
+		}
 	}
 	public void setActive(boolean bol){
 		power1.setActive(bol);
