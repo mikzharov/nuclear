@@ -13,8 +13,6 @@ public class Plant extends GameObject{
 	private PipeSystem sys = null;
 	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
 	BufferedImage floorPlans = null;
-	int x = 0;
-	int y = 0;
 	public Plant(String path){
 		try {
 			floorPlans = ImageIO.read(new File(path));
@@ -28,9 +26,7 @@ public class Plant extends GameObject{
 	public int getY(){
 		return this.y;
 	}
-	public BufferedImage getImage(){
-		return floorPlans;
-	}
+
 	public int getImageX(){
 		return floorPlans.getWidth() + this.x;
 	}

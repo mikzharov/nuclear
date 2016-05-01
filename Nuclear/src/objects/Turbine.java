@@ -2,7 +2,6 @@ package objects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -10,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import logic.Integrator;
 
 public class Turbine extends GameObject{
-	int speed=3;
+	private int speed=3;
 	int increment_time = 30;
 	int position = 0;
 
@@ -26,11 +25,7 @@ public class Turbine extends GameObject{
 	int height = 5;//Height of the particle to be drawn
 	long lastTime = 0;
 	public Turbine(int x1, int y1, int xSize1, int ySize1){
-		x = x1;
-		y = y1;
-		xSize = xSize1;
-		ySize = ySize1;
-		bounds = new Rectangle(x, y, xSize, ySize);//Creates rectangle
+		super(x1, y1, xSize1, ySize1);
 		lastTime = System.currentTimeMillis();
 	}
 	
@@ -69,5 +64,9 @@ public class Turbine extends GameObject{
 	}
 	public void setSpeed(int speed){//Sets how far each particle travels when it moves
 		this.speed = speed;
+	}
+
+	public int getSpeed() {
+		return speed;
 	}
 }

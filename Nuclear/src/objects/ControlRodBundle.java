@@ -18,8 +18,7 @@ public class ControlRodBundle extends GameObject{
 	static BufferedImage sprite = null;
 	public static final String path = "res/rods.png";
 	public ControlRodBundle(int x, int y, int size){
-		xSize = ySize = size;
-		bounds = new Rectangle(x, y, ySize, xSize);
+		super(x, y, size, size);
 		try {
 			if(sprite==null){
 				sprite = ImageIO.read(new File(path));
@@ -27,8 +26,6 @@ public class ControlRodBundle extends GameObject{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.x=x;
-		this.y=y;
 	}
 	public static ArrayList<GameObject> makeColumn(int x1, int y1, int xLoc, int yLoc){
 		if(x1<=0||y1<=0){

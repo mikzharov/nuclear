@@ -4,15 +4,18 @@ import java.awt.Graphics2D;
 
 import graphics.UIComponent;
 import graphics.UIText;
-
+/**
+ * 
+ * A GameObject that should really be a UIComponent
+ *
+ */
 public class PowerProduction extends GameObject {
-	
 	UIText power1;
 	UIText power2;
 	UIText power3;
 	UIText power4;
 	UIText totalPower;
-	
+	long lastPower;
 	public int powerProduced = 0;
 	
 	public PowerProduction(int x, int y) {
@@ -42,7 +45,7 @@ public class PowerProduction extends GameObject {
 		
 		this.x = x;
 		this.y = y;
-		
+		lastPower = System.currentTimeMillis();
 		for(UIComponent comp: ui){
 			comp.setVisible(true);
 		}
@@ -62,9 +65,10 @@ public class PowerProduction extends GameObject {
 		power3.setText(reactor2+" kW/s");
 		power4.setText(reactor1+" kW/s");
 		//every second the total power produced adds all the kiloWattseconds of the four reactors, giving the total power
-		if (System.currentTimeMillis()%100 == 0) {
+		if (lastPower + 1000 < System.currentTimeMillis()) {
 			powerProduced+=reactor4+reactor3+reactor2+reactor1;
 			totalPower.setText(powerProduced+" kW");
+			lastPower = System.currentTimeMillis();
 		}
 	}
 	public void setActive(boolean bol){

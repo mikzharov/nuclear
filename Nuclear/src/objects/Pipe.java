@@ -10,13 +10,14 @@ import java.awt.geom.AffineTransform;
 import logic.Integrator;
 
 public class Pipe extends GameObject{
-	int speed=5;
+	private int speed=5;
 	int increment_time = 25;
 	int position = 0;
+	boolean positive = true;
 	public static enum Orientation{
 		VERTICAL, HORIZONTAL //This will dicate whether to draw the pipe horizontally or vertically (instead of entering points)
 	}
-	Color color = new Color(255, 255, 0);
+	Color color = null;
 	Orientation or;
 	private void count(){//This method updates the particle position on the pipe
 		position+=speed;
@@ -29,10 +30,13 @@ public class Pipe extends GameObject{
 	}
 	int width;
 	long lastTime = 0;
-	public Pipe(int x1, int y1, Orientation or, int length, int width){
+	public Pipe(int x1, int y1, Orientation or, int length, int width, Color c){
+		super(x1, y1, width, length);//This line is useless since all the variables are overwritten, however it removes errors
+		color = c;
 		if(length < 0){
 			length *= -1;
 			speed *= -1;
+			positive = false;
 		}
 		x = x1;
 		y = y1;
@@ -48,7 +52,7 @@ public class Pipe extends GameObject{
 		bounds = new Rectangle(x, y, xSize, ySize);//Creates rectangle
 		lastTime = System.currentTimeMillis();
 	}
-	
+
 	public void drawObj(Graphics2D g){
 		Color oldColor = g.getColor();
 		g.setColor(Color.black);
@@ -91,9 +95,13 @@ public class Pipe extends GameObject{
 		}
 	}
 	public void setTime(int time){//Sets the amount of time it takes particles to move
-		increment_time = time;
+		increment_time = Math.abs(time);//No negative time
 	}
 	public void setSpeed(int speed){//Sets how far each particle travels when it moves
-		this.speed = speed;
+		if(positive){
+			this.speed = Math.abs(speed);
+		}else{
+			this.speed = -Math.abs(speed);
+		}
 	}
 }

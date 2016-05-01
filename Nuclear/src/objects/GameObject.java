@@ -87,4 +87,14 @@ public class GameObject {
 	public void update(long deltaTime) {
 		
 	}
+	public GameObject(int x, int y, int xSize, int ySize){
+		this.x=x;
+		this.y=y;
+		this.xSize=xSize;
+		this.ySize=ySize;
+		bounds = new Rectangle(x, y, xSize, ySize);
+	}
+	public GameObject(){
+		
+	}
 }

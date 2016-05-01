@@ -122,27 +122,18 @@ public class Integrator {
 		//Pipes are just for aesthetics, do not include them in physics
 		PipeSystem sys4 = new PipeSystem();//For reactor 4
 		PipeSystem sysM = new PipeSystem();//For the whole plant
-		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10);
-		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10);
-		pipe1.setColor(Color.blue);
-		pipe.setColor(Color.blue);
-		Pipe pipe2 = new Pipe(777, 937, Orientation.VERTICAL, 172, 10);
-		Pipe pipe3 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		Pipe pipe4 = new Pipe(200, 937, Orientation.VERTICAL, 172, 10);
-		Pipe pipe_1 = new Pipe(100, 650, Orientation.VERTICAL, -205, 10);//_1 for second pipe section
-		Pipe pipe_2 = new Pipe(100, 650, Orientation.HORIZONTAL, 620, 10);
-		Pipe pipe_3 = new Pipe(300, 750, Orientation.VERTICAL, 105, 10);
-		Pipe pipe_4 = new Pipe(300, 750, Orientation.HORIZONTAL, -545, 10);
-		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 15);
-		pipe_1.setColor(Color.blue);
-		pipe_2.setColor(Color.blue);
-		pipe_3.setColor(Color.blue);
-		pipe_4.setColor(Color.blue);
+		Pipe pipe = new Pipe(840, 560, Orientation.VERTICAL, 300, 10, Color.blue);
+		Pipe pipe1 = new Pipe(715, 560, Orientation.VERTICAL, -300, 10, Color.blue);
+
+
+		Pipe pipe_1 = new Pipe(100, 650, Orientation.VERTICAL, -205, 10, Color.blue);//_1 for second pipe section
+		Pipe pipe_2 = new Pipe(100, 650, Orientation.HORIZONTAL, 620, 10, Color.blue);
+		Pipe pipe_3 = new Pipe(300, 750, Orientation.VERTICAL, 105, 10, Color.blue);
+		Pipe pipe_4 = new Pipe(300, 750, Orientation.HORIZONTAL, -545, 10, Color.blue);
+		Pipe mainElectric = new Pipe(200, 1100, Orientation.HORIZONTAL, 4700, 15, Color.yellow);
+
 		sys4.addPipe(pipe);
 		sys4.addPipe(pipe1);
-		sys4.addPipe(pipe2);
-		sys4.addPipe(pipe3);
-		sys4.addPipe(pipe4);
 		sys4.addPipe(pipe_1);
 		sys4.addPipe(pipe_2);
 		sys4.addPipe(pipe_3);
@@ -153,26 +144,19 @@ public class Integrator {
 		plant.setPipeSystem(sysM);
 		
 		PipeSystem sys3 = new PipeSystem(); //for reactor 3
-		Pipe pipe5 = new Pipe(1475, 560, Orientation.VERTICAL, 300, 10);
-		Pipe pipe6 = new Pipe(1350, 560, Orientation.VERTICAL, -300, 10);
-		Pipe pipe6_1 = new Pipe(1900, 788, Orientation.VERTICAL, 70, 10);
-		Pipe pipe6_2 = new Pipe(1475, 788, Orientation.HORIZONTAL, 425, 10);
-		Pipe pipe6_3 = new Pipe(2060, 650, Orientation.VERTICAL, -206, 10);
-		Pipe pipe6_4 = new Pipe(1350, 650, Orientation.HORIZONTAL, -710, 10);
-		pipe6.setColor(Color.blue);
-		pipe6_1.setColor(Color.blue);
-		pipe6_2.setColor(Color.blue);
-		pipe6_3.setColor(Color.blue);
-		pipe6_4.setColor(Color.blue);
-		pipe5.setColor(Color.blue);
+		Pipe pipe5 = new Pipe(1475, 560, Orientation.VERTICAL, 300, 10, Color.blue);
+		Pipe pipe6 = new Pipe(1350, 560, Orientation.VERTICAL, -300, 10, Color.blue);
+		Pipe pipe6_1 = new Pipe(1900, 788, Orientation.VERTICAL, 70, 10, Color.blue);
+		Pipe pipe6_2 = new Pipe(1475, 788, Orientation.HORIZONTAL, 425, 10, Color.blue);
+		Pipe pipe6_3 = new Pipe(2060, 650, Orientation.VERTICAL, -206, 10, Color.blue);
+		Pipe pipe6_4 = new Pipe(1350, 650, Orientation.HORIZONTAL, -710, 10, Color.blue);
+
 		//steam pipes
-		Pipe pipe7 = new Pipe(1455, 937, Orientation.VERTICAL, 172, 10);
-		Pipe pipe8 = new Pipe(1975, 937, Orientation.VERTICAL, 172, 10);
-		
+
 		sys3.addPipe(pipe5);
 		sys3.addPipe(pipe6);
-		sys3.addPipe(pipe7);
-		sys3.addPipe(pipe8);
+
+
 		sys3.addPipe(pipe6_1);
 		sys3.addPipe(pipe6_2);
 		sys3.addPipe(pipe6_3);
@@ -181,32 +165,23 @@ public class Integrator {
 		
 		PipeSystem sys2 = new PipeSystem(); //for reactor 2
 		//water pipes
-		Pipe pipe9 = new Pipe(2980, 545, Orientation.VERTICAL, 160, 10);
-		Pipe pipe10 = new Pipe(2980, 705, Orientation.HORIZONTAL, 233, 10);
-		Pipe pipe11 = new Pipe(3213, 705, Orientation.VERTICAL, 145, 10);
-		pipe9.setColor(Color.blue);
-		pipe10.setColor(Color.blue);
-		pipe11.setColor(Color.blue);
-		
-		Pipe pipe12 = new Pipe(2880, 545, Orientation.VERTICAL, -200, 10);
-		Pipe pipe13 = new Pipe(2880, 745, Orientation.HORIZONTAL, -236, 10);
-		Pipe pipe14 = new Pipe(3112, 745, Orientation.VERTICAL, -105, 10);
-		pipe12.setColor(Color.blue);
-		pipe13.setColor(Color.blue);
-		pipe14.setColor(Color.blue);
+		Pipe pipe9 = new Pipe(2980, 545, Orientation.VERTICAL, 160, 10, Color.blue);
+		Pipe pipe10 = new Pipe(2980, 705, Orientation.HORIZONTAL, 233, 10, Color.blue);
+		Pipe pipe11 = new Pipe(3213, 705, Orientation.VERTICAL, 145, 10, Color.blue);
+
+		Pipe pipe12 = new Pipe(2880, 545, Orientation.VERTICAL, -200, 10, Color.blue);
+		Pipe pipe13 = new Pipe(2880, 745, Orientation.HORIZONTAL, -236, 10, Color.blue);
+		Pipe pipe14 = new Pipe(3112, 745, Orientation.VERTICAL, -105, 10, Color.blue);
+
 		
 		//steam pipes
-		Pipe pipe15 = new Pipe(2573, 930, Orientation.VERTICAL, 172, 10);
-		Pipe pipe16 = new Pipe(3163, 930, Orientation.VERTICAL, 172, 10);
-		Pipe pipe24_1 = new Pipe(2500, 705, Orientation.VERTICAL, 147, 10);
-		Pipe pipe24_2 = new Pipe(2500, 705, Orientation.HORIZONTAL, -700, 10);
-		Pipe pipe24_3 = new Pipe(2650, 745, Orientation.VERTICAL, -105, 10);
-		Pipe pipe24_4 = new Pipe(2650, 745, Orientation.HORIZONTAL, 230, 10);
+
+
+		Pipe pipe24_1 = new Pipe(2500, 705, Orientation.VERTICAL, 147, 10, Color.blue);
+		Pipe pipe24_2 = new Pipe(2500, 705, Orientation.HORIZONTAL, -700, 10, Color.blue);
+		Pipe pipe24_3 = new Pipe(2650, 745, Orientation.VERTICAL, -105, 10, Color.blue);
+		Pipe pipe24_4 = new Pipe(2650, 745, Orientation.HORIZONTAL, 230, 10, Color.blue);
 		
-		pipe24_1.setColor(Color.blue);
-		pipe24_2.setColor(Color.blue);
-		pipe24_3.setColor(Color.blue);
-		pipe24_4.setColor(Color.blue);
 		
 		sys2.addPipe(pipe24_1);
 		sys2.addPipe(pipe24_2);
@@ -218,33 +193,26 @@ public class Integrator {
 		sys2.addPipe(pipe12);
 		sys2.addPipe(pipe13);
 		sys2.addPipe(pipe14);
-		sys2.addPipe(pipe15);
-		sys2.addPipe(pipe16);
+
 		reactor2.setPipeSystem(sys2);
 		
 		PipeSystem sys1 = new PipeSystem(); //for reactor 1
 		//water pipes
-		Pipe pipe17 = new Pipe(4075, 545, Orientation.VERTICAL, 200, 10);
-		Pipe pipe18 = new Pipe(3877, 745, Orientation.HORIZONTAL, -208, 10);
-		Pipe pipe19 = new Pipe(3877, 745, Orientation.VERTICAL, 105, 10);
-		pipe17.setColor(Color.blue);
-		pipe18.setColor(Color.blue);
-		pipe19.setColor(Color.blue);
+		Pipe pipe17 = new Pipe(4075, 545, Orientation.VERTICAL, 200, 10, Color.blue);
+		Pipe pipe18 = new Pipe(3877, 745, Orientation.HORIZONTAL, -208, 10, Color.blue);
+		Pipe pipe19 = new Pipe(3877, 745, Orientation.VERTICAL, 105, 10, Color.blue);
+
 		
-		Pipe pipe20 = new Pipe(3985, 545, Orientation.VERTICAL, -160, 10);
-		Pipe pipe21 = new Pipe(3774, 705, Orientation.HORIZONTAL, 211, 10);
-		Pipe pipe22 = new Pipe(3774, 705, Orientation.VERTICAL, -145, 10);
-		pipe20.setColor(Color.blue);
-		pipe21.setColor(Color.blue);
-		pipe22.setColor(Color.blue);
+		Pipe pipe20 = new Pipe(3985, 545, Orientation.VERTICAL, -160, 10, Color.blue);
+		Pipe pipe21 = new Pipe(3774, 705, Orientation.HORIZONTAL, 211, 10, Color.blue);
+		Pipe pipe22 = new Pipe(3774, 705, Orientation.VERTICAL, -145, 10, Color.blue);
+
 		
 		//steam pipes
-		Pipe pipe23 = new Pipe(3830, 930, Orientation.VERTICAL, 172, 10);
-		Pipe pipe24 = new Pipe(4415, 930, Orientation.VERTICAL, 172, 10);
-		Pipe pipe25_1 = new Pipe(4350, 745, Orientation.VERTICAL, 105, 10);
-		Pipe pipe25_2 = new Pipe(3975, 745, Orientation.HORIZONTAL, 380, 10);
-		Pipe pipe25_3 = new Pipe(4500, 705, Orientation.VERTICAL, -145, 10);
-		Pipe pipe25_4 = new Pipe(3774, 705, Orientation.HORIZONTAL, -730, 10);
+		Pipe pipe25_1 = new Pipe(4350, 745, Orientation.VERTICAL, 105, 10, Color.blue);
+		Pipe pipe25_2 = new Pipe(3975, 745, Orientation.HORIZONTAL, 380, 10, Color.blue);
+		Pipe pipe25_3 = new Pipe(4500, 705, Orientation.VERTICAL, -145, 10, Color.blue);
+		Pipe pipe25_4 = new Pipe(3774, 705, Orientation.HORIZONTAL, -730, 10, Color.blue);
 		
 		pipe25_1.setColor(Color.blue);
 		pipe25_2.setColor(Color.blue);
@@ -262,70 +230,84 @@ public class Integrator {
 		sys1.addPipe(pipe20);
 		sys1.addPipe(pipe21);
 		sys1.addPipe(pipe22);
-		sys1.addPipe(pipe23);
-		sys1.addPipe(pipe24);
 		reactor1.setPipeSystem(sys1);
 		
 		//PIPES ABOVE
 		//Turbines below
 		//reactor 4 turbines
-		TurbineSystem tSys4 = new TurbineSystem();
+		TurbineSystem tSys4 = new TurbineSystem(65, 855, 258, 73);
 		tSys4.addTurbine(new Turbine(74, 864, 39, 57));
 		tSys4.addTurbine(new Turbine(122, 864, 48, 57));
 		tSys4.addTurbine(new Turbine(178, 869, 35, 48));
 		tSys4.addTurbine(new Turbine(219, 864, 48, 57));
 		tSys4.addTurbine(new Turbine(275, 864, 45, 57));
+		tSys4.setPipe(new Pipe(200, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		tSys4.addTurbine(new Turbine(660, 869, 39, 57));
-		tSys4.addTurbine(new Turbine(708, 869, 48, 57));
-		tSys4.addTurbine(new Turbine(764, 874, 35, 48));
-		tSys4.addTurbine(new Turbine(807, 869, 48, 57));
-		tSys4.addTurbine(new Turbine(861, 869, 45, 57));
+		TurbineSystem tSys4_1 = new TurbineSystem(653, 861, 260, 71);
+		tSys4_1.addTurbine(new Turbine(660, 869, 39, 57));
+		tSys4_1.addTurbine(new Turbine(708, 869, 48, 57));
+		tSys4_1.addTurbine(new Turbine(764, 874, 35, 48));
+		tSys4_1.addTurbine(new Turbine(807, 869, 48, 57));
+		tSys4_1.addTurbine(new Turbine(861, 869, 45, 57));
+		tSys4_1.setPipe(new Pipe(777, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
+		reactor4.setTurbineSystem2(tSys4_1);
 		reactor4.setTurbineSystem(tSys4);
 		
 		//reactor 3 turbines
-		TurbineSystem tSys3 = new TurbineSystem();
+		TurbineSystem tSys3 = new TurbineSystem(1323, 860, 371, 72);
 		tSys3.addTurbine(new Turbine(1345, 865, 38, 59));
 		tSys3.addTurbine(new Turbine(1391, 865, 38, 59));
 		tSys3.addTurbine(new Turbine(1445, 870, 31, 48));
 		tSys3.addTurbine(new Turbine(1486, 865, 38, 59));
 		tSys3.addTurbine(new Turbine(1535, 865, 38, 59));
+		tSys3.setPipe(new Pipe(1455, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		tSys3.addTurbine(new Turbine(1867, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(1913, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(1964, 870, 31, 48));
-		tSys3.addTurbine(new Turbine(2007, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(2056, 865, 38, 59));
-		reactor3.setTurbineSystem(tSys3);
+		TurbineSystem tSys3_1 = new TurbineSystem(1845, 860, 371, 68);
+		tSys3_1.addTurbine(new Turbine(1867, 865, 38, 59));
+		tSys3_1.addTurbine(new Turbine(1913, 865, 38, 59));
+		tSys3_1.addTurbine(new Turbine(1964, 870, 31, 48));
+		tSys3_1.addTurbine(new Turbine(2007, 865, 38, 59));
+		tSys3_1.addTurbine(new Turbine(2056, 865, 38, 59));
+		tSys3_1.setPipe(new Pipe(1975, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
+		reactor3.setTurbineSystem(tSys3_1);
+		reactor3.setTurbineSystem2(tSys3);
 		
 		//reactor 2 turbines
-		TurbineSystem tSys2 = new TurbineSystem();
+		TurbineSystem tSys2 = new TurbineSystem(2451, 852, 397, 75);
 		tSys2.addTurbine(new Turbine(2459, 860, 39, 57));
 		tSys2.addTurbine(new Turbine(2459+48, 860, 48, 57));
 		tSys2.addTurbine(new Turbine(2459+104, 865, 35, 48));
 		tSys2.addTurbine(new Turbine(2459+145, 860, 48, 57));
 		tSys2.addTurbine(new Turbine(2459+201, 860, 45, 57));
+		tSys2.setPipe(new Pipe(2573, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		tSys2.addTurbine(new Turbine(3049, 860, 39, 57));
-		tSys2.addTurbine(new Turbine(3049+48, 860, 48, 57));
-		tSys2.addTurbine(new Turbine(3049+104, 865, 35, 48));
-		tSys2.addTurbine(new Turbine(3049+145, 860, 48, 57));
-		tSys2.addTurbine(new Turbine(3049+201, 860, 45, 57));
+		TurbineSystem tSys2_1 = new TurbineSystem(3040, 851, 447, 75);
+		tSys2_1.addTurbine(new Turbine(3049, 860, 39, 57));
+		tSys2_1.addTurbine(new Turbine(3049+48, 860, 48, 57));
+		tSys2_1.addTurbine(new Turbine(3049+104, 865, 35, 48));
+		tSys2_1.addTurbine(new Turbine(3049+145, 860, 48, 57));
+		tSys2_1.addTurbine(new Turbine(3049+201, 860, 45, 57));
+		tSys2_1.setPipe(new Pipe(3163, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
+		reactor2.setTurbineSystem2(tSys2_1);
 		reactor2.setTurbineSystem(tSys2);
 		
 		//reactor 1 turbines
-		TurbineSystem tSys1 = new TurbineSystem();
+		//TODO
+		TurbineSystem tSys1 = new TurbineSystem(3706, 851, 393, 75);
 		tSys1.addTurbine(new Turbine(3714, 860, 39, 57));
 		tSys1.addTurbine(new Turbine(3714+48, 860, 48, 57));
 		tSys1.addTurbine(new Turbine(3714+104, 865, 35, 48));
 		tSys1.addTurbine(new Turbine(3714+145, 860, 48, 57));
 		tSys1.addTurbine(new Turbine(3714+201, 860, 45, 57));
-		
-		tSys1.addTurbine(new Turbine(4298, 860, 39, 57));
-		tSys1.addTurbine(new Turbine(4298+48, 860, 48, 57));
-		tSys1.addTurbine(new Turbine(4298+104, 865, 35, 48));
-		tSys1.addTurbine(new Turbine(4298+145, 860, 48, 57));
-		tSys1.addTurbine(new Turbine(4298+201, 860, 45, 57));
+		tSys1.setPipe(new Pipe(3830, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
+		TurbineSystem tSys1_1 = new TurbineSystem(4291, 851, 393, 75);
+		tSys1_1.addTurbine(new Turbine(4298, 860, 39, 57));
+		tSys1_1.addTurbine(new Turbine(4298+48, 860, 48, 57));
+		tSys1_1.addTurbine(new Turbine(4298+104, 865, 35, 48));
+		tSys1_1.addTurbine(new Turbine(4298+145, 860, 48, 57));
+		tSys1_1.addTurbine(new Turbine(4298+201, 860, 45, 57));
+		tSys1_1.setPipe(new Pipe(4415, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
+		reactor1.setTurbineSystem2(tSys1_1);
 		reactor1.setTurbineSystem(tSys1);
 		//Turbines above
 		if(level != 1){

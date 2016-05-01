@@ -3,7 +3,6 @@ package objects;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
@@ -18,6 +17,7 @@ import logic.Integrator;
 public class Reactor extends GameObject {
 	private PipeSystem pSys = null;//This is for the components that need to be controlled by the reactor
 	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
+	private TurbineSystem tSys2 = null;//2 turbines per reactor
 	private boolean clicked = false;
 	private boolean error = false;
 	private String name;
@@ -29,7 +29,7 @@ public class Reactor extends GameObject {
 	private Color reactorOutline = Color.cyan;
 	UIText currentTemp = new UIText(10, Integrator.y-90, 300, 65);//renamed from warning to currentTemp, warning is for the warning messages
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
-	UIText pressure = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
+	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
 	UISlider rods = new UISlider(currentTemp.getX(), currentTemp.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
@@ -40,15 +40,11 @@ public class Reactor extends GameObject {
 	}
 	
 	public Reactor(int xPos, int yPos, int xSize, int ySize, String name) {
+		super(xPos, yPos, xSize, ySize);
+		this.name = name;
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
 		}
-		this.x = xPos;
-		this.y = yPos;
-		this.xSize = xSize;
-		this.ySize = ySize;
-		this.name = name;
-		bounds = new Rectangle(x, y, xSize, ySize);
 		drawControls(g, controlRod);
 	}
 	
@@ -72,10 +68,10 @@ public class Reactor extends GameObject {
 		rodDepth.setTextDisplacement(10, 45);
 		ui.add(rodDepth);//UI is a class array for ui of things
 		
-		pressure.setText("Pressure (kPa): "+roundDouble(steamOutput()));
-		pressure.setFontSize(30);
-		pressure.setTextDisplacement(10, 45);
-		ui.add(pressure);
+		pressureText.setText("Pressure (kPa): ");
+		pressureText.setFontSize(30);
+		pressureText.setTextDisplacement(10, 45);
+		ui.add(pressureText);
 		
 		rods.setText("Control rods");
 		ui.add(rods);
@@ -103,7 +99,7 @@ public class Reactor extends GameObject {
 	public void updateControls(long deltaTime) {
 		currentTemp.setText(reactorTemp());
 		rodDepth.setText("Control Rod Depth: "+roundDouble(controlRod*100)+"%");
-		pressure.setText("Pressure (kPa): "+roundDouble(steamOutput()));
+		pressureText.setText("Pressure (kPa): "+roundDouble(steamOutput(deltaTime)));
 		
 		warning.setText(reactorErrorMessage());
 		//alternating flashing red and black text every second
@@ -166,21 +162,48 @@ public class Reactor extends GameObject {
 	public void update(long deltaTime) {
 		controlRod=rods.getPercentage();
 		updateControls(deltaTime);
-		
+		pSys.setSpeed(0);
+		tSys.setSpeed(0);
+		tSys2.setSpeed(0);
+		if(steamOutput(deltaTime) > 115){
+			pSys.setSpeed(1);
+			tSys.setSpeed(1);
+			tSys2.setSpeed(1);
+		}
+		if(steamOutput(deltaTime) > 200){
+			pSys.setSpeed(2);
+			tSys.setSpeed(2);
+			tSys2.setSpeed(2);
+		}
+		if(steamOutput(deltaTime) > 225){
+			pSys.setSpeed(3);
+			tSys.setSpeed(3);
+			tSys2.setSpeed(3);
+		}
+		if(steamOutput(deltaTime) > 300){
+			pSys.setSpeed(4);
+			tSys.setSpeed(4);
+			tSys2.setSpeed(4);
+		}
+		if(steamOutput(deltaTime) > 350){
+			pSys.setSpeed(5);
+			tSys.setSpeed(5);
+			tSys2.setSpeed(5);
+		}
 	}
-	public double steamOutput() {
+	public double steamOutput(long deltaTime) {
 		//the pressure is proportional to the amount of water boiled which is proportional to the temperature, but it must first be boiled off, which takes time ie. 
 		//if the temperature drops then the pressure should drop
 		
 		//water must be at 100C to evaporate
 		if (temperature >= 100) {
-			steamkPa+=temperature*0.0001; //temperature to water evaporated coefficient
+			steamkPa+=temperature*0.00001*deltaTime; //temperature to water evaporated coefficient
 		}
 		//if it is less than 100C, water will condense and the pressure will go down
 		else {
 			//100-temp because the further the temperature form 100, the greater the decrease in pressure
 			//ie. 25C is below 75C below 100C
-			steamkPa-=(100-temperature)*0.001;
+			steamkPa-=(100-temperature)*0.00001*deltaTime;
 		}
 		
 		if (steamkPa <= 101.3) {
@@ -245,10 +268,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public int powerGeneration() {
-		double tempPressure = steamOutput();
-		
-		double megaWatts = (0.002*(tempPressure*tempPressure)-21);
-		
+		double megaWatts = ((tSys.getSpeed()+tSys2.getSpeed())*0.0004*(steamkPa*steamkPa));
 		return (int)megaWatts;
 	}
 	
@@ -263,7 +283,11 @@ public class Reactor extends GameObject {
 		tSys = s;
 		objects.add(tSys);
 	}
-	
+	public void setTurbineSystem2(TurbineSystem s){
+		objects.remove(tSys2);//Removes old one
+		tSys2 = s;
+		objects.add(tSys2);
+	}
 	public boolean getActive(){
 		return clicked;
 	}
