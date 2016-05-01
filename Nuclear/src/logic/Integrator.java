@@ -198,7 +198,20 @@ public class Integrator {
 		//steam pipes
 		Pipe pipe15 = new Pipe(2573, 930, Orientation.VERTICAL, 172, 10);
 		Pipe pipe16 = new Pipe(3163, 930, Orientation.VERTICAL, 172, 10);
+		Pipe pipe24_1 = new Pipe(2500, 705, Orientation.VERTICAL, 147, 10);
+		Pipe pipe24_2 = new Pipe(2500, 705, Orientation.HORIZONTAL, -700, 10);
+		Pipe pipe24_3 = new Pipe(2650, 745, Orientation.VERTICAL, -105, 10);
+		Pipe pipe24_4 = new Pipe(2650, 745, Orientation.HORIZONTAL, 230, 10);
 		
+		pipe24_1.setColor(Color.blue);
+		pipe24_2.setColor(Color.blue);
+		pipe24_3.setColor(Color.blue);
+		pipe24_4.setColor(Color.blue);
+		
+		sys2.addPipe(pipe24_1);
+		sys2.addPipe(pipe24_2);
+		sys2.addPipe(pipe24_3);
+		sys2.addPipe(pipe24_4);
 		sys2.addPipe(pipe9);
 		sys2.addPipe(pipe10);
 		sys2.addPipe(pipe11);
@@ -218,7 +231,7 @@ public class Integrator {
 		pipe18.setColor(Color.blue);
 		pipe19.setColor(Color.blue);
 		
-		Pipe pipe20 = new Pipe(3975, 545, Orientation.VERTICAL, -160, 10);
+		Pipe pipe20 = new Pipe(3985, 545, Orientation.VERTICAL, -160, 10);
 		Pipe pipe21 = new Pipe(3774, 705, Orientation.HORIZONTAL, 211, 10);
 		Pipe pipe22 = new Pipe(3774, 705, Orientation.VERTICAL, -145, 10);
 		pipe20.setColor(Color.blue);
@@ -228,15 +241,29 @@ public class Integrator {
 		//steam pipes
 		Pipe pipe23 = new Pipe(3830, 930, Orientation.VERTICAL, 172, 10);
 		Pipe pipe24 = new Pipe(4415, 930, Orientation.VERTICAL, 172, 10);
+		Pipe pipe25_1 = new Pipe(4350, 745, Orientation.VERTICAL, 105, 10);
+		Pipe pipe25_2 = new Pipe(3975, 745, Orientation.HORIZONTAL, 380, 10);
+		Pipe pipe25_3 = new Pipe(4500, 705, Orientation.VERTICAL, -145, 10);
+		Pipe pipe25_4 = new Pipe(3774, 705, Orientation.HORIZONTAL, -730, 10);
 		
-		sys2.addPipe(pipe17);
-		sys2.addPipe(pipe18);
-		sys2.addPipe(pipe19);
-		sys2.addPipe(pipe20);
-		sys2.addPipe(pipe21);
-		sys2.addPipe(pipe22);
-		sys2.addPipe(pipe23);
-		sys2.addPipe(pipe24);
+		pipe25_1.setColor(Color.blue);
+		pipe25_2.setColor(Color.blue);
+		pipe25_3.setColor(Color.blue);
+		pipe25_4.setColor(Color.blue);
+		
+		sys1.addPipe(pipe25_1);
+		sys1.addPipe(pipe25_2);
+		sys1.addPipe(pipe25_3);
+		sys1.addPipe(pipe25_4);
+		sys1.addPipe(pipe17);
+		sys1.addPipe(pipe17);
+		sys1.addPipe(pipe18);
+		sys1.addPipe(pipe19);
+		sys1.addPipe(pipe20);
+		sys1.addPipe(pipe21);
+		sys1.addPipe(pipe22);
+		sys1.addPipe(pipe23);
+		sys1.addPipe(pipe24);
 		reactor1.setPipeSystem(sys1);
 		
 		//PIPES ABOVE
