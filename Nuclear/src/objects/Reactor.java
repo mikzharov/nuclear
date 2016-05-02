@@ -226,6 +226,7 @@ public class Reactor extends GameObject {
 			lifeColor = Color.black;
 			reactorOutline = Color.black;
 			dead=true;
+			Integrator.justDied=true;
 		}
 	}
 	public double steamOutput(long deltaTime) {
@@ -325,12 +326,23 @@ public class Reactor extends GameObject {
 		tSys = s;
 		objects.add(tSys);
 	}
+	
 	public void setTurbineSystem2(TurbineSystem s){
 		objects.remove(tSys2);//Removes old one
 		tSys2 = s;
 		objects.add(tSys2);
 	}
+	
 	public boolean getActive(){
 		return clicked;
+	}
+	
+	public boolean isDead() {
+		if (dead) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

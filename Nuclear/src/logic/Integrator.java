@@ -50,6 +50,9 @@ public class Integrator {
 	private Graphics2D g;//This object will be used to draw
 	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
 	private static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
+	public static boolean justDied = false; //check if a reactor just died, to check how many are left without checking every time one dies
+	public static boolean gameover = false;
+	
 	private boolean active(){
 		for(UIComponent temp:ui){
 			if(temp.getActive())
@@ -100,10 +103,13 @@ public class Integrator {
 		running = true;
 		//Making level below
 		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
+		//declaring the reactors
 		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
 		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "3");
 		Reactor reactor2 = new Reactor(2850, 195, 170, 350, "2");
 		Reactor reactor1 = new Reactor(3945, 195, 170, 350, "1");
+		
+		//add control rods to the reactors
 		reactor4.addObj(new ControlRodBundle(736, 357, 90));
 		reactor3.addObj(new ControlRodBundle(1378, 357, 90));
 		reactor2.addObj(new ControlRodBundle(2890, 418, 90));
@@ -485,7 +491,17 @@ public class Integrator {
 			g.setTransform(old);
 			if(!paused)
 				powerDisplay.updatePower(reactor1.powerGeneration(), reactor2.powerGeneration(), reactor3.powerGeneration(), reactor4.powerGeneration());
-			if(paused){
+			
+			if (justDied) { //only check after one dies, reduces processing
+				if (reactor1.isDead() && reactor2.isDead() && reactor3.isDead() && reactor4.isDead()) { //check if all reactors are dead
+					paused=true;
+					gameover=true;
+				}
+				else {
+					justDied=false;
+				}
+			}
+			if(paused && !gameover){
 				pauseText.setVisible(true);
 				quitButton.setVisible(true);
 				mainButton.setVisible(true);
@@ -690,6 +706,6 @@ public class Integrator {
 	public static void setLevel(int lvl) {
 		//level = lvl;
 		level = 2; //for testing
-		//TODO change value from testing
+		//
 	}
 }

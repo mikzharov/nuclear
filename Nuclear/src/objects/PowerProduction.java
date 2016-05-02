@@ -16,7 +16,7 @@ public class PowerProduction extends GameObject {
 	UIText power4;
 	UIText totalPower;
 	long lastPower;
-	public int powerProduced = 0;
+	public static int powerProduced = 0;
 	
 	public PowerProduction(int x, int y) {
 		power1 = new UIText(x, y, 240, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
@@ -60,10 +60,24 @@ public class PowerProduction extends GameObject {
 	}
 	
 	public void updatePower(int reactor1, int reactor2, int reactor3, int reactor4) {
-		power1.setText(reactor4+" kW/s");
-		power2.setText(reactor3+" kW/s");
-		power3.setText(reactor2+" kW/s");
-		power4.setText(reactor1+" kW/s");
+		//if power supply is over 1,000,000 kW, express in MW
+		if (reactor4 > 1000000)
+			power1.setText((reactor4/1000)+" MW/s");
+		else
+			power1.setText(reactor4+" kW/s");
+		if (reactor3 > 1000000)
+			power2.setText((reactor3/1000)+" MW/s");
+		else
+			power2.setText(reactor3+" kW/s");
+		if (reactor2 > 1000000)
+			power3.setText((reactor2/1000)+" MW/s");
+		else
+			power3.setText(reactor2+" kW/s");
+		if (reactor1 > 1000000)
+			power4.setText((reactor1/1000)+" MW/s");
+		else
+			power4.setText(reactor1+" kW/s");
+		
 		//every second the total power produced adds all the kiloWattseconds of the four reactors, giving the total power
 		if (lastPower + 1000 < System.currentTimeMillis()) {
 			powerProduced+=reactor4+reactor3+reactor2+reactor1;
