@@ -67,7 +67,12 @@ public class PowerProduction extends GameObject {
 		//every second the total power produced adds all the kiloWattseconds of the four reactors, giving the total power
 		if (lastPower + 1000 < System.currentTimeMillis()) {
 			powerProduced+=reactor4+reactor3+reactor2+reactor1;
-			totalPower.setText(powerProduced+" kW");
+			if (powerProduced > 1000000) { //so the text doesn't move outside of the box
+				totalPower.setText((powerProduced/1000)+" MW");
+			}
+			else {
+				totalPower.setText(powerProduced+" kW");
+			}
 			lastPower = System.currentTimeMillis();
 		}
 	}

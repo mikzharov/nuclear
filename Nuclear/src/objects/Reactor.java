@@ -2,6 +2,7 @@ package objects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -27,6 +28,11 @@ public class Reactor extends GameObject {
 	private Graphics2D g;
 	public double controlRod = 1.0;
 	private Color reactorOutline = Color.cyan;
+	private Color lifeColor = Color.green;
+	private Font reactorFont = new Font("Impact", Font.PLAIN, 80);
+	private Stroke lifeStroke = new BasicStroke(5);
+	private double reactorLife = 100.0;
+	private boolean dead = false;
 	UIText currentTemp = new UIText(10, Integrator.y-90, 300, 65);//renamed from warning to currentTemp, warning is for the warning messages
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
 	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
@@ -34,7 +40,7 @@ public class Reactor extends GameObject {
 	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
 	UIButton neutronPoison = new UIButton(emergencyCooling.getX()+emergencyCooling.getWidth()+15, rods.getY(), 170, 35);
-	
+		
 	public double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
 	}
@@ -53,8 +59,19 @@ public class Reactor extends GameObject {
 		float thickness = 5.0f;
 		Stroke oldStroke = g.getStroke();
 		g.setStroke(new BasicStroke(thickness));
-		g.drawRect(x+Integrator.intLastXOffset, y+Integrator.intLastYOffset, xSize, ySize);
+		g.drawRect(x+Integrator.intLastXOffset, y+Integrator.intLastYOffset, xSize, ySize);		
 		g.setStroke(oldStroke);
+		
+		g.setColor(Color.white);
+		g.fillRect(x+Integrator.intLastXOffset-xSize-80, y+ySize/2+Integrator.intLastYOffset-100, 170+50, 150);
+		
+		g.setColor(Color.gray);
+		g.setStroke(lifeStroke);
+		g.drawRect(x+Integrator.intLastXOffset-xSize-80, y+ySize/2+Integrator.intLastYOffset-100, 170+50, 150);
+		
+		g.setColor(lifeColor);
+		g.setFont(reactorFont);
+		g.drawString(String.valueOf(roundDouble(reactorLife)), x+Integrator.intLastXOffset-xSize-55, y+ySize/2+Integrator.intLastYOffset+10);
 	}
 	
 	public void drawControls(Graphics2D g, double controlRod) {//Call this once to add them to the rendering list
@@ -190,6 +207,26 @@ public class Reactor extends GameObject {
 			tSys.setSpeed(5);
 			tSys2.setSpeed(5);
 		}
+		
+		if (error) {
+			if (reactorLife > 0)
+				reactorLife-=0.01;
+		}
+		
+		if(reactorLife < 75 && reactorLife >= 50) {
+			lifeColor = Color.yellow;
+		}
+		if(reactorLife < 50 && reactorLife >= 25) {
+			lifeColor = Color.orange;
+		}
+		if(reactorLife < 25 && reactorLife > 0.1) {
+			lifeColor = Color.red;
+		}
+		if(reactorLife < 0.1) {
+			lifeColor = Color.black;
+			reactorOutline = Color.black;
+			dead=true;
+		}
 	}
 	public double steamOutput(long deltaTime) {
 		//the pressure is proportional to the amount of water boiled which is proportional to the temperature, but it must first be boiled off, which takes time ie. 
@@ -210,6 +247,10 @@ public class Reactor extends GameObject {
 			steamkPa=101.3; //cannot be less than atmospheric pressure
 		}
 		
+		if(dead) {
+			steamkPa = 101.3;
+		}
+		
 		return steamkPa;
 	}
 	
@@ -228,6 +269,7 @@ public class Reactor extends GameObject {
 		if (temperature <= 25.0) {
 			temperature=25.0;
 		}
+		
 		return name+": "+roundDouble(temperature)+" C";
 	}
 	
