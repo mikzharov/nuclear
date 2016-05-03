@@ -608,7 +608,7 @@ public class Integrator {
 	}
 	public static void setLevel(int lvl) {
 		//level = lvl;
-		level = 1; //for testing
+		level = 2; //for testing
 		//
 	}
 }
