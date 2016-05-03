@@ -128,7 +128,7 @@ public class UISlider extends UIComponent{
 	public float getPercentage(){
 		return percentage;
 	}
-	public void setPercantage(float per){
+	public void setPercentage(float per){
 		if(per >=0 || per <=1){
 			percentage = per;
 		}

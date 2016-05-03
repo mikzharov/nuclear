@@ -11,7 +11,7 @@ import logic.Integrator;
 
 public class Plant extends GameObject{
 	private PipeSystem sys = null;
-	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
+	private Turbine tSys = null;//This is for the components that need to be controlled by the reactor
 	BufferedImage floorPlans = null;
 	public Plant(String path){
 		try {
@@ -47,7 +47,7 @@ public class Plant extends GameObject{
 		sys = s;
 		objects.add(sys);
 	}
-	public void setTurbineSystem(TurbineSystem s){
+	public void setTurbineSystem(Turbine s){
 		objects.remove(tSys);//Removes old one
 		tSys = s;
 		objects.add(tSys);

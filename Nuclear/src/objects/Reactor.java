@@ -4,11 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-
 import graphics.UIButton;
 import graphics.UIComponent;
 import graphics.UISlider;
@@ -17,9 +13,9 @@ import logic.Integrator;
 
 public class Reactor extends GameObject {
 	private PipeSystem pSys = null;//This is for the components that need to be controlled by the reactor
-	private TurbineSystem tSys = null;//This is for the components that need to be controlled by the reactor
-	private TurbineSystem tSys2 = null;//2 turbines per reactor
-	private boolean clicked = false;
+	private Turbine t = null;//This is for the components that need to be controlled by the reactor
+	private Turbine t2 = null;//2 turbines per reactor
+	private PumpSystem pump = null;
 	private boolean error = false;
 	private String name;
 	private double temperature = 25.0;
@@ -75,7 +71,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public void drawControls(Graphics2D g, double controlRod) {//Call this once to add them to the rendering list
-		currentTemp.setText(reactorTemp()); //Update the text somewhere else
+		currentTemp.setText(""); //Update the text somewhere else
 		currentTemp.setFontSize(30);
 		currentTemp.setTextDisplacement(10, 45);
 		ui.add(currentTemp);
@@ -114,7 +110,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public void updateControls(long deltaTime) {
-		currentTemp.setText(reactorTemp());
+		currentTemp.setText(reactorTemp(deltaTime));
 		rodDepth.setText("Control Rod Depth: "+roundDouble(controlRod*100)+"%");
 		pressureText.setText("Pressure (kPa): "+roundDouble(steamOutput(deltaTime)));
 		
@@ -153,35 +149,6 @@ public class Reactor extends GameObject {
 		}
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		//Do not do physics in mouseClicked, do it in update
-		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
-		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
-		g.translate(Integrator.x/2.0, Integrator.y/2.0);
-		g.scale(Integrator.scale, Integrator.scale);
-		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
-		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
-			//Hit
-			clicked=true;
-			for(UIComponent comp: ui){
-				comp.setVisible(true);
-			}
-		} else {
-			boolean uiClicked=false;
-			for(UIComponent utemp: ui){
-				if(utemp.getBounds().contains(e.getPoint())){
-					uiClicked = true;
-				}
-			}
-			if(!uiClicked){
-				clicked=false;
-				for(UIComponent comp: ui){
-					comp.setVisible(false);
-				}
-			}
-		}
-	}
 	public void update(long deltaTime) {
 		if(!rods.disabled){
 			controlRod=rods.getPercentage();
@@ -191,32 +158,32 @@ public class Reactor extends GameObject {
 		
 		updateControls(deltaTime);
 		pSys.setSpeed(0);
-		tSys.setSpeed(0);
-		tSys2.setSpeed(0);
+		t.setSpeed(0);
+		t2.setSpeed(0);
 		if(steamOutput(deltaTime) > 115){
 			pSys.setSpeed(1);
-			tSys.setSpeed(1);
-			tSys2.setSpeed(1);
+			t.setSpeed(1);
+			t2.setSpeed(1);
 		}
 		if(steamOutput(deltaTime) > 200){
 			pSys.setSpeed(2);
-			tSys.setSpeed(2);
-			tSys2.setSpeed(2);
+			t.setSpeed(2);
+			t2.setSpeed(2);
 		}
 		if(steamOutput(deltaTime) > 225){
 			pSys.setSpeed(3);
-			tSys.setSpeed(3);
-			tSys2.setSpeed(3);
+			t.setSpeed(3);
+			t2.setSpeed(3);
 		}
 		if(steamOutput(deltaTime) > 300){
 			pSys.setSpeed(4);
-			tSys.setSpeed(4);
-			tSys2.setSpeed(4);
+			t.setSpeed(4);
+			t2.setSpeed(4);
 		}
 		if(steamOutput(deltaTime) > 350){
 			pSys.setSpeed(5);
-			tSys.setSpeed(5);
-			tSys2.setSpeed(5);
+			t.setSpeed(5);
+			t2.setSpeed(5);
 		}
 		
 		if (error) {
@@ -225,7 +192,7 @@ public class Reactor extends GameObject {
 			if(temperature>600){//The maximum temp of a fuel rod in an RBMK reactor 600 C, so going beyond that will incur penalties
 				reactorLife-=0.1;
 			}
-			if(steamkPa > 1200){//The containment chamber's maximum pressure is something like 1200
+			if(steamkPa > 6900){//The drum seperators maximum pressure is something like 69 bar, 6900 in kpa
 				reactorLife-=0.1;
 			}
 		}
@@ -254,7 +221,7 @@ public class Reactor extends GameObject {
 		
 		//water must be at 100C to evaporate
 		if (temperature >= 100) {
-			steamkPa+=temperature*0.00001*deltaTime; //temperature to water evaporated coefficient
+			steamkPa+=temperature*0.000005*deltaTime; //temperature to water evaporated coefficient
 		}
 		//if it is less than 100C, water will condense and the pressure will go down
 		else {
@@ -274,15 +241,17 @@ public class Reactor extends GameObject {
 		return steamkPa;
 	}
 	
-	public String reactorTemp() {
+	public String reactorTemp(long deltaTime) {
 		double tempControl = controlRod;
 		
 		//the temperature is inversely proportional to the control rod depth, ie. if the control rods are 100% in then the temperature should drop
 		tempControl=Math.abs(1-tempControl);
 		
 		//if the control rods are 75% in or more the temperature should drop
-		tempControl-=0.25;
-		temperature+=tempControl*0.95-coolingFactor; //set at 0.95 for testing, final should be 0.05 //-coolingFactor;
+		tempControl-=0.017 * deltaTime;
+		float coolant = 0.0f;
+		if(pump!=null)coolant = pump.getCoolingFactor()*deltaTime;
+		temperature+=tempControl*0.063*deltaTime-coolant; //set at 0.95 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
 		if (temperature <= 25.0) {
@@ -309,15 +278,15 @@ public class Reactor extends GameObject {
 		}
 		
 		//pressure bursting
-		if (steamkPa > 800) {
+		if (steamkPa > 6900) {
 			error=true;
 			reactorOutline=Color.red;
 			//radiation leak
-			if (steamkPa > 1000) {
+			if (steamkPa > 7300) {
 				errorMessage+="RADIATION LEAK! ";
 			}
 			else {
-				errorMessage+="PRESSURE OVERLOAD! ";
+				errorMessage+="CRITICAL PRESSURE! ";
 			}
 		}
 		
@@ -329,7 +298,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public int powerGeneration() {
-		double megaWatts = ((tSys.getSpeed()+tSys2.getSpeed())*0.0004*(steamkPa*steamkPa));
+		double megaWatts = ((t.getSpeed()+t2.getSpeed())*0.0004*(steamkPa*steamkPa));
 		return (int)megaWatts;
 	}
 	
@@ -339,16 +308,22 @@ public class Reactor extends GameObject {
 		objects.add(pSys);
 	}
 	
-	public void setTurbineSystem(TurbineSystem s){
-		objects.remove(tSys);//Removes old one
-		tSys = s;
-		objects.add(tSys);
+	public void setTurbine(Turbine s){
+		objects.remove(t);//Removes old one
+		t = s;
+		objects.add(t);
 	}
 	
-	public void setTurbineSystem2(TurbineSystem s){
-		objects.remove(tSys2);//Removes old one
-		tSys2 = s;
-		objects.add(tSys2);
+	public void setTurbine2(Turbine s){
+		objects.remove(t2);//Removes old one
+		t2 = s;
+		objects.add(t2);
+	}
+	
+	public void setPumpSystem(PumpSystem p){
+		objects.remove(p);//Removes old one
+		pump = p;
+		objects.add(p);
 	}
 	
 	public boolean getActive(){

@@ -26,9 +26,11 @@ import objects.Pipe;
 import objects.Pipe.Orientation;
 import objects.Plant;
 import objects.PowerProduction;
+import objects.Pump;
+import objects.PumpSystem;
 import objects.Reactor;
+import objects.TurbineRotor;
 import objects.Turbine;
-import objects.TurbineSystem;
 import objects.UITutorial;
 
 public class Integrator {
@@ -251,80 +253,85 @@ public class Integrator {
 		//PIPES ABOVE
 		//Turbines below
 		//reactor 4 turbines
-		TurbineSystem tSys4 = new TurbineSystem(65, 855, 258, 73);
-		tSys4.addTurbine(new Turbine(74, 864, 39, 57));
-		tSys4.addTurbine(new Turbine(122, 864, 48, 57));
-		tSys4.addTurbine(new Turbine(178, 869, 35, 48));
-		tSys4.addTurbine(new Turbine(219, 864, 48, 57));
-		tSys4.addTurbine(new Turbine(275, 864, 45, 57));
+		Turbine tSys4 = new Turbine(65, 855, 258, 73);
+		tSys4.addTurbine(new TurbineRotor(74, 864, 39, 57));
+		tSys4.addTurbine(new TurbineRotor(122, 864, 48, 57));
+		tSys4.addTurbine(new TurbineRotor(178, 869, 35, 48));
+		tSys4.addTurbine(new TurbineRotor(219, 864, 48, 57));
+		tSys4.addTurbine(new TurbineRotor(275, 864, 45, 57));
 		tSys4.setPipe(new Pipe(200, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		TurbineSystem tSys4_1 = new TurbineSystem(653, 861, 260, 71);
-		tSys4_1.addTurbine(new Turbine(660, 869, 39, 57));
-		tSys4_1.addTurbine(new Turbine(708, 869, 48, 57));
-		tSys4_1.addTurbine(new Turbine(764, 874, 35, 48));
-		tSys4_1.addTurbine(new Turbine(807, 869, 48, 57));
-		tSys4_1.addTurbine(new Turbine(861, 869, 45, 57));
+		Turbine tSys4_1 = new Turbine(653, 861, 260, 71);
+		tSys4_1.addTurbine(new TurbineRotor(660, 869, 39, 57));
+		tSys4_1.addTurbine(new TurbineRotor(708, 869, 48, 57));
+		tSys4_1.addTurbine(new TurbineRotor(764, 874, 35, 48));
+		tSys4_1.addTurbine(new TurbineRotor(807, 869, 48, 57));
+		tSys4_1.addTurbine(new TurbineRotor(861, 869, 45, 57));
 		tSys4_1.setPipe(new Pipe(777, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
-		reactor4.setTurbineSystem2(tSys4_1);
-		reactor4.setTurbineSystem(tSys4);
+		reactor4.setTurbine2(tSys4_1);
+		reactor4.setTurbine(tSys4);
 		
 		//reactor 3 turbines
-		TurbineSystem tSys3 = new TurbineSystem(1323, 860, 371, 72);
-		tSys3.addTurbine(new Turbine(1345, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(1391, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(1445, 870, 31, 48));
-		tSys3.addTurbine(new Turbine(1486, 865, 38, 59));
-		tSys3.addTurbine(new Turbine(1535, 865, 38, 59));
+		Turbine tSys3 = new Turbine(1323, 860, 371, 72);
+		tSys3.addTurbine(new TurbineRotor(1345, 865, 38, 59));
+		tSys3.addTurbine(new TurbineRotor(1391, 865, 38, 59));
+		tSys3.addTurbine(new TurbineRotor(1445, 870, 31, 48));
+		tSys3.addTurbine(new TurbineRotor(1486, 865, 38, 59));
+		tSys3.addTurbine(new TurbineRotor(1535, 865, 38, 59));
 		tSys3.setPipe(new Pipe(1455, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		TurbineSystem tSys3_1 = new TurbineSystem(1845, 860, 371, 68);
-		tSys3_1.addTurbine(new Turbine(1867, 865, 38, 59));
-		tSys3_1.addTurbine(new Turbine(1913, 865, 38, 59));
-		tSys3_1.addTurbine(new Turbine(1964, 870, 31, 48));
-		tSys3_1.addTurbine(new Turbine(2007, 865, 38, 59));
-		tSys3_1.addTurbine(new Turbine(2056, 865, 38, 59));
+		Turbine tSys3_1 = new Turbine(1845, 860, 371, 68);
+		tSys3_1.addTurbine(new TurbineRotor(1867, 865, 38, 59));
+		tSys3_1.addTurbine(new TurbineRotor(1913, 865, 38, 59));
+		tSys3_1.addTurbine(new TurbineRotor(1964, 870, 31, 48));
+		tSys3_1.addTurbine(new TurbineRotor(2007, 865, 38, 59));
+		tSys3_1.addTurbine(new TurbineRotor(2056, 865, 38, 59));
 		tSys3_1.setPipe(new Pipe(1975, 937, Orientation.VERTICAL, 172, 10, Color.yellow));
-		reactor3.setTurbineSystem(tSys3_1);
-		reactor3.setTurbineSystem2(tSys3);
+		reactor3.setTurbine(tSys3_1);
+		reactor3.setTurbine2(tSys3);
 		
 		//reactor 2 turbines
-		TurbineSystem tSys2 = new TurbineSystem(2451, 852, 397, 75);
-		tSys2.addTurbine(new Turbine(2459, 860, 39, 57));
-		tSys2.addTurbine(new Turbine(2459+48, 860, 48, 57));
-		tSys2.addTurbine(new Turbine(2459+104, 865, 35, 48));
-		tSys2.addTurbine(new Turbine(2459+145, 860, 48, 57));
-		tSys2.addTurbine(new Turbine(2459+201, 860, 45, 57));
+		Turbine tSys2 = new Turbine(2451, 852, 397, 75);
+		tSys2.addTurbine(new TurbineRotor(2459, 860, 39, 57));
+		tSys2.addTurbine(new TurbineRotor(2459+48, 860, 48, 57));
+		tSys2.addTurbine(new TurbineRotor(2459+104, 865, 35, 48));
+		tSys2.addTurbine(new TurbineRotor(2459+145, 860, 48, 57));
+		tSys2.addTurbine(new TurbineRotor(2459+201, 860, 45, 57));
 		tSys2.setPipe(new Pipe(2573, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
 		
-		TurbineSystem tSys2_1 = new TurbineSystem(3040, 851, 447, 75);
-		tSys2_1.addTurbine(new Turbine(3049, 860, 39, 57));
-		tSys2_1.addTurbine(new Turbine(3049+48, 860, 48, 57));
-		tSys2_1.addTurbine(new Turbine(3049+104, 865, 35, 48));
-		tSys2_1.addTurbine(new Turbine(3049+145, 860, 48, 57));
-		tSys2_1.addTurbine(new Turbine(3049+201, 860, 45, 57));
+		Turbine tSys2_1 = new Turbine(3040, 851, 447, 75);
+		tSys2_1.addTurbine(new TurbineRotor(3049, 860, 39, 57));
+		tSys2_1.addTurbine(new TurbineRotor(3049+48, 860, 48, 57));
+		tSys2_1.addTurbine(new TurbineRotor(3049+104, 865, 35, 48));
+		tSys2_1.addTurbine(new TurbineRotor(3049+145, 860, 48, 57));
+		tSys2_1.addTurbine(new TurbineRotor(3049+201, 860, 45, 57));
 		tSys2_1.setPipe(new Pipe(3163, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
-		reactor2.setTurbineSystem2(tSys2_1);
-		reactor2.setTurbineSystem(tSys2);
+		reactor2.setTurbine2(tSys2_1);
+		reactor2.setTurbine(tSys2);
 		
 		//reactor 1 turbines
-		TurbineSystem tSys1 = new TurbineSystem(3706, 851, 393, 75);
-		tSys1.addTurbine(new Turbine(3714, 860, 39, 57));
-		tSys1.addTurbine(new Turbine(3714+48, 860, 48, 57));
-		tSys1.addTurbine(new Turbine(3714+104, 865, 35, 48));
-		tSys1.addTurbine(new Turbine(3714+145, 860, 48, 57));
-		tSys1.addTurbine(new Turbine(3714+201, 860, 45, 57));
+		Turbine tSys1 = new Turbine(3706, 851, 393, 75);
+		tSys1.addTurbine(new TurbineRotor(3714, 860, 39, 57));
+		tSys1.addTurbine(new TurbineRotor(3714+48, 860, 48, 57));
+		tSys1.addTurbine(new TurbineRotor(3714+104, 865, 35, 48));
+		tSys1.addTurbine(new TurbineRotor(3714+145, 860, 48, 57));
+		tSys1.addTurbine(new TurbineRotor(3714+201, 860, 45, 57));
 		tSys1.setPipe(new Pipe(3830, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
-		TurbineSystem tSys1_1 = new TurbineSystem(4291, 851, 393, 75);
-		tSys1_1.addTurbine(new Turbine(4298, 860, 39, 57));
-		tSys1_1.addTurbine(new Turbine(4298+48, 860, 48, 57));
-		tSys1_1.addTurbine(new Turbine(4298+104, 865, 35, 48));
-		tSys1_1.addTurbine(new Turbine(4298+145, 860, 48, 57));
-		tSys1_1.addTurbine(new Turbine(4298+201, 860, 45, 57));
+		Turbine tSys1_1 = new Turbine(4291, 851, 393, 75);
+		tSys1_1.addTurbine(new TurbineRotor(4298, 860, 39, 57));
+		tSys1_1.addTurbine(new TurbineRotor(4298+48, 860, 48, 57));
+		tSys1_1.addTurbine(new TurbineRotor(4298+104, 865, 35, 48));
+		tSys1_1.addTurbine(new TurbineRotor(4298+145, 860, 48, 57));
+		tSys1_1.addTurbine(new TurbineRotor(4298+201, 860, 45, 57));
 		tSys1_1.setPipe(new Pipe(4415, 930, Orientation.VERTICAL, 172, 10, Color.yellow));
-		reactor1.setTurbineSystem2(tSys1_1);
-		reactor1.setTurbineSystem(tSys1);
+		reactor1.setTurbine2(tSys1_1);
+		reactor1.setTurbine(tSys1);
 		//Turbines above
+		//Pumps below
+		PumpSystem r4 = new PumpSystem();
+		r4.addPump(new Pump(1368, 207, 40));
+		reactor4.setPumpSystem(r4);
+		//Pumps above
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}

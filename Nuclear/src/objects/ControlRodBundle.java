@@ -2,9 +2,6 @@ package objects;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -61,17 +58,6 @@ public class ControlRodBundle extends GameObject{
 	}
 	public int getImageY(){
 		return ySize + this.y;
-	}
-	public void mouseClicked(MouseEvent e){
-		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
-		AffineTransform g = new AffineTransform();
-		g.translate(Integrator.x/2.0, Integrator.y/2.0);
-		g.scale(Integrator.scale, Integrator.scale);
-		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
-		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
-			//Hit
-		}
 	}
 	public void drawObj(Graphics2D g){
 		g.drawImage(sprite, getX() + (Integrator.intLastXOffset), getY() + Integrator.intLastYOffset, getImageX() + Integrator.intLastXOffset,  getImageY() + Integrator.intLastYOffset, 0, 0, sprite.getWidth(), sprite.getHeight(), null);

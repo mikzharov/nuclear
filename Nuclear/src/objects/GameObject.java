@@ -2,19 +2,21 @@ package objects;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import graphics.UIComponent;
+import logic.Integrator;
 
 public class GameObject {
-	int x = 0;
-	int y = 0;
-	int xSize = 0, ySize = 0;
+	int x = 0, y = 0, xSize = 0, ySize = 0;
 	Rectangle bounds = new Rectangle();
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
+	protected boolean clicked = false;
 	public int getX(){
 		return x;
 	}
@@ -60,8 +62,34 @@ public class GameObject {
 	public void keyPressed(KeyEvent e){
 		
 	}
-	public void mouseClicked(MouseEvent e){
-		
+	public void mouseClicked(MouseEvent e) {
+		//Do not do physics in mouseClicked, do it in update
+		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
+		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
+		g.translate(Integrator.x/2.0, Integrator.y/2.0);
+		g.scale(Integrator.scale, Integrator.scale);
+		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
+		Shape temp = g.createTransformedShape(bounds);
+		if(temp.contains((e.getX()), (e.getY()))){
+			//Hit
+			clicked=true;
+			for(UIComponent comp: ui){
+				comp.setVisible(true);
+			}
+		} else {
+			boolean uiClicked=false;
+			for(UIComponent utemp: ui){
+				if(utemp.getBounds().contains(e.getPoint())){
+					uiClicked = true;
+				}
+			}
+			if(!uiClicked){
+				clicked=false;
+				for(UIComponent comp: ui){
+					comp.setVisible(false);
+				}
+			}
+		}
 	}
 	public void drawObj(Graphics2D g){
 		

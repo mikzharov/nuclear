@@ -1,72 +1,96 @@
 package objects;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
+import java.awt.Stroke;
+import java.util.ArrayList;
 
+import graphics.UIComponent;
+import graphics.UISlider;
 import logic.Integrator;
 
 public class Turbine extends GameObject{
-	private int speed=3;
-	int increment_time = 30;
-	int position = 0;
-
-	private void count(){//This method updates the particle position on the pipe
-		position+=speed;
-		if(speed > 0){
-			if(position > 20)position = 0;
+	boolean clicked = false;
+	UISlider limit = new UISlider(20, Integrator.y-20-UIComponent.defaultHeight, 420, UIComponent.defaultHeight);//Please use default height for sliders
+	private Color turbineOutline = Color.cyan;
+	//This will be a shell object to house all the pipes / pumps / turbines for a reactor
+	private ArrayList<TurbineRotor> turbines = new ArrayList<TurbineRotor>();
+	private Pipe powerPipe;
+	public ArrayList<GameObject> getObj(){
+		ArrayList<GameObject> all = new ArrayList<GameObject>();
+		all.add(this);
+		if(powerPipe!=null){
+			all.add(powerPipe);
 		}
-		if(speed < 0){
-			if(position < -20)position = 0;
+		for(GameObject temp: turbines){
+			all.addAll(temp.getObj());
+		}
+		return all;
+	}
+	public Turbine(int x, int y, int xSize, int ySize){
+		super(x, y, xSize, ySize);
+		
+		limit.setFontSize(40);
+		limit.setTextDisplacement(40, 75);
+		limit.setText("Turbine Speed Limit");
+		limit.setPercentage(0);//Turbines are not spun up to begin
+		ui.add(limit);
+		
+		for(UIComponent comp: ui){
+			comp.setVisible(false);
 		}
 	}
-	int height = 5;//Height of the particle to be drawn
-	long lastTime = 0;
-	public Turbine(int x1, int y1, int xSize1, int ySize1){
-		super(x1, y1, xSize1, ySize1);
-		lastTime = System.currentTimeMillis();
+	public void setPipe(Pipe s){
+		powerPipe = s;
+	}
+	public void drawObj(Graphics2D g){
+		g.setColor(turbineOutline);
+		float thickness = 5.0f;
+		Stroke oldStroke = g.getStroke();
+		g.setStroke(new BasicStroke(thickness));
+		g.drawRect(x+Integrator.intLastXOffset, y+Integrator.intLastYOffset, xSize, ySize);
+		g.setStroke(oldStroke);
+	}
+	public void addTurbine(TurbineRotor tur) {
+		turbines.add(tur);
+	}
+	public void update(long deltaTime){
+		int tSpeed = getSpeed();
+		if(tSpeed > limit.getPercentage()*10){
+			if(!setSpeed(tSpeed--)){
+				if(!setSpeed(tSpeed-2)){
+					for(TurbineRotor p: turbines){
+						p.setSpeed(tSpeed - 3);
+					}
+				}
+			}
+		}
+	}
+	public boolean setSpeed(int speed){
+		if(speed < 0) speed = 0;
+		if(speed / 2.0f > limit.getPercentage()*10f){
+			return false;
+		}
+		for(TurbineRotor p: turbines){
+			p.setSpeed(speed);
+		}
+		powerPipe.setSpeed(speed);
+		return true;
+	}
+	public int getSpeed(){
+		return turbines.get(0).getSpeed();
+	}
+	public void setIncrement(int increment){
+		for(TurbineRotor p: turbines){
+			p.setTime(increment);
+		}
+	}
+	public void addObj(GameObject o){
+		throw new UnsupportedOperationException("Use specific methods for this class");
 	}
 	
-	public void drawObj(Graphics2D g){
-		Color oldColor = g.getColor();
-		g.setColor(Color.black);
-		g.fillRect(x + Integrator.intLastXOffset, y + Integrator.intLastYOffset, xSize, ySize);
-		g.setColor(Color.gray);
-		for(int i = y; i + position < y + ySize - height; i += height * 2){
-			//if(i + position < y)continue;//prevents particles from being drawn outside the pipe
-			//if(i + position > y + ySize)continue;
-			g.fillRect(x + Integrator.intLastXOffset, i + position + Integrator.intLastYOffset, xSize, height);
-		}
-		
-		if(lastTime + increment_time < System.currentTimeMillis()){
-			lastTime = System.currentTimeMillis();
-			count();
-		}
-		g.setColor(oldColor);
-	}
-
-	public void mouseClicked(MouseEvent e) {
-		//Do not do physics in mouseClicked, do it in update
-		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
-		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
-		g.translate(Integrator.x/2.0, Integrator.y/2.0);
-		g.scale(Integrator.scale, Integrator.scale);
-		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
-		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
-			//Clicked
-		}
-	}
-	public void setTime(int time){//Sets the amount of time it takes particles to move
-		increment_time = time;
-	}
-	public void setSpeed(int speed){//Sets how far each particle travels when it moves
-		this.speed = speed;
-	}
-
-	public int getSpeed() {
-		return speed;
+	public void hide() {
+		limit.setVisible(false);
 	}
 }
