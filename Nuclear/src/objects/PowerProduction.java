@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
 import logic.Integrator;
 import graphics.UIComponent;
@@ -97,7 +98,9 @@ public class PowerProduction extends GameObject {
 		power3.setActive(bol);
 		power4.setActive(bol);
 	}
-	
+	public void mouseClicked(MouseEvent e){
+		//Do nothing
+	}
 	public void hide() {
 		if (Integrator.gameover) {
 			power1.setVisible(false);
