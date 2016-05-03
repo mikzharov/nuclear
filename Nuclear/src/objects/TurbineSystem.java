@@ -121,4 +121,8 @@ public class TurbineSystem extends GameObject{
 			}
 		}
 	}
+	
+	public void hide() {
+		limit.setVisible(false);
+	}
 }

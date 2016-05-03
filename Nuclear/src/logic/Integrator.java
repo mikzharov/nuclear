@@ -40,7 +40,7 @@ public class Integrator {
 	
 	private static int level = 1;//Sets the default, it is always overriden though
 	public static boolean running = true;//If false, the game quits
-	public static boolean paused = false;
+	public static boolean paused = true;
 	private long last;//The long which stores the time in milliseconds at the last update
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
@@ -53,7 +53,8 @@ public class Integrator {
 	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
 	private static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
 	public static boolean justDied = false; //check if a reactor just died, to check how many are left without checking every time one dies
-	public static boolean gameover = false;
+	public static boolean gameover = true;
+	public static boolean saveTheScoreOnce = true;
 	
 	private boolean active(){
 		for(UIComponent temp:ui){
@@ -342,6 +343,11 @@ public class Integrator {
 		add(yourScore);
 		add(saveScore);
 		
+		UIScoreSheet topFiveScores = new UIScoreSheet(endTitle.getX(), endTitle.getY()+UIComponent.defaultHeight+10, x/2, 400);
+		topFiveScores.setVisible(false);
+		topFiveScores.setFontSize(40);
+		add(topFiveScores);
+		
 		//end game file i/o
 		HighScores highscore = new HighScores();
 		
@@ -527,26 +533,43 @@ public class Integrator {
 				}
 			}
 			if (gameover) {
-				endTitle.setVisible(true);
-				yourScore.setText("Your score: "+powerDisplay.powerProduced+" kW");
-				yourScore.setVisible(true);
-				saveScore.setVisible(true);
-				powerDisplay.hide();
-				reactor1.hideControls();
-				reactor2.hideControls();
-				reactor3.hideControls();
-				reactor4.hideControls();
+				if (saveTheScoreOnce) { //only do this once
+					endTitle.setVisible(true);
+					yourScore.setText("Your score: "+powerDisplay.powerProduced+" kW");
+					yourScore.setVisible(true);
+					saveScore.setVisible(true);
+					powerDisplay.hide();
+					reactor1.hideControls();
+					reactor2.hideControls();
+					reactor3.hideControls();
+					reactor4.hideControls();
+					tSys4.hide();
+					tSys4_1.hide();
+					tSys3.hide();
+					tSys3_1.hide();
+					tSys2.hide();
+					tSys2_1.hide();
+					tSys1.hide();
+					tSys1_1.hide();
+				}
 			}
 			if (saveScore.clicked) {
-				try {
-					highscore.read();
-					highscore.write(Main.playerName, String.valueOf(powerDisplay.powerProduced));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace(); //for testing only
+				saveScore.clicked = false;
+				if (saveTheScoreOnce) { //only do this once
+					try {
+						highscore.read();
+						highscore.write(Main.playerName, String.valueOf(powerDisplay.powerProduced));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace(); //for testing only
+					}
+					saveTheScoreOnce=false;
 				}
-				clear();
-				Main.resume();
+				endTitle.setText("High Scores");
+				endTitle.setTextDisplacement(endTitle.getX()/2-60, 95);
+				topFiveScores.setVisible(true);
+				yourScore.setVisible(false);
+				saveScore.setVisible(false);
 			}
 			if(paused && !gameover){
 				pauseText.setVisible(true);

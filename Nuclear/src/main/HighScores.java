@@ -9,7 +9,7 @@ import java.util.List;
 public class HighScores {
 	
 	//2 dimensional arrays
-	public List<List<String>> namesAndScores = new ArrayList<List<String>>();
+	public static List<List<String>> namesAndScores = new ArrayList<List<String>>();
 	
 	File f = new File("highscores/highscores.txt");
 	

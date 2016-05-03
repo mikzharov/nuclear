@@ -221,6 +221,7 @@ public class Main {
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				playerName = enterName.getText();
 				// Starts the game engine
 				run = true;
 			}
