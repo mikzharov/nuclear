@@ -12,9 +12,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import graphics.*;
+import main.HighScores;
 import main.Main;
 import objects.PipeSystem;
 import objects.ControlRodBundle;
@@ -118,8 +120,6 @@ public class Integrator {
 		plant.addObj(reactor2);
 		plant.addObj(reactor3);
 		plant.addObj(reactor4);
-		
-		
 		
 
 		//Making the level above
@@ -319,6 +319,32 @@ public class Integrator {
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}
+		//Making end game GUI
+		UIText endTitle = new UIText(x/4, y/5, x/2, UIComponent.defaultHeight);
+		UIText yourScore = new UIText(endTitle.getX(), y/5+UIComponent.defaultHeight+10, x/2, UIComponent.defaultHeight);
+		UIButton saveScore = new UIButton(x/4, y/5+UIComponent.defaultHeight*2+20, x/2, UIComponent.defaultHeight);
+		
+		endTitle.setText("GAME OVER");
+		endTitle.setTextDisplacement(endTitle.getX()/2-40, 95);
+		yourScore.setText("Your score: "+PowerProduction.powerProduced+" kW");
+		yourScore.setFontSize(50);
+		yourScore.setTextDisplacement(45, 90);
+		saveScore.setText("Save score and continue...");
+		saveScore.setFontSize(50);
+		saveScore.setTextDisplacement(45, 90);
+		saveScore.setUsableDuringPaused(true);
+		
+		endTitle.setVisible(false);
+		yourScore.setVisible(false);
+		saveScore.setVisible(false);
+		
+		add(endTitle);
+		add(yourScore);
+		add(saveScore);
+		
+		//end game file i/o
+		HighScores highscore = new HighScores();
+		
 		//Making paused GUI below
 		UIText pauseText = new UIText(x/2-x/8, y/5, x/4, UIComponent.defaultHeight);
 		pauseText.setText("Paused");
@@ -483,7 +509,6 @@ public class Integrator {
 			g.scale(scale, scale);
 			g.translate(-x/2.0, -y/2.0);
 			
-			
 			for(GameObject temp : objects){
 				temp.drawObj(g);
 				g.setColor(Color.black); //individual objects that set the color will permanently change it, so we have to reset it to black
@@ -500,6 +525,28 @@ public class Integrator {
 				else {
 					justDied=false;
 				}
+			}
+			if (gameover) {
+				endTitle.setVisible(true);
+				yourScore.setText("Your score: "+powerDisplay.powerProduced+" kW");
+				yourScore.setVisible(true);
+				saveScore.setVisible(true);
+				powerDisplay.hide();
+				reactor1.hideControls();
+				reactor2.hideControls();
+				reactor3.hideControls();
+				reactor4.hideControls();
+			}
+			if (saveScore.clicked) {
+				try {
+					highscore.read();
+					highscore.write(Main.playerName, String.valueOf(powerDisplay.powerProduced));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace(); //for testing only
+				}
+				clear();
+				Main.resume();
 			}
 			if(paused && !gameover){
 				pauseText.setVisible(true);
@@ -699,6 +746,8 @@ public class Integrator {
 	public static void clear(){
 		running = false;
 		paused = false;
+		gameover = false;
+		PowerProduction.powerProduced = 0;
 		scale = 0.6f;
 		objects.clear();
 		ui.clear();

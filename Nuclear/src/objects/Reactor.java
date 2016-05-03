@@ -145,6 +145,12 @@ public class Reactor extends GameObject {
 				coolingFactor = 0;
 			}
 		}
+		
+		if (Integrator.gameover) {
+			for(UIComponent comp: ui){
+				comp.setVisible(false);
+			}
+		}
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -223,6 +229,7 @@ public class Reactor extends GameObject {
 			lifeColor = Color.red;
 		}
 		if(reactorLife < 0.1) {
+			reactorLife=0.0;
 			lifeColor = Color.black;
 			reactorOutline = Color.black;
 			dead=true;
@@ -264,7 +271,7 @@ public class Reactor extends GameObject {
 		//if the control rods are 75% in or more the temperature should drop
 		tempControl-=0.25;
 		
-		temperature+=tempControl*0.45-coolingFactor; //set at 0.45 for testing, final should be 0.05 //-coolingFactor;
+		temperature+=tempControl*0.95-coolingFactor; //set at 0.95 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
 		if (temperature <= 25.0) {
@@ -344,5 +351,15 @@ public class Reactor extends GameObject {
 		else {
 			return false;
 		}
+	}
+	
+	public void hideControls() {
+		currentTemp.setVisible(false);
+		rodDepth.setVisible(false);
+		pressureText.setVisible(false);
+		rods.setVisible(false);
+		warning.setVisible(false);
+		emergencyCooling.setVisible(false);
+		neutronPoison.setVisible(false);
 	}
 }

@@ -2,6 +2,7 @@ package objects;
 
 import java.awt.Graphics2D;
 
+import logic.Integrator;
 import graphics.UIComponent;
 import graphics.UIText;
 /**
@@ -60,20 +61,20 @@ public class PowerProduction extends GameObject {
 	}
 	
 	public void updatePower(int reactor1, int reactor2, int reactor3, int reactor4) {
-		//if power supply is over 1,000,000 kW, express in MW
-		if (reactor4 > 1000000)
+		//if power supply is over 100,000 kW, express in MW
+		if (reactor4 > 100000)
 			power1.setText((reactor4/1000)+" MW/s");
 		else
 			power1.setText(reactor4+" kW/s");
-		if (reactor3 > 1000000)
+		if (reactor3 > 100000)
 			power2.setText((reactor3/1000)+" MW/s");
 		else
 			power2.setText(reactor3+" kW/s");
-		if (reactor2 > 1000000)
+		if (reactor2 > 100000)
 			power3.setText((reactor2/1000)+" MW/s");
 		else
 			power3.setText(reactor2+" kW/s");
-		if (reactor1 > 1000000)
+		if (reactor1 > 100000)
 			power4.setText((reactor1/1000)+" MW/s");
 		else
 			power4.setText(reactor1+" kW/s");
@@ -95,5 +96,15 @@ public class PowerProduction extends GameObject {
 		power2.setActive(bol);
 		power3.setActive(bol);
 		power4.setActive(bol);
+	}
+	
+	public void hide() {
+		if (Integrator.gameover) {
+			power1.setVisible(false);
+			power2.setVisible(false);
+			power3.setVisible(false);
+			power4.setVisible(false);
+			totalPower.setVisible(false);
+		}
 	}
 }

@@ -18,6 +18,7 @@ import java.io.IOException;
 public class Main {
 	boolean fullscreen = true;
 	static boolean run = false;
+	public static String playerName = "";
 	public static void main(String[] args) {
 		try {
 			// Makes the JPanel look the same as your system default.
@@ -42,6 +43,8 @@ public class Main {
 	JButton quit = new JButton("Quit");
 	// other page buttons
 	JButton back = new JButton("Back");
+	//start game buttons
+	JButton enter = new JButton("Start Game");
 
 	// labels
 	JLabel title = new JLabel("Learn to run a Nuclear Reactor");
@@ -57,6 +60,8 @@ public class Main {
 	JLabel difficultyChoice = new JLabel("Difficulty");
 	JLabel soundVolume = new JLabel("Sound Volume");
 	JLabel musicVolume = new JLabel("Music Volume");
+	//start game labels
+	JLabel name = new JLabel("Enter name:");
 
 	// sliders
 	JSlider soundSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 25);
@@ -66,6 +71,9 @@ public class Main {
 	public final static int ySize = ((int) tk.getScreenSize().getHeight());
 	// combo boxes
 	static JComboBox<String> difficultyLevels = new JComboBox<String>();
+	//text fields
+	JTextField enterName = new JTextField(30);
+	
 	public static void start(){
 		while(!run){//Weird work around to prevent this running in the EDT.
 			try {
@@ -158,6 +166,59 @@ public class Main {
 		});
 		
 		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.remove(start);
+				panel.remove(settings);
+				panel.remove(credits);
+				panel.remove(quit);
+				
+				panel.add(back);
+				
+				//players must enter a name before starting
+				panel.add(name);
+				name.setBounds(xSize / 2 - 150, 360, 300, 80);
+				name.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(enterName);
+				enterName.setBounds(xSize / 2 - 150, 430, 300, 50);
+				enterName.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				panel.add(enter);
+				enter.setBounds(xSize / 2 - 150, 530, 300, 80);
+				enter.setFont(new Font("Sans Serif", Font.BOLD, 25));
+				enter.setEnabled(false);
+				
+				frame.repaint();
+				frame.revalidate();
+			}
+		});
+		
+		enterName.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				//make sure the player entered a name before allowing the game to begin
+				playerName = enterName.getText();
+				if (!playerName.equals("")) {
+					enter.setEnabled(true);
+				}
+				else {
+					enter.setEnabled(false);
+				}
+				frame.repaint();
+				frame.revalidate();
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Starts the game engine
