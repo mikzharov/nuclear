@@ -1,6 +1,5 @@
 package objects;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 public class PipeSystem extends GameObject{

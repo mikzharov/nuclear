@@ -183,7 +183,12 @@ public class Reactor extends GameObject {
 		}
 	}
 	public void update(long deltaTime) {
-		controlRod=rods.getPercentage();
+		if(!rods.disabled){
+			controlRod=rods.getPercentage();
+		}else{
+			controlRod = 1;//temp goes down if the reactor is "dead"
+		}
+		
 		updateControls(deltaTime);
 		pSys.setSpeed(0);
 		tSys.setSpeed(0);
@@ -217,6 +222,12 @@ public class Reactor extends GameObject {
 		if (error) {
 			if (reactorLife > 0)
 				reactorLife-=0.01;
+			if(temperature>600){//The maximum temp of a fuel rod in an RBMK reactor 600 C, so going beyond that will incur penalties
+				reactorLife-=0.1;
+			}
+			if(steamkPa > 1200){//The containment chamber's maximum pressure is something like 1200
+				reactorLife-=0.1;
+			}
 		}
 		
 		if(reactorLife < 75 && reactorLife >= 50) {
@@ -234,6 +245,7 @@ public class Reactor extends GameObject {
 			reactorOutline = Color.black;
 			dead=true;
 			Integrator.justDied=true;
+			rods.disabled = true;
 		}
 	}
 	public double steamOutput(long deltaTime) {
@@ -270,7 +282,6 @@ public class Reactor extends GameObject {
 		
 		//if the control rods are 75% in or more the temperature should drop
 		tempControl-=0.25;
-		
 		temperature+=tempControl*0.95-coolingFactor; //set at 0.95 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
@@ -345,12 +356,7 @@ public class Reactor extends GameObject {
 	}
 	
 	public boolean isDead() {
-		if (dead) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return dead;
 	}
 	
 	public void hideControls() {

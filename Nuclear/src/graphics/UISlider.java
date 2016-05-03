@@ -17,6 +17,7 @@ public class UISlider extends UIComponent{
 	public Color green = new Color(150, 212, 144);
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
+	public boolean disabled = false;
 	public UISlider(int xPos, int yPos, int x1, int y1) {
 		y_displace=84;//Default for this obj
 		this.xSize = x1;
@@ -71,14 +72,14 @@ public class UISlider extends UIComponent{
 		key = new KeyAdapter(){
 			public void keyPressed(KeyEvent e) {
 				
-				if(usable() && e.getKeyCode() == KeyEvent.VK_UP){
+				if(usable() && !disabled && e.getKeyCode() == KeyEvent.VK_UP){
 					if(percentage + 0.01 <=1){
 						percentage += 0.01f;
 					}else{
 						percentage = 1f;
 					}
 				}
-				if(usable() && e.getKeyCode() == KeyEvent.VK_DOWN){
+				if(usable() && !disabled && e.getKeyCode() == KeyEvent.VK_DOWN){
 					if(percentage - 0.01 >=0){
 						percentage -= 0.01f;
 					}else{

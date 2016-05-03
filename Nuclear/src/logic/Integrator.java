@@ -21,6 +21,7 @@ import main.Main;
 import objects.PipeSystem;
 import objects.ControlRodBundle;
 import objects.GameObject;
+import objects.GameTutorial;
 import objects.Pipe;
 import objects.Pipe.Orientation;
 import objects.Plant;
@@ -28,19 +29,14 @@ import objects.PowerProduction;
 import objects.Reactor;
 import objects.Turbine;
 import objects.TurbineSystem;
+import objects.UITutorial;
 
 public class Integrator {
-	//Tutorial things
-	private static boolean clicked = false;//Not strictly for the tutorial, but heavily used to check if anything at all was clicked (to proceed)
-	private static int tutorialStep = 0;//Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
-	private long tutorialTime = 0;//For measuring passed time in the tutorial
-	private int tutX = 0;//To test if user moved
-	private int tutY = 0;//To test if user moved
-	//Tutorial things
+	public static boolean clicked = false;
 	
 	private static int level = 1;//Sets the default, it is always overriden though
 	public static boolean running = true;//If false, the game quits
-	public static boolean paused = true;
+	public static boolean paused = false;
 	private long last;//The long which stores the time in milliseconds at the last update
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
@@ -53,7 +49,7 @@ public class Integrator {
 	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();//This is where all the game objects will be stored
 	private static ArrayList<UIComponent> ui = new ArrayList<UIComponent>();//This is where all the game objects will be stored
 	public static boolean justDied = false; //check if a reactor just died, to check how many are left without checking every time one dies
-	public static boolean gameover = true;
+	public static boolean gameover = false; //Why is this true?
 	public static boolean saveTheScoreOnce = true;
 	
 	private boolean active(){
@@ -102,15 +98,28 @@ public class Integrator {
 	int scroll = 40;//This controls the scroll speed
 	float zoom_factor = 0.01f;//Zoom speed
 	public static int intLastXOffset, intLastYOffset;
+	
+	public static Plant plant;
+	//declaring the reactors
+	public static Reactor reactor4;
+	public static Reactor reactor3;
+	public static Reactor reactor2;
+	public static Reactor reactor1;
+	UITutorial uiTut;
+	GameTutorial gameTut;
 	public void start(){
+		uiTut = new UITutorial();
+		gameTut = new GameTutorial();
+		if(level == 1){
+			add(uiTut);
+		}
 		running = true;
 		//Making level below
-		Plant plant = new Plant("res/chernobyl.jpg");//Creates a plant
-		//declaring the reactors
-		Reactor reactor4 = new Reactor(705, 240, 150, 320, "4");
-		Reactor reactor3 = new Reactor(1345, 240, 150, 320, "3");
-		Reactor reactor2 = new Reactor(2850, 195, 170, 350, "2");
-		Reactor reactor1 = new Reactor(3945, 195, 170, 350, "1");
+		reactor4 = new Reactor(705, 240, 150, 320, "4");
+		reactor3 = new Reactor(1345, 240, 150, 320, "3");
+		reactor2 = new Reactor(2850, 195, 170, 350, "2");
+		reactor1 = new Reactor(3945, 195, 170, 350, "1");
+		plant = new Plant("res/chernobyl.jpg");//Creates a plant
 		
 		//add control rods to the reactors
 		reactor4.addObj(new ControlRodBundle(736, 357, 90));
@@ -299,7 +308,6 @@ public class Integrator {
 		reactor2.setTurbineSystem(tSys2);
 		
 		//reactor 1 turbines
-		//TODO
 		TurbineSystem tSys1 = new TurbineSystem(3706, 851, 393, 75);
 		tSys1.addTurbine(new Turbine(3714, 860, 39, 57));
 		tSys1.addTurbine(new Turbine(3714+48, 860, 48, 57));
@@ -324,6 +332,10 @@ public class Integrator {
 		UIText endTitle = new UIText(x/4, y/5, x/2, UIComponent.defaultHeight);
 		UIText yourScore = new UIText(endTitle.getX(), y/5+UIComponent.defaultHeight+10, x/2, UIComponent.defaultHeight);
 		UIButton saveScore = new UIButton(x/4, y/5+UIComponent.defaultHeight*2+20, x/2, UIComponent.defaultHeight);
+		
+		yourScore.setVisible(false);
+		saveScore.setVisible(false);
+		endTitle.setVisible(false);
 		
 		endTitle.setText("GAME OVER");
 		endTitle.setTextDisplacement(endTitle.getX()/2-40, 95);
@@ -378,26 +390,7 @@ public class Integrator {
 		}
 	
 		//Tutorial UI below
-		UIText tutorial = new UIText(10, 10, x-30, 100);
-		tutorial.setTextDisplacement(25, 74);
-		tutorial.setMovable(false);
-		tutorial.setFontSize(50);
-		tutorial.setText("Welcome to Nuclear Reactor simulator (click to continue)");
 		
-		UIButton tutButton = new UIButton(x/2-150, y/2, 300, 100);
-		tutButton.setText("Button");
-		tutButton.setVisible(false);
-
-		UISlider tutSlider = new UISlider(x/2-150, y/2, 300, 100);
-		tutSlider.setText("Slider");
-		tutSlider.setFontSize(55);
-		tutSlider.setTextDisplacement(25, 75);
-		tutSlider.setVisible(false);
-		if(level == 1){
-			add(tutButton);
-			add(tutSlider);
-			add(tutorial);
-		}
 		//Tutorial UI above
 		//UI above
 		
@@ -535,7 +528,7 @@ public class Integrator {
 			if (gameover) {
 				if (saveTheScoreOnce) { //only do this once
 					endTitle.setVisible(true);
-					yourScore.setText("Your score: "+powerDisplay.powerProduced+" kW");
+					yourScore.setText("Your score: "+PowerProduction.powerProduced+" kW");
 					yourScore.setVisible(true);
 					saveScore.setVisible(true);
 					powerDisplay.hide();
@@ -558,9 +551,8 @@ public class Integrator {
 				if (saveTheScoreOnce) { //only do this once
 					try {
 						highscore.read();
-						highscore.write(Main.playerName, String.valueOf(powerDisplay.powerProduced));
+						highscore.write(Main.playerName, String.valueOf(PowerProduction.powerProduced));
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace(); //for testing only
 					}
 					saveTheScoreOnce=false;
@@ -591,171 +583,10 @@ public class Integrator {
 				Main.resume();
 			}
 			if(level == 1){
-				switch(tutorialStep){
-				case 0:
-					if(clicked){
-						tutorialStep++;
-						tutorial.setText("Here you will learn the basics of the game (click)");
-						clicked = false;
-					}
-					break;
-				case 1:
-					if(clicked){
-						tutorialStep++;
-						clicked = false;
-					}
-					break;
-				case 2:
-					tutButton.setVisible(true);
-					tutorial.setText("This is a button (click)");
-					if(clicked){
-						tutorialStep++;
-						clicked = false;
-						tutorial.setText("It can be dragged around like most components (wait)");
-						if(tutorialTime == 0){
-							tutorialTime = System.currentTimeMillis();
-						}
-						tutButton.clicked = false;
-					}
-					break;
-				case 3:
-					if(tutorialTime + 10000 < System.currentTimeMillis()){
-						tutorial.setText("Try clicking it (click it)");
-						tutorialTime=0;
-						if(tutButton.clicked)tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					tutButton.clicked=false;
-					break;
-				case 4:
-					tutorial.setText("Good. This is a slider (click)");
-					tutButton.setVisible(false);
-					tutSlider.setVisible(true);
-					if(clicked){
-						tutorialStep++;
-						clicked = false;
-					}
-					tutSlider.active = false;
-					break;
-				case 5:
-					if(tutSlider.active){
-						tutorial.setText("Now press 'down arrow' to bring down the slider level to 0");
-						tutorialStep++;
-					}else{
-						tutorial.setText("Click it to bring it into focus");
-					}
-					break;
-				case 6:
-					if(tutSlider.getPercentage() == 0){
-						tutorial.setText("Now press 'up arrow' to bring the slider up to max");
-						tutorialStep++;
-					}else{
-						tutorial.setText("Now press 'down arrow' to bring down the slider level to 0");
-					}
-					if(!tutSlider.active){
-						tutorial.setText("Click it to bring it into focus");
-					}
-					break;
-				case 7:
-					if(tutSlider.getPercentage() == 1){
-						tutorial.setText("Good, lets move onto reactor basics (click)");
-						tutorialStep++;
-					}else{
-						tutorial.setText("Now press 'up arrow' to bring the slider up to max");
-					}
-					if(!tutSlider.active){
-						tutorial.setText("Click it to bring it into focus");
-					}
-					clicked = false;
-					break;
-				case 8:
-					if(clicked){
-						add(plant);
-						tutSlider.setVisible(false);
-						tutorial.setText("This is the reactor (click)");
-						tutorialStep++;
-						clicked = false;
-					}
-					break;
-				case 9:
-					if(clicked){
-						if(x < 1290)tutorial.setFontSize(40);
-						tutorial.setText("It is big, so you need to move (WASD | arrows) (try moving)");
-						tutorialStep++;
-						clicked = false;
-						tutX = xOffset;
-						tutY = yOffset;
-					}
-					break;
-				case 10:
-					if(Math.abs(xOffset - tutX) > 100 || Math.abs(yOffset - tutY) > 100){
-						tutorial.setText("Also try zooming (mouse wheel)");
-						tutorialStep++;
-						scale = 0.6f;
-					}
-					break;
-				case 11:
-					if(Math.abs(scale-0.6f) > 0.2f){
-						tutorialStep++;
-						tutorial.setText("Now click on the blue outline of a reactor to bring it into focus");
-					}
-					break;
-				case 12:
-					if(reactor4.getActive()||reactor3.getActive()||reactor2.getActive()||reactor1.getActive()){
-						tutorialStep++;
-						tutorial.setText("Great, notice that you have a control rod slider. (click)");
-					}
-					clicked = false;
-					break;
-				case 13:
-					if(clicked){
-						tutorial.setText("The control rods will absorb neutrons from uranium atoms (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 14:
-					if(clicked){
-						tutorial.setText("Uranium atoms release neutrons when other neutrons hit them (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 15:
-					if(clicked){
-						tutorial.setText("This process is called a chain reaction (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 16:
-					if(clicked){
-						tutorial.setText("When you start it, it is hard to stop (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 17:
-					if(clicked){
-						tutorial.setText("To stop it, prevent neutrons from hitting the uranium (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 18:
-					if(clicked){
-						tutorial.setText("You can do this with the control rods, they go into the reactor to absorb neutrons (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
-				case 19:
-					if(clicked){
-						tutorial.setText("Which prevents them from hitting the uranium (click)");
-						tutorialStep++;
-						clicked = false;//This prevents the current click from setting off the next one
-					}
-					break;
+				if(!uiTut.done()){
+					uiTut.run();
+				}else{
+					gameTut.run();
 				}
 			}
 		}
@@ -777,7 +608,7 @@ public class Integrator {
 	}
 	public static void setLevel(int lvl) {
 		//level = lvl;
-		level = 2; //for testing
+		level = 1; //for testing
 		//
 	}
 }

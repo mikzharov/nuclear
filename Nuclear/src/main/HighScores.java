@@ -24,6 +24,7 @@ public class HighScores {
 			
 			while((line = br.readLine()) != null) {
 				parts = line.split("-");
+				if(parts.length>1)
 				namesAndScores.add(Arrays.asList(parts[0], parts[1]));
 			}
 		fr.close();
