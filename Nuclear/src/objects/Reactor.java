@@ -218,16 +218,17 @@ public class Reactor extends GameObject {
 	public double steamOutput(long deltaTime) {
 		//the pressure is proportional to the amount of water boiled which is proportional to the temperature, but it must first be boiled off, which takes time ie. 
 		//if the temperature drops then the pressure should drop
-		
+		float coolant = 0;
+		if(pump!=null)coolant = pump.getCoolingFactor();
 		//water must be at 100C to evaporate
 		if (temperature >= 100) {
-			steamkPa+=temperature*0.000005*deltaTime; //temperature to water evaporated coefficient
+			steamkPa+=(temperature*0.000005*deltaTime-(coolant*0.25)); //temperature to water evaporated coefficient
 		}
 		//if it is less than 100C, water will condense and the pressure will go down
 		else {
 			//100-temp because the further the temperature form 100, the greater the decrease in pressure
 			//ie. 25C is below 75C below 100C
-			steamkPa-=(100-temperature)*0.00001*deltaTime;
+			steamkPa-=((100-temperature)*0.00001*deltaTime+coolant);
 		}
 		
 		if (steamkPa <= 101.3) {
@@ -250,7 +251,7 @@ public class Reactor extends GameObject {
 		//if the control rods are 75% in or more the temperature should drop
 		tempControl-=0.017 * deltaTime;
 		float coolant = 0.0f;
-		if(pump!=null)coolant = pump.getCoolingFactor()*deltaTime;
+		if(pump!=null)coolant = pump.getCoolingFactor();
 		temperature+=tempControl*0.063*deltaTime-coolant; //set at 0.95 for testing, final should be 0.05 //-coolingFactor;
 		
 		//the temperature should not be allowed to drop below 25C (room temperature of the reactors, ie. no reaction)
@@ -290,7 +291,7 @@ public class Reactor extends GameObject {
 			}
 		}
 		
-		if (temperature < 450 && steamkPa < 800) {
+		if (temperature < 450 && steamkPa < 6900) {
 			reactorOutline=Color.cyan;
 			error=false;
 		}

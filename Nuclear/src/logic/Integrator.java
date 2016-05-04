@@ -35,7 +35,7 @@ import objects.UITutorial;
 
 public class Integrator {
 	public static boolean clicked = false;
-	
+	public static boolean looped = false;
 	private static int level = 1;//Sets the default, it is always overriden though
 	public static boolean running = true;//If false, the game quits
 	public static boolean paused = false;
@@ -54,7 +54,7 @@ public class Integrator {
 	public static boolean gameover = false; //Why is this true?
 	public static boolean saveTheScoreOnce = true;
 	
-	private boolean active(){
+	public static boolean active(){
 		for(UIComponent temp:ui){
 			if(temp.getActive())
 				return true;
@@ -328,9 +328,9 @@ public class Integrator {
 		reactor1.setTurbine(tSys1);
 		//Turbines above
 		//Pumps below
-		PumpSystem r4 = new PumpSystem();
-		r4.addPump(new Pump(1368, 207, 40));
-		reactor4.setPumpSystem(r4);
+		PumpSystem r3 = new PumpSystem();
+		r3.addPump(new Pump(1368, 207, 40));
+		reactor3.setPumpSystem(r3);
 		//Pumps above
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered
@@ -482,7 +482,7 @@ public class Integrator {
 		float c = 0;
 		
 	    while(running){
-
+	    	looped = true;
 			g.setColor(Color.white);//Clears the screen
 			g.fillRect(0,0,x,y);
 			g = (Graphics2D) buffer.getDrawGraphics();
@@ -500,6 +500,7 @@ public class Integrator {
 				//DO NOT RENDER ANYWHERE IN THIS WHILE LOOP
 				
 				deltaTime-=dt;//Counts down the time that needs to be processed
+				looped = false;
 			}
 			//ONLY RENDER PAST THIS POINT
 			old = g.getTransform();

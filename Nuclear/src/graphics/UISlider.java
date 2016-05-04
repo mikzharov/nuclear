@@ -18,6 +18,8 @@ public class UISlider extends UIComponent{
 	public Color red = new Color(242, 102, 102);
 	private float percentage = 1;
 	public boolean disabled = false;
+	private float upInterval = 0.01f;
+	private float downInterval = 0.01f;
 	public UISlider(int xPos, int yPos, int x1, int y1) {
 		y_displace=84;//Default for this obj
 		this.xSize = x1;
@@ -74,14 +76,14 @@ public class UISlider extends UIComponent{
 				
 				if(usable() && !disabled && e.getKeyCode() == KeyEvent.VK_UP){
 					if(percentage + 0.01 <=1){
-						percentage += 0.01f;
+						percentage += upInterval;
 					}else{
 						percentage = 1f;
 					}
 				}
 				if(usable() && !disabled && e.getKeyCode() == KeyEvent.VK_DOWN){
 					if(percentage - 0.01 >=0){
-						percentage -= 0.01f;
+						percentage -= downInterval;
 					}else{
 						percentage = 0f;
 					}
@@ -133,5 +135,26 @@ public class UISlider extends UIComponent{
 			percentage = per;
 		}
 	}
+	public void setUpInterval(float up){
+		upInterval = Math.abs(up);
+	}
+	public void setDownInterval(float down){
+		downInterval = Math.abs(down);
+	}
+	public void down(long deltaTime){
+		if(percentage - 0.01 >=0){
+			percentage -= downInterval*4/deltaTime;
+		}else{
+			percentage = 0f;
+		}
+	}
+	public void up(){
+		if(percentage + 0.01 <=1){
+			percentage += upInterval;
+		}else{
+			percentage = 1f;
+		}
+	}
+
 }
 

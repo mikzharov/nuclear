@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.ArrayList;
 
+import graphics.UIButton;
 import graphics.UIComponent;
 import graphics.UISlider;
 import logic.Integrator;
@@ -13,6 +14,8 @@ import logic.Integrator;
 public class Turbine extends GameObject{
 	boolean clicked = false;
 	UISlider limit = new UISlider(20, Integrator.y-20-UIComponent.defaultHeight, 420, UIComponent.defaultHeight);//Please use default height for sliders
+	UIButton spinDown = new UIButton(limit.getX() + limit.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 200, UIComponent.defaultHeight);
+	boolean spinTurbineDown = false;
 	private Color turbineOutline = Color.cyan;
 	//This will be a shell object to house all the pipes / pumps / turbines for a reactor
 	private ArrayList<TurbineRotor> turbines = new ArrayList<TurbineRotor>();
@@ -30,13 +33,17 @@ public class Turbine extends GameObject{
 	}
 	public Turbine(int x, int y, int xSize, int ySize){
 		super(x, y, xSize, ySize);
-		
+		limit.setDownInterval(0.001f);
 		limit.setFontSize(40);
 		limit.setTextDisplacement(40, 75);
 		limit.setText("Turbine Speed Limit");
 		limit.setPercentage(0);//Turbines are not spun up to begin
-		ui.add(limit);
 		
+		spinDown.setText("Spin Down");
+		spinDown.setFontSize(40);
+		spinDown.setTextDisplacement(20, 75);
+		ui.add(limit);
+		ui.add(spinDown);
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
 		}
@@ -64,6 +71,18 @@ public class Turbine extends GameObject{
 						p.setSpeed(tSpeed - 3);
 					}
 				}
+			}
+		}
+		if(spinDown.clicked){
+			spinTurbineDown = true;
+			spinDown.clicked = false;
+			limit.disabled = true;
+		}
+		if(spinTurbineDown){
+			limit.down(deltaTime);
+			if(limit.getPercentage() == 0){
+				limit.disabled = false;
+				spinTurbineDown = false;
 			}
 		}
 	}

@@ -63,6 +63,7 @@ public class GameObject {
 		
 	}
 	public void mouseClicked(MouseEvent e) {
+		if(Integrator.active())return;
 		//Do not do physics in mouseClicked, do it in update
 		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
