@@ -16,7 +16,7 @@ public class GameObject {
 	Rectangle bounds = new Rectangle();
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
-	protected boolean clicked = false;
+	public static boolean clicked = false;
 	public int getX(){
 		return x;
 	}
@@ -86,8 +86,16 @@ public class GameObject {
 			}
 			if(!uiClicked){
 				clicked=false;
-				for(UIComponent comp: ui){
-					comp.setVisible(false);
+				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
+					Integrator.reactor4.showControls();
+				}
+				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
+					Integrator.tSys4.showTurbineControls();
+				}
+				else {
+					for(UIComponent comp: ui){
+						comp.setVisible(false);
+					}
 				}
 			}
 		}

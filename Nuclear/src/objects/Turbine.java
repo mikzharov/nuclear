@@ -111,5 +111,11 @@ public class Turbine extends GameObject{
 	
 	public void hide() {//Please change this to setVisible(boolean a)
 		limit.setVisible(false);
+		spinDown.setVisible(false);
+	}
+	
+	public void showTurbineControls() {
+		limit.setVisible(true);
+		spinDown.setVisible(false);
 	}
 }

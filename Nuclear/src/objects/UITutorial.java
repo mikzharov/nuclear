@@ -1,5 +1,6 @@
 package objects;
 
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import graphics.UIButton;
@@ -10,10 +11,12 @@ import logic.Integrator;
 //Oddly enough, it's a gameobject
 public class UITutorial extends GameObject{
 	
-	private static int tutorialStep = 0;//Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
+	private static int tutorialStep = 8; //10 for testing //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
 	private long tutorialTime = 0;//For measuring passed time in the tutorial
 	private int tutX = 0;//To test if user moved
 	private int tutY = 0;//To test if user moved
+	public static boolean reactorTutorialOn = false;
+	public static boolean turbineTutorialOn = false;
 	
 	private boolean done = false;
 	
@@ -42,6 +45,7 @@ public class UITutorial extends GameObject{
 		ui.add(tutButton);
 		ui.add(tutSlider);
 		ui.add(tutorial);
+		
 	}
 	public void run(){
 		switch(tutorialStep){
@@ -150,11 +154,95 @@ public class UITutorial extends GameObject{
 		case 11:
 			if(Math.abs(Integrator.scale-0.6f) > 0.2f){
 				tutorialStep++;
-				tutorial.setText("Now click on the blue outline of a reactor to bring it into focus");
+				tutorial.setText("Now click on the green circle of the leftmost reactor");
 			}
 			break;
 		case 12:
-			done = true;
+			if (Integrator.clicked) {
+				reactorTutorialOn=true;
+				tutorialStep++;
+				tutorial.setText("This is the control panel for a reactor (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 13:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("It shows the reactor's temperature and pressure (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 14:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("It also shows the depth of the control rods (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 15:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("The control rods are controlled by a slider (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 16:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("They can be adjusted with the (up|down) arrows (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 17:
+			if (Integrator.clicked) {
+				reactorTutorialOn=false;
+				tutorialStep++;
+				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 18:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Click on a grey turbine to bring it into focus (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 19:
+			if (Integrator.clicked) {
+				turbineTutorialOn=true;
+				tutorialStep++;
+				tutorial.setText("This is the control panel for a turbine (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 20:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Each reactor has two turbines to generate power (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 21:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Click on the slider to adjust the turbine max speed (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 22:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("The default speed is zero (click)");
+			}
+			Integrator.clicked=false;
+			break;
+		case 23:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Click on the \"Spin Down\" button to stop the turbines (click)");
+			}
+			Integrator.clicked=false;
 			break;
 		}
 	}

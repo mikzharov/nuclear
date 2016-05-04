@@ -147,6 +147,11 @@ public class Reactor extends GameObject {
 				comp.setVisible(false);
 			}
 		}
+		if (UITutorial.reactorTutorialOn) {
+			for(UIComponent comp: ui){
+				comp.setVisible(true);
+			}
+		}
 	}
 	
 	public void update(long deltaTime) {
@@ -343,5 +348,16 @@ public class Reactor extends GameObject {
 		warning.setVisible(false);
 		emergencyCooling.setVisible(false);
 		neutronPoison.setVisible(false);
+	}
+	
+	//for tutorial only
+	public void showControls() {
+		currentTemp.setVisible(true);
+		rodDepth.setVisible(true);
+		pressureText.setVisible(true);
+		rods.setVisible(true);
+		warning.setVisible(true);
+		emergencyCooling.setVisible(true);
+		neutronPoison.setVisible(true);
 	}
 }
