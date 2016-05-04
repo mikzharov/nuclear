@@ -15,6 +15,7 @@ public class Turbine extends GameObject{
 	boolean clicked = false;
 	UISlider limit = new UISlider(20, Integrator.y-20-UIComponent.defaultHeight, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	UIButton spinDown = new UIButton(limit.getX() + limit.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 200, UIComponent.defaultHeight);
+	UISlider coolant = new UISlider(spinDown.getX() + spinDown.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 400, UIComponent.defaultHeight);
 	boolean spinTurbineDown = false;
 	private Color turbineOutline = Color.cyan;
 	//This will be a shell object to house all the pipes / pumps / turbines for a reactor
@@ -42,6 +43,12 @@ public class Turbine extends GameObject{
 		spinDown.setText("Spin Down");
 		spinDown.setFontSize(40);
 		spinDown.setTextDisplacement(20, 75);
+		
+		coolant.setText("H2 coolant level");
+		coolant.setFontSize(40);
+		coolant.setTextDisplacement(30, 75);
+		coolant.setPercentage(0);
+		ui.add(coolant);
 		ui.add(limit);
 		ui.add(spinDown);
 		for(UIComponent comp: ui){
@@ -84,6 +91,11 @@ public class Turbine extends GameObject{
 				limit.disabled = false;
 				spinTurbineDown = false;
 			}
+		}
+		if(limit.getPercentage()==0){
+			coolant.disabled = false;
+		}else{
+			coolant.disabled = true;
 		}
 	}
 	public boolean setSpeed(int speed){

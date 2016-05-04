@@ -4,7 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+
 import graphics.UIButton;
 import graphics.UIComponent;
 import graphics.UISlider;
@@ -48,6 +52,7 @@ public class Reactor extends GameObject {
 			comp.setVisible(false);
 		}
 		drawControls(g, controlRod);
+		warning.setVisible(false);
 	}
 	
 	public void drawObj(Graphics2D g) {
@@ -125,10 +130,8 @@ public class Reactor extends GameObject {
 		if (currentTime/1000%2 == 1) {
 			warning.setTextColor(Color.black);
 		}
-			
-		if (clicked == true) { //otherwise the error text box won't go away when desired
-			warning.setVisible(error); //if an error message has been added
-		}
+		if(clicked)System.out.println(clicked);
+		warning.setVisible(error && clicked); //if an error message has been added
 		
 		if (emergencyCooling.clicked) {
 			emergencyCooling.clicked=false;
@@ -155,7 +158,47 @@ public class Reactor extends GameObject {
 		}
 		
 	}
-	
+	public void mouseClicked(MouseEvent e) {
+		if(Integrator.active())return;
+		//Do not do physics in mouseClicked, do it in update
+		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
+		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
+		g.translate(Integrator.x/2.0, Integrator.y/2.0);
+		g.scale(Integrator.scale, Integrator.scale);
+		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
+		Shape temp = g.createTransformedShape(bounds);
+		if(temp.contains((e.getX()), (e.getY()))){
+			//Hit
+			clicked=true;
+			for(UIComponent comp: ui){
+				comp.setVisible(true);
+			}
+		} else {
+			boolean uiClicked=false;
+			for(UIComponent utemp: ui){
+				if(utemp.getBounds().contains(e.getPoint())){
+					uiClicked = true;
+					clicked = true;
+					break;
+				}
+			}
+			if(!uiClicked){
+				clicked=false;
+				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
+					Integrator.reactor4.showControls();
+				}
+				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
+					if(Integrator.tSys4 != null)
+					Integrator.tSys4.showTurbineControls();
+				}
+				else {
+					for(UIComponent comp: ui){
+						comp.setVisible(false);
+					}
+				}
+			}
+		}
+	}
 	public void update(long deltaTime) {
 		if(!rods.disabled){
 			controlRod=rods.getPercentage();

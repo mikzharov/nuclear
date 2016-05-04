@@ -161,87 +161,91 @@ public class UITutorial extends GameObject{
 				reactorTutorialOn=true;
 				tutorialStep++;
 				tutorial.setText("This is the control panel for a reactor (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 13:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("It shows the reactor's temperature and pressure (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 14:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("It also shows the depth of the control rods (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 15:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("The control rods are controlled by a slider (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 16:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("They can be adjusted with the (up|down) arrows (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 17:
 			if (Integrator.clicked) {
 				reactorTutorialOn=false;
 				tutorialStep++;
 				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 18:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Click on a grey turbine to bring it into focus (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 19:
 			if (Integrator.clicked) {
 				turbineTutorialOn=true;
 				tutorialStep++;
 				tutorial.setText("This is the control panel for a turbine (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 20:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Each reactor has two turbines to generate power (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 21:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Click on the slider to adjust the turbine max speed (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 22:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("The default speed is zero (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
 			break;
 		case 23:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("Click on the \"Spin Down\" button to stop the turbines (click)");
+				tutorial.setText("To stop the turbines click on the \"Spin Down\" button (click)");
+				Integrator.clicked=false;
 			}
-			Integrator.clicked=false;
+			
+			break;
+		case 24:
+			
 			break;
 		}
 	}

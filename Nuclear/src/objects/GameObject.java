@@ -14,9 +14,9 @@ import logic.Integrator;
 public class GameObject {
 	int x = 0, y = 0, xSize = 0, ySize = 0;
 	Rectangle bounds = new Rectangle();
-	ArrayList<GameObject> objects = new ArrayList<GameObject>();
-	ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
-	public static boolean clicked = false;
+	protected ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	protected ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
+	protected static boolean clicked = false;
 	public int getX(){
 		return x;
 	}
@@ -82,6 +82,8 @@ public class GameObject {
 			for(UIComponent utemp: ui){
 				if(utemp.getBounds().contains(e.getPoint())){
 					uiClicked = true;
+					clicked = true;
+					break;
 				}
 			}
 			if(!uiClicked){
