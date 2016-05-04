@@ -109,7 +109,7 @@ public class Turbine extends GameObject{
 		throw new UnsupportedOperationException("Use specific methods for this class");
 	}
 	
-	public void hide() {
+	public void hide() {//Please change this to setVisible(boolean a)
 		limit.setVisible(false);
 	}
 }

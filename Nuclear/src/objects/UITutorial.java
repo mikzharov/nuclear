@@ -1,5 +1,7 @@
 package objects;
 
+import java.awt.event.MouseEvent;
+
 import graphics.UIButton;
 import graphics.UISlider;
 import graphics.UIText;
@@ -36,6 +38,7 @@ public class UITutorial extends GameObject{
 		tutorial.setText("Welcome to Nuclear Reactor simulator (click to continue)");
 		tutButton.setText("Button");
 		tutButton.setVisible(false);
+		tutorial.setVisible(true);
 		ui.add(tutButton);
 		ui.add(tutSlider);
 		ui.add(tutorial);
@@ -154,6 +157,9 @@ public class UITutorial extends GameObject{
 			done = true;
 			break;
 		}
+	}
+	public void mouseClicked(MouseEvent e) {
+		//Do nothing
 	}
 	public boolean done(){
 		return done;

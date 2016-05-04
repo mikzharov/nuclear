@@ -613,18 +613,18 @@ public class Integrator {
 				if(temp.getVisible())
 				temp.drawObj(g);//Draws the thing
 			}
-			buffer.show();//Shows the picture
-			if(quitButton.clicked)System.exit(0);
-			if(mainButton.clicked){
-				clear();
-				Main.resume();
-			}
 			if(level == 1){
 				if(!uiTut.done()){
 					uiTut.run();
 				}else{
 					gameTut.run();
 				}
+			}
+			buffer.show();//Shows the picture
+			if(quitButton.clicked)System.exit(0);
+			if(mainButton.clicked){
+				clear();
+				Main.resume();
 			}
 		}
 		g.dispose();//Cleans the graphics (although this is not required)
