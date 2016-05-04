@@ -13,7 +13,7 @@ import main.HighScores;
 
 public class UIScoreSheet extends UIComponent {
 	
-	private List<List<String>> namesAndScores = HighScores.namesAndScores;
+	private List<List<String>> namesAndScores = HighScores.namesAndScoresSorted;
 	
 	public UIScoreSheet(int xPos, int yPos, int x1, int y2) {
 		xSize = x1;

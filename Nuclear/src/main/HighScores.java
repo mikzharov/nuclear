@@ -10,6 +10,7 @@ public class HighScores {
 	
 	//2 dimensional arrays
 	public static List<List<String>> namesAndScores = new ArrayList<List<String>>();
+	public static List<List<String>> namesAndScoresSorted = new ArrayList<List<String>>();
 	
 	File f = new File("highscores/highscores.txt");
 	
@@ -53,6 +54,7 @@ public class HighScores {
 					bw.write(namesAndScores.get(j).get(0));
 					bw.write("-");
 					bw.write(namesAndScores.get(j).get(1));bw.newLine();
+					namesAndScoresSorted.add(Arrays.asList(namesAndScores.get(j).get(0), namesAndScores.get(j).get(1)));
 				}
 			}
 		}

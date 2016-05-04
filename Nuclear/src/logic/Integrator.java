@@ -43,7 +43,7 @@ public class Integrator {
 	public static int x;//The size of the screen
 	public static int y;//The size of the screen
 	private int xOffset = 0;//The horizontal offset of the gameworld (not UI though)
-	private int yOffset = -300;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
+	private int yOffset = -250;//The horizontal offset of the gameworld (not UI though), -300 to start with the image in an ideal location
 	public static float scale = 0.6f; // The scale of the game (Hopefully not UI though)
 	public static Canvas canvas;//Canvas component
 	private BufferStrategy buffer;//Buffer for drawing and creating graphics
@@ -336,6 +336,7 @@ public class Integrator {
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}
 		//Making end game GUI
+		//game over page
 		UIText endTitle = new UIText(x/4, y/5, x/2, UIComponent.defaultHeight);
 		UIText yourScore = new UIText(endTitle.getX(), y/5+UIComponent.defaultHeight+10, x/2, UIComponent.defaultHeight);
 		UIButton saveScore = new UIButton(x/4, y/5+UIComponent.defaultHeight*2+20, x/2, UIComponent.defaultHeight);
@@ -362,10 +363,28 @@ public class Integrator {
 		add(yourScore);
 		add(saveScore);
 		
+		//high score page
 		UIScoreSheet topFiveScores = new UIScoreSheet(endTitle.getX(), endTitle.getY()+UIComponent.defaultHeight+10, x/2, 400);
+		UIButton backToMain = new UIButton(endTitle.getX(), topFiveScores.getY()+topFiveScores.getHeight()+10, x/4-15, 100);
+		UIButton quitGame = new UIButton(endTitle.getX()+backToMain.getX()+15, topFiveScores.getY()+topFiveScores.getHeight()+10, x/4-15, 100);
+
 		topFiveScores.setVisible(false);
+		backToMain.setVisible(false);
+		quitGame.setVisible(false);
+		
 		topFiveScores.setFontSize(40);
+		backToMain.setText("Main Menu");
+		backToMain.setFontSize(40);
+		backToMain.setTextDisplacement(80, 90);
+		backToMain.setUsableDuringPaused(true);
+		quitGame.setText("Quit Game");
+		quitGame.setFontSize(40);
+		quitGame.setTextDisplacement(80, 90);
+		quitGame.setUsableDuringPaused(true);
+		
 		add(topFiveScores);
+		add(backToMain);
+		add(quitGame);
 		
 		//end game file i/o
 		HighScores highscore = new HighScores();
@@ -568,10 +587,20 @@ public class Integrator {
 				endTitle.setText("High Scores");
 				endTitle.setTextDisplacement(endTitle.getX()/2-60, 95);
 				topFiveScores.setVisible(true);
+				backToMain.setVisible(true);
+				quitGame.setVisible(true);
 				yourScore.setVisible(false);
 				saveScore.setVisible(false);
 			}
-			if(paused && !gameover){
+			if (backToMain.clicked) {
+				backToMain.clicked=false;
+				clear();
+				Main.resume();
+			}
+			if (quitGame.clicked)
+				System.exit(0);
+			
+ 			if(paused && !gameover){
 				pauseText.setVisible(true);
 				quitButton.setVisible(true);
 				mainButton.setVisible(true);
@@ -609,14 +638,16 @@ public class Integrator {
 		running = false;
 		paused = false;
 		gameover = false;
+		saveTheScoreOnce = true;
+		HighScores.namesAndScores.clear();
+		HighScores.namesAndScoresSorted.clear();
 		PowerProduction.powerProduced = 0;
 		scale = 0.6f;
 		objects.clear();
 		ui.clear();
 	}
 	public static void setLevel(int lvl) {
-		//level = lvl;
-		level = 2; //for testing
-		//
+		level = lvl;
+		//level = 2; //for testing
 	}
 }
