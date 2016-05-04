@@ -130,7 +130,7 @@ public class Reactor extends GameObject {
 		if (currentTime/1000%2 == 1) {
 			warning.setTextColor(Color.black);
 		}
-		if(clicked)System.out.println(clicked);
+
 		warning.setVisible(error && clicked); //if an error message has been added
 		
 		if (emergencyCooling.clicked) {
@@ -154,12 +154,14 @@ public class Reactor extends GameObject {
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
-			warning.setVisible(false);
+			warning.setVisible(error);
 		}
 		
 	}
 	public void mouseClicked(MouseEvent e) {
-		if(Integrator.active())return;
+		if(Integrator.active() && !clicked){
+			return;
+		}
 		//Do not do physics in mouseClicked, do it in update
 		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
@@ -167,7 +169,7 @@ public class Reactor extends GameObject {
 		g.scale(Integrator.scale, Integrator.scale);
 		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
 		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
+		if(temp.contains(e.getPoint())){
 			//Hit
 			clicked=true;
 			for(UIComponent comp: ui){
@@ -183,18 +185,19 @@ public class Reactor extends GameObject {
 				}
 			}
 			if(!uiClicked){
+				
 				clicked=false;
 				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.showControls();
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
-					if(Integrator.tSys4 != null)
-					Integrator.tSys4.showTurbineControls();
+					Integrator.reactor4.setTurbineVisible(true);
 				}
 				else {
 					for(UIComponent comp: ui){
 						comp.setVisible(false);
 					}
+					warning.setVisible(error);//<solves the warning bug flashing
 				}
 			}
 		}
@@ -404,5 +407,11 @@ public class Reactor extends GameObject {
 		//warning.setVisible(true); No need to show the warning
 		emergencyCooling.setVisible(true);
 		neutronPoison.setVisible(true);
+	}
+	public void setTurbineVisible(boolean b){
+		t.setVisible(b);
+	}
+	public void setTurbine2Visible(boolean b){
+		t2.setVisible(b);
 	}
 }

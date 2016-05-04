@@ -108,7 +108,6 @@ public class Integrator {
 	public static Reactor reactor2;
 	public static Reactor reactor1;
 	
-	public static Turbine tSys4;
 	UITutorial uiTut;
 	GameTutorial gameTut;
 	public void start(){

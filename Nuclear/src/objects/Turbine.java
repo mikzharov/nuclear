@@ -126,8 +126,9 @@ public class Turbine extends GameObject{
 		spinDown.setVisible(false);
 	}
 	
-	public void showTurbineControls() {
-		limit.setVisible(true);
-		spinDown.setVisible(false);
+	public void setVisible(boolean b) {
+		for(UIComponent comp: ui){
+			comp.setVisible(b);
+		}
 	}
 }

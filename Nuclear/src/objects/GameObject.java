@@ -16,7 +16,7 @@ public class GameObject {
 	Rectangle bounds = new Rectangle();
 	protected ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	protected ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
-	protected static boolean clicked = false;
+	protected boolean clicked = false;
 	public int getX(){
 		return x;
 	}
@@ -63,7 +63,9 @@ public class GameObject {
 		
 	}
 	public void mouseClicked(MouseEvent e) {
-		if(Integrator.active())return;
+		if(Integrator.active() && !clicked){
+			return;
+		}
 		//Do not do physics in mouseClicked, do it in update
 		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
 		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
@@ -71,7 +73,7 @@ public class GameObject {
 		g.scale(Integrator.scale, Integrator.scale);
 		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
 		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
+		if(temp.contains(e.getPoint())){
 			//Hit
 			clicked=true;
 			for(UIComponent comp: ui){
@@ -87,13 +89,13 @@ public class GameObject {
 				}
 			}
 			if(!uiClicked){
+				
 				clicked=false;
 				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.showControls();
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
-					if(Integrator.tSys4 != null)
-					Integrator.tSys4.showTurbineControls();
+					Integrator.reactor4.setTurbineVisible(true);
 				}
 				else {
 					for(UIComponent comp: ui){
@@ -102,6 +104,9 @@ public class GameObject {
 				}
 			}
 		}
+	}
+	public boolean getActive(){
+		return clicked;
 	}
 	public void drawObj(Graphics2D g){
 		
