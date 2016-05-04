@@ -33,7 +33,7 @@ public class Reactor extends GameObject {
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
 	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
 	UISlider rods = new UISlider(currentTemp.getX(), currentTemp.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
-	UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
+	private UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
 	UIButton neutronPoison = new UIButton(emergencyCooling.getX()+emergencyCooling.getWidth()+15, rods.getY(), 170, 35);
 		
@@ -151,7 +151,9 @@ public class Reactor extends GameObject {
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
+			warning.setVisible(false);
 		}
+		
 	}
 	
 	public void update(long deltaTime) {
@@ -356,7 +358,7 @@ public class Reactor extends GameObject {
 		rodDepth.setVisible(true);
 		pressureText.setVisible(true);
 		rods.setVisible(true);
-		warning.setVisible(true);
+		//warning.setVisible(true); No need to show the warning
 		emergencyCooling.setVisible(true);
 		neutronPoison.setVisible(true);
 	}

@@ -90,6 +90,7 @@ public class GameObject {
 					Integrator.reactor4.showControls();
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
+					if(Integrator.tSys4 != null)
 					Integrator.tSys4.showTurbineControls();
 				}
 				else {

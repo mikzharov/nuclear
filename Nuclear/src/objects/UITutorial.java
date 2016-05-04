@@ -1,6 +1,5 @@
 package objects;
 
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import graphics.UIButton;
@@ -11,7 +10,7 @@ import logic.Integrator;
 //Oddly enough, it's a gameobject
 public class UITutorial extends GameObject{
 	
-	private static int tutorialStep = 8; //10 for testing //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
+	private static int tutorialStep = 0; //10 for testing //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
 	private long tutorialTime = 0;//For measuring passed time in the tutorial
 	private int tutX = 0;//To test if user moved
 	private int tutY = 0;//To test if user moved
