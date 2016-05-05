@@ -82,6 +82,27 @@ public class Integrator {
 			}
 		}
 	}
+	public static void remove(UIComponent ui1){
+		canvas.removeKeyListener(ui1.key);
+		canvas.removeMouseListener(ui1.mouse);
+		canvas.removeMouseMotionListener(ui1.mouse);
+		ui.remove(ui1);
+	}
+	public static void remove(GameObject ob){
+		ArrayList<UIComponent> all = ob.getUi();
+		for(UIComponent temp:all){
+			remove(temp);
+		}
+		objects.remove(ob);
+		
+		ArrayList<GameObject> allObj = ob.getObj();
+		allObj.remove(0);
+		if(allObj.size() != 0){
+			for(GameObject temp:allObj){
+				remove(temp);
+			}
+		}
+	}
 	public void offset_x(int i){
 		if(!active())
 		xOffset+=i;
