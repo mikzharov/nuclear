@@ -109,13 +109,11 @@ public class PowerProduction extends GameObject {
 		//Do nothing
 	}
 	public void hide() {
-		if (Integrator.gameover) {
-			power1.setVisible(false);
-			power2.setVisible(false);
-			power3.setVisible(false);
-			power4.setVisible(false);
-			totalPower.setVisible(false);
-		}
+		power1.setVisible(false);
+		power2.setVisible(false);
+		power3.setVisible(false);
+		power4.setVisible(false);
+		totalPower.setVisible(false);
 	}
 	public void show() {
 		power1.setVisible(true);

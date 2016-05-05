@@ -133,12 +133,13 @@ public class Integrator {
 	public static PowerProduction powerDisplay;
 	
 	UITutorial uiTut;
-	public static GameTutorial gameTut;
+	public GameTutorial gameTut;
 	public void start(){
 		uiTut = new UITutorial();
 		gameTut = new GameTutorial();
 		if(level == 1){
 			add(uiTut);
+			add(gameTut);
 		}
 		//Test here
 		
@@ -694,10 +695,11 @@ public class Integrator {
 				temp.drawObj(g);//Draws the thing
 			}
 			if(level == 1){
-				if(!uiTut.done()){
-					uiTut.run();
-				}else{
+				if (!gameTut.done()) {
 					gameTut.run();
+				}
+				if (gameTut.done()) {
+					uiTut.run();
 				}
 			}
 			buffer.show();//Shows the picture

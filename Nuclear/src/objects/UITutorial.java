@@ -11,7 +11,7 @@ import logic.Integrator;
 //Oddly enough, it's a gameobject
 public class UITutorial extends GameObject{
 	
-	private static int tutorialStep = 8; //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
+	private static int tutorialStep = -1; //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
 	private long tutorialTime = 0;//For measuring passed time in the tutorial
 	private int tutX = 0;//To test if user moved
 	private int tutY = 0;//To test if user moved
@@ -44,10 +44,10 @@ public class UITutorial extends GameObject{
 		tutorial.setTextDisplacement(25, 74);
 		tutorial.setMovable(false);
 		tutorial.setFontSize(50);
-		tutorial.setText("Welcome to Nuclear Reactor simulator (click to continue)");
+		tutorial.setText("Time to learn how to use the UI! (click to continue)");
 		tutButton.setText("Button");
 		tutButton.setVisible(false);
-		tutorial.setVisible(true);
+		tutorial.setVisible(false);
 		tutOver.setVisible(false);
 		tutOver.setText("Start");
 		
@@ -59,10 +59,15 @@ public class UITutorial extends GameObject{
 	}
 	public void run(){
 		switch(tutorialStep){
+		case -1:
+			tutorial.setVisible(true);
+			tutorialStep++;
+			Integrator.clicked=false;
+			break;
 		case 0:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("Here you will learn the basics of the game (click)");
+				tutorial.setText("Here you will learn the basics of the game controls (click)");
 				Integrator.clicked = false;
 			}
 			break;
@@ -285,7 +290,7 @@ public class UITutorial extends GameObject{
 		case 25:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("H2 coolant prevents the turbine form overheating (click)");
+				tutorial.setText("H2 coolant prevents the turbine from overheating (click)");
 				Integrator.reactor4.t.spinDown.setColor(normal);
 				Integrator.reactor4.t.coolant.setColor(Color.yellow);
 				Integrator.clicked=false;
@@ -472,6 +477,8 @@ public class UITutorial extends GameObject{
 				tutOver.setVisible(false);
 				Integrator.clicked=false;
 				tutOver.clicked=false;
+				Integrator.powerDisplay.show();
+				Integrator.level = 2;
 				done=true;
 			}
 			break;
