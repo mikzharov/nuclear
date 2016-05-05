@@ -137,6 +137,9 @@ public class Integrator {
 		if(level == 1){
 			add(uiTut);
 		}
+		//Test here
+		
+		//Test above
 		running = true;
 		//Making level below
 		reactor4 = new Reactor(705, 240, 150, 320, "4");

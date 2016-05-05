@@ -41,4 +41,7 @@ public class Pump extends GameObject{
 	public float getCoolingFactor(){
 		return coolingFactor;
 	}
+	public void setDisabled(boolean b) {
+		pumpLevel.disabled = b;
+	}
 }

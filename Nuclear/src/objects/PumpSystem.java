@@ -26,4 +26,9 @@ public class PumpSystem extends GameObject{
 		}
 		return result;
 	}
+	public void setDisabled(boolean b) {
+		for(Pump temp: pumps){
+			temp.setDisabled(b);
+		}
+	}
 }

@@ -213,7 +213,7 @@ public class Reactor extends GameObject {
 			controlRod = 1;//temp goes down if the reactor is "dead"
 		}
 		if (!masterPump.disabled) {
-			pump.
+			pump.setDisabled(false);
 		}
 		
 		updateControls(deltaTime);
