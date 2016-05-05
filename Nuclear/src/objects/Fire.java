@@ -17,10 +17,11 @@ public class Fire extends GameObject{
 	ArrayList<Integer> posY = new ArrayList<Integer>();
 	boolean active = true;
 	int size = 2;
-	public Fire(int x, int y, int xSize, int ySize, int size){
+	public Fire(int x, int y, int xSize, int ySize, int size, int particles){
 		super(x, y, xSize, ySize);
 		lastTime = System.currentTimeMillis();
 		this.size = size;
+		this.particles = particles;
 	}
 	public void update(long deltaTime){
 		if(lastTime + 250 < System.currentTimeMillis()){
@@ -30,17 +31,18 @@ public class Fire extends GameObject{
 				posX.add(random.nextInt(xSize)+x);
 				posY.add(random.nextInt(ySize)+y);
 			}
+			lastTime = System.currentTimeMillis();
 		}
 	}
 	public void drawObj(Graphics2D g){
-		if(active){
+		if(active && particles <= posX.size()){
 			for(int i = 0; i < particles; i ++){
-				if(random.nextInt(1) == 2){
+				if(random.nextInt(2) == 0){
 					g.setColor(red);
 				}else{
 					g.setColor(yellow);
 				}
-				g.fillRect(posX.get(i)+Integrator.intLastXOffset, posY.get(i)+Integrator.intLastYOffset, 4, 4);
+				g.fillRect(posX.get(i)+Integrator.intLastXOffset, posY.get(i)+Integrator.intLastYOffset, size, size);
 			}
 		}
 	}

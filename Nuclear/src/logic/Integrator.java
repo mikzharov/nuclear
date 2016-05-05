@@ -20,6 +20,7 @@ import main.HighScores;
 import main.Main;
 import objects.PipeSystem;
 import objects.ControlRodBundle;
+import objects.Fire;
 import objects.GameObject;
 import objects.GameTutorial;
 import objects.Pipe;
@@ -360,6 +361,10 @@ public class Integrator {
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}
+		//TODO look at fire
+		Fire fire = new Fire(500, 500, 500, 500, 4, 10000);
+		add(fire);
+		
 		//Making end game GUI
 		//game over page
 		UIText endTitle = new UIText(x/4, y/5, x/2, UIComponent.defaultHeight);
