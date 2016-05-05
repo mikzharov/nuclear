@@ -111,6 +111,10 @@ public class Reactor extends GameObject {
 		ui.add(neutronPoison);
 		
 		masterPump.setText("Master Pump");
+		masterPump.disabled = true;
+		masterPump.setPercentage(0);
+		masterPump.setUpInterval(0.001f);
+		masterPump.setDownInterval(0.01f);
 		ui.add(masterPump);
 		
 		for(UIComponent comp: ui){
@@ -212,8 +216,12 @@ public class Reactor extends GameObject {
 		}else{
 			controlRod = 1;//temp goes down if the reactor is "dead"
 		}
-		if (!masterPump.disabled) {
-			pump.
+		if (masterPump.getActive()) {
+			masterPump.disabled = false;
+			pump.setPumpLevel(masterPump.getPercentage());
+		}
+		if (!masterPump.getActive()) {
+			masterPump.disabled = true;
 		}
 		
 		updateControls(deltaTime);

@@ -26,4 +26,9 @@ public class PumpSystem extends GameObject{
 		}
 		return result;
 	}
+	public void setPumpLevel(float percent) {
+		for(Pump temp: pumps) {
+			temp.pumpLevel.setPercentage(percent);
+		}
+	}
 }
