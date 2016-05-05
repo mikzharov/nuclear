@@ -415,6 +415,7 @@ public class Integrator {
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}
 		Fire fire = new Fire(500, 500, 500, 500, 4, 10000);
+		fire.setActive(false);
 		add(fire);
 		
 		//Making end game GUI

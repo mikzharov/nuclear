@@ -15,7 +15,7 @@ public class Fire extends GameObject{
 	Random random = new Random();
 	ArrayList<Integer> posX = new ArrayList<Integer>();
 	ArrayList<Integer> posY = new ArrayList<Integer>();
-	boolean active = false;
+	boolean active = true;
 	int size = 2;
 	public Fire(int x, int y, int xSize, int ySize, int size, int particles){
 		super(x, y, xSize, ySize);
@@ -48,5 +48,8 @@ public class Fire extends GameObject{
 	}
 	public boolean getActive(){
 		return active;
+	}
+	public void setActive(boolean b){
+		active = b;
 	}
 }
