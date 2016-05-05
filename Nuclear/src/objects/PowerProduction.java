@@ -48,8 +48,15 @@ public class PowerProduction extends GameObject {
 		this.x = x;
 		this.y = y;
 		lastPower = System.currentTimeMillis();
-		for(UIComponent comp: ui){
-			comp.setVisible(true);
+		if (Integrator.level == 1) {
+			for(UIComponent comp: ui){
+				comp.setVisible(false);
+			}
+		}
+		else {
+			for(UIComponent comp: ui){
+				comp.setVisible(true);
+			}
 		}
 		
 	}
@@ -109,5 +116,12 @@ public class PowerProduction extends GameObject {
 			power4.setVisible(false);
 			totalPower.setVisible(false);
 		}
+	}
+	public void show() {
+		power1.setVisible(true);
+		power2.setVisible(true);
+		power3.setVisible(true);
+		power4.setVisible(true);
+		totalPower.setVisible(true);
 	}
 }

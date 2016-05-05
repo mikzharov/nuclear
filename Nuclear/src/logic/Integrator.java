@@ -37,7 +37,7 @@ import objects.UITutorial;
 public class Integrator {
 	public static boolean clicked = false;
 	public static boolean looped = false;
-	private static int level = 1;//Sets the default, it is always overriden though
+	public static int level = 1;//Sets the default, it is always overriden though
 	public static boolean running = true;//If false, the game quits
 	public static boolean paused = false;
 	private long last;//The long which stores the time in milliseconds at the last update
@@ -129,6 +129,8 @@ public class Integrator {
 	public static Reactor reactor3;
 	public static Reactor reactor2;
 	public static Reactor reactor1;
+	
+	public static PowerProduction powerDisplay;
 	
 	UITutorial uiTut;
 	public static GameTutorial gameTut;
@@ -353,15 +355,65 @@ public class Integrator {
 		reactor1.setTurbine2(tSys1_1);
 		reactor1.setTurbine(tSys1);
 		//Turbines above
+		
 		//Pumps below
+		PumpSystem r4 = new PumpSystem();
+		//top
+		r4.addPump(new Pump(742, 210, 40));
+		r4.addPump(new Pump(742+40, 210, 40));
+		r4.addPump(new Pump(742+80, 210, 40));
+		r4.addPump(new Pump(742+120, 210, 40));
+		//bottom
+		r4.addPump(new Pump(728, 580, 40));
+		r4.addPump(new Pump(728+40, 580, 40));
+		r4.addPump(new Pump(728+80, 580, 40));
+		r4.addPump(new Pump(728+120, 580, 40));
+		reactor4.setPumpSystem(r4);
+		
 		PumpSystem r3 = new PumpSystem();
-		r3.addPump(new Pump(1368, 207, 40));
+		//top
+		r3.addPump(new Pump(1366, 207, 40));
+		r3.addPump(new Pump(1366+40, 207, 40));
+		r3.addPump(new Pump(1366+80, 207, 40));
+		r3.addPump(new Pump(1366+120, 207, 40));
+		//bottom
+		r3.addPump(new Pump(1368, 595, 40));
+		r3.addPump(new Pump(1368+40, 595, 40));
+		r3.addPump(new Pump(1368+80, 595, 40));
+		r3.addPump(new Pump(1368+120, 595, 40));
 		reactor3.setPumpSystem(r3);
+		
+		PumpSystem r2 = new PumpSystem();
+		//top
+		r2.addPump(new Pump(2875, 160, 40));
+		r2.addPump(new Pump(2875+40, 160, 40));
+		r2.addPump(new Pump(2875+80, 160, 40));
+		r2.addPump(new Pump(2875+120, 160, 40));
+		//bottom
+		r2.addPump(new Pump(2875, 575, 40));
+		r2.addPump(new Pump(2875+40, 575, 40));
+		r2.addPump(new Pump(2875+80, 575, 40));
+		r2.addPump(new Pump(2875+120, 575, 40));
+		reactor2.setPumpSystem(r2);
+		
+		PumpSystem r1 = new PumpSystem();
+		//top
+		r1.addPump(new Pump(3970, 160, 40));
+		r1.addPump(new Pump(3970+40, 160, 40));
+		r1.addPump(new Pump(3970+80, 160, 40));
+		r1.addPump(new Pump(3970+120, 160, 40));
+		//bottom
+		r1.addPump(new Pump(3970, 575, 40));
+		r1.addPump(new Pump(3970+40, 575, 40));
+		r1.addPump(new Pump(3970+80, 575, 40));
+		r1.addPump(new Pump(3970+120, 575, 40));
+		reactor1.setPumpSystem(r1);
+		
 		//Pumps above
+		
 		if(level != 1){
 			add(plant);//Adds the plant to the world array so it can be rendered
 		}
-		//TODO look at fire
 		Fire fire = new Fire(500, 500, 500, 500, 4, 10000);
 		add(fire);
 		
@@ -439,12 +491,9 @@ public class Integrator {
 		//Making paused GUI above
 		
 		//UI below
-		PowerProduction powerDisplay = new PowerProduction(10, 10);
+		powerDisplay = new PowerProduction(10, 10);
+		add(powerDisplay);
 		
-		if(level != 1){
-			add(powerDisplay);
-		}
-	
 		//Tutorial UI below
 		
 		//Tutorial UI above
@@ -677,7 +726,7 @@ public class Integrator {
 		ui.clear();
 	}
 	public static void setLevel(int lvl) {
-		//level = lvl;
-		level = 2; //for testing
+		level = lvl;
+		//level = 2; //for testing
 	}
 }

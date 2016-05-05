@@ -79,6 +79,9 @@ public class GameObject {
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
+			if (Integrator.level == 1 && !UITutorial.powerTutorialOn) {
+				Integrator.powerDisplay.hide();
+			}
 		} else {
 			boolean uiClicked=false;
 			for(UIComponent utemp: ui){
@@ -96,6 +99,12 @@ public class GameObject {
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.setTurbineVisible(true);
+				}
+				else if (UITutorial.pumpTutorialOn) {
+					Integrator.reactor4.pump.pumps.get(4).showControls();
+				}
+				else if (UITutorial.powerTutorialOn) {
+					Integrator.powerDisplay.show();
 				}
 				else {
 					for(UIComponent comp: ui){

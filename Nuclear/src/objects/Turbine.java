@@ -16,7 +16,7 @@ public class Turbine extends GameObject{
 	UIButton spinDown = new UIButton(limit.getX() + limit.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 200, UIComponent.defaultHeight);
 	UISlider coolant = new UISlider(spinDown.getX() + spinDown.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 400, UIComponent.defaultHeight);
 	boolean spinTurbineDown = false;
-	private Color turbineOutline = Color.cyan;
+	public Color turbineOutline = Color.cyan;
 	//This will be a shell object to house all the pipes / pumps / turbines for a reactor
 	private ArrayList<TurbineRotor> turbines = new ArrayList<TurbineRotor>();
 	private Pipe powerPipe;

@@ -44,4 +44,10 @@ public class Pump extends GameObject{
 	public void setDisabled(boolean b) {
 		pumpLevel.disabled = b;
 	}
+	public void showControls() {
+		pumpLevel.setVisible(true);
+	}
+	public void hide() {
+		pumpLevel.setVisible(false);
+	}
 }

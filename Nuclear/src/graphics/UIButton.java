@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import objects.UITutorial;
 import logic.Integrator;
 
 public class UIButton extends UIComponent{
@@ -50,9 +51,11 @@ public class UIButton extends UIComponent{
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if(visible && bounds.contains(e.getPoint())){
-					color = new Color(204, 204, 255);
+					if (!UITutorial.reactorTutorialOn && !UITutorial.turbineTutorialOn && !UITutorial.pumpTutorialOn) //this was messing with the color changes in the tutorial
+						color = new Color(204, 204, 255);
 				}else if(visible){
-					color = new Color(174, 174, 207);
+					if (!UITutorial.reactorTutorialOn && !UITutorial.turbineTutorialOn && !UITutorial.pumpTutorialOn) //this was messing with the color changes in the tutorial
+						color = new Color(174, 174, 207);
 				}
 			}
 			@Override

@@ -51,6 +51,10 @@ public class UIComponent {
 	public void setVisible(boolean bool){
 		visible = bool;
 	}
+	public void setLocation(int x2, int y2) {
+		x=x2;
+		y=y2;
+	}
 	public int getX(){
 		return x;
 	}

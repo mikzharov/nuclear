@@ -1,5 +1,6 @@
 package objects;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import graphics.UIButton;
@@ -16,12 +17,17 @@ public class UITutorial extends GameObject{
 	private int tutY = 0;//To test if user moved
 	public static boolean reactorTutorialOn = false;
 	public static boolean turbineTutorialOn = false;
+	public static boolean turnReactorYellow = false;
+	public static boolean pumpTutorialOn = false;
+	public static boolean powerTutorialOn = false;
+	private Color normal = new Color(174, 174, 207);
 	
 	private boolean done = false;
 	
 	UIButton tutButton;
 	UIText tutorial;
 	UISlider tutSlider;
+	UIButton tutOver;
 
 	
 	public UITutorial(){
@@ -30,6 +36,7 @@ public class UITutorial extends GameObject{
 		tutButton  = new UIButton(x/2-150, y/2, 300, 100);
 		tutorial = new UIText(10, 10, Integrator.x-30, 100);
 		tutSlider = new UISlider(x/2-150, y/2, 300, 100);
+		tutOver = new UIButton(x/2-150, y/2, 300, 100);
 		tutSlider.setText("Slider");
 		tutSlider.setFontSize(55);
 		tutSlider.setTextDisplacement(25, 75);
@@ -41,9 +48,13 @@ public class UITutorial extends GameObject{
 		tutButton.setText("Button");
 		tutButton.setVisible(false);
 		tutorial.setVisible(true);
+		tutOver.setVisible(false);
+		tutOver.setText("Start");
+		
 		ui.add(tutButton);
 		ui.add(tutSlider);
 		ui.add(tutorial);
+		ui.add(tutOver);
 		
 	}
 	public void run(){
@@ -152,15 +163,19 @@ public class UITutorial extends GameObject{
 			break;
 		case 11:
 			if(Math.abs(Integrator.scale-0.6f) > 0.2f){
+				turnReactorYellow=true;
 				tutorialStep++;
 				tutorial.setText("Now click on the green circle of the leftmost reactor");
+				Integrator.reactor4.reactorOutline = Color.yellow;
 			}
 			break;
 		case 12:
 			if (Integrator.reactor4.clicked) {
 				reactorTutorialOn=true;
+				turnReactorYellow=false;
 				tutorialStep++;
 				tutorial.setText("This is the control panel for a reactor (click)");
+				Integrator.reactor4.reactorOutline = Color.cyan;
 				Integrator.clicked=false;
 				Integrator.reactor4.clicked=false;
 			}
@@ -169,6 +184,8 @@ public class UITutorial extends GameObject{
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("It shows the reactor's temperature and pressure (click)");
+				Integrator.reactor4.currentTemp.setColor(Color.yellow);
+				Integrator.reactor4.pressureText.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
@@ -176,6 +193,9 @@ public class UITutorial extends GameObject{
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("It also shows the depth of the control rods (click)");
+				Integrator.reactor4.currentTemp.setColor(normal);
+				Integrator.reactor4.pressureText.setColor(normal);
+				Integrator.reactor4.rodDepth.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
@@ -183,6 +203,8 @@ public class UITutorial extends GameObject{
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("The control rods are controlled by a slider (click)");
+				Integrator.reactor4.rodDepth.setColor(normal);
+				Integrator.reactor4.rods.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
@@ -195,78 +217,262 @@ public class UITutorial extends GameObject{
 			break;
 		case 17:
 			if (Integrator.clicked) {
-				reactorTutorialOn=false;
 				tutorialStep++;
-				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+				tutorial.setText("All pumps can controlled by the master pump (click)");
+				Integrator.reactor4.rods.setColor(normal);
+				Integrator.reactor4.masterPump.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
 		case 18:
 			if (Integrator.clicked) {
+				reactorTutorialOn=false;
 				tutorialStep++;
-				tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
+				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+				Integrator.reactor4.masterPump.setColor(normal);
 				Integrator.clicked=false;
 			}
 			break;
 		case 19:
-			if (Integrator.reactor4.isTurbineActive()) {
-				turbineTutorialOn=true;
+			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("This is the control panel for a turbine (click)");
+				tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
+				Integrator.reactor4.t.turbineOutline = Color.yellow;
 				Integrator.clicked=false;
 			}
 			break;
 		case 20:
-			if (Integrator.clicked) {
+			if (Integrator.reactor4.isTurbineActive()) {
+				turbineTutorialOn=true;
 				tutorialStep++;
-				tutorial.setText("Each reactor has two turbines to generate power (click)");
+				tutorial.setText("This is the control panel for a turbine (click)");
+				Integrator.reactor4.t.turbineOutline = Color.cyan;
 				Integrator.clicked=false;
 			}
 			break;
 		case 21:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("Click on the slider to adjust the turbine max speed (click)");
+				tutorial.setText("Each reactor has two turbines to generate power (click)");
 				Integrator.clicked=false;
 			}
 			break;
 		case 22:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("The default speed is zero (click)");
+				tutorial.setText("Click on the slider to adjust the turbine max speed (click)");
+				Integrator.reactor4.t.limit.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
 		case 23:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("To stop the turbines click on the \"Spin Down\" button (click)");
+				tutorial.setText("The default speed is zero (click)");
 				Integrator.clicked=false;
 			}
-			
 			break;
 		case 24:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				tutorial.setText("To stop the turbines click on the \"Spin Down\" button (click)");
+				Integrator.reactor4.t.limit.setColor(normal);
+				Integrator.reactor4.t.spinDown.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			
+			break;
+		case 25:
+			if (Integrator.clicked) {
+				tutorialStep++;
 				tutorial.setText("H2 coolant prevents the turbine form overheating (click)");
+				Integrator.reactor4.t.spinDown.setColor(normal);
+				Integrator.reactor4.t.coolant.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
-		case 25:
+		case 26:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("This can occur when it is running at high speeds (click)");
 				Integrator.clicked=false;
 			}
 			break;
-		case 26:
+		case 27:
 			if (Integrator.clicked) {
 				turbineTutorialOn=false;
 				tutorialStep++;
-				tutorial.setVisible(false);
+				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+				Integrator.reactor4.t.coolant.setColor(normal);
 				Integrator.clicked=false;
+			}
+			break;
+		case 28:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Click on the bottom left circle next to the reactor (click)");
+				Integrator.reactor4.pump.pumps.get(4).pumpOutline = Color.yellow;
+				Integrator.clicked=false;
+			}
+			break;
+		case 29:
+			if (Integrator.reactor4.pump.pumps.get(4).getActive()) {
+				pumpTutorialOn=true;
+				tutorialStep++;
+				tutorial.setText("Each pump can be controlled individually with a slider (click)");
+				Integrator.reactor4.pump.pumps.get(4).pumpOutline = Color.cyan;
+				Integrator.reactor4.pump.pumps.get(4).pumpLevel.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 30:
+			if (Integrator.clicked) {
+				pumpTutorialOn=false;
+				tutorialStep++;
+				tutorial.setText("Click on empty screen space to leave the control panel (click)");
+				Integrator.reactor4.pump.pumps.get(4).pumpLevel.setColor(normal);
+				Integrator.clicked=false;
+			}
+			break;
+		case 31:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setLocation(10, Integrator.y-tutorial.getHeight()-15);
+				tutorial.setText("These five panels are the plant's power output (click)");
+				Integrator.powerDisplay.show();
+				Integrator.clicked=false;
+			}
+			break;
+		case 32:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("These four show each reactor's power output per second(click)");
+				Integrator.powerDisplay.power1.setColor(Color.yellow);
+				Integrator.powerDisplay.power2.setColor(Color.yellow);
+				Integrator.powerDisplay.power3.setColor(Color.yellow);
+				Integrator.powerDisplay.power4.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 33:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Reactor 4 (click)");
+				Integrator.powerDisplay.power2.setColor(normal);
+				Integrator.powerDisplay.power3.setColor(normal);
+				Integrator.powerDisplay.power4.setColor(normal);
+				Integrator.clicked=false;
+			}
+			break;
+		case 34:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Reactor 3 (click)");
+				Integrator.powerDisplay.power1.setColor(normal);
+				Integrator.powerDisplay.power2.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 35:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Reactor 2 (click)");
+				Integrator.powerDisplay.power2.setColor(normal);
+				Integrator.powerDisplay.power3.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 36:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Reactor 1 (click)");
+				Integrator.powerDisplay.power3.setColor(normal);
+				Integrator.powerDisplay.power4.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 37:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("This is the total power your plant has produced (click)");
+				Integrator.powerDisplay.power4.setColor(normal);
+				Integrator.powerDisplay.totalPower.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 38:
+			if (Integrator.clicked) {
+				powerTutorialOn=false;
+				tutorialStep++;
+				tutorial.setText("It will be the high score at the end of the game (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 39:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setLocation(10, 10);
+				tutorial.setText("These numbers represent the damage done to a reactor (click)");
+				Integrator.powerDisplay.totalPower.setColor(normal);
+				Integrator.powerDisplay.hide();
+				Integrator.reactor4.lifeColor = Color.yellow;
+				Integrator.reactor3.lifeColor = Color.yellow;
+				Integrator.reactor2.lifeColor = Color.yellow;
+				Integrator.reactor1.lifeColor = Color.yellow;
+				Integrator.clicked=false;
+			}
+			break;
+		case 40:
+			if (Integrator.clicked) {
+				turnReactorYellow=true;
+				tutorialStep++;
+				tutorial.setLocation(10, 10);
+				tutorial.setText("The reactors will turn red when they are being damaged (click)");
+				Integrator.reactor4.lifeColor = Color.green;
+				Integrator.reactor3.lifeColor = Color.green;
+				Integrator.reactor2.lifeColor = Color.green;
+				Integrator.reactor1.lifeColor = Color.green;
+				Integrator.reactor4.reactorOutline = Color.red;
+				Integrator.reactor3.reactorOutline = Color.red;
+				Integrator.reactor2.reactorOutline = Color.red;
+				Integrator.reactor1.reactorOutline = Color.red;
+				Integrator.clicked=false;
+			}
+			break;
+		case 41:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setLocation(10, 10);
+				tutorial.setText("When they are destroyed (value of 0.0) they will be black (click)");
+				Integrator.reactor4.reactorOutline = Color.black;
+				Integrator.reactor3.reactorOutline = Color.black;
+				Integrator.reactor2.reactorOutline = Color.black;
+				Integrator.reactor1.reactorOutline = Color.black;
+				Integrator.clicked=false;
+			}
+			break;
+		case 42:
+			if (Integrator.clicked) {
+				turnReactorYellow=false;
+				tutorialStep++;
+				tutorial.setLocation(10, 10);
+				tutorial.setText("Best of luck! (click)");
+				Integrator.reactor4.reactorOutline = Color.cyan;
+				Integrator.reactor3.reactorOutline = Color.cyan;
+				Integrator.reactor2.reactorOutline = Color.cyan;
+				Integrator.reactor1.reactorOutline = Color.cyan;
+				tutOver.setVisible(true);
+				Integrator.clicked=false;
+			}
+			break;
+		case 43:
+			if (tutOver.clicked) {
+				tutorialStep++;
+				tutorial.setVisible(false);
+				tutOver.setVisible(false);
+				Integrator.clicked=false;
+				tutOver.clicked=false;
 				done=true;
-				Integrator.gameTut.run();
 			}
 			break;
 		}

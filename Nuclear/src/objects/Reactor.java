@@ -17,9 +17,9 @@ import logic.Integrator;
 
 public class Reactor extends GameObject {
 	private PipeSystem pSys = null;//This is for the components that need to be controlled by the reactor
-	private Turbine t = null; //This is for the components that need to be controlled by the reactor
+	public Turbine t = null; //public for tutorial //This is for the components that need to be controlled by the reactor
 	private Turbine t2 = null;//2 turbines per reactor
-	private PumpSystem pump = null;
+	public PumpSystem pump = null;
 	private boolean error = false;
 	private String name;
 	private double temperature = 25.0;
@@ -27,8 +27,8 @@ public class Reactor extends GameObject {
 	private double steamkPa = 101.3; //atmospheric pressure
 	private Graphics2D g;
 	public double controlRod = 1.0;
-	private Color reactorOutline = Color.cyan;
-	private Color lifeColor = Color.green;
+	public Color reactorOutline = Color.cyan;
+	public Color lifeColor = Color.green;
 	private Font reactorFont = new Font("Impact", Font.PLAIN, 80);
 	private Stroke lifeStroke = new BasicStroke(5);
 	private double reactorLife = 100.0;
@@ -111,6 +111,9 @@ public class Reactor extends GameObject {
 		ui.add(neutronPoison);
 		
 		masterPump.setText("Master Pump");
+		masterPump.setPercentage(0);
+		masterPump.setUpInterval(0.01f);
+		masterPump.setDownInterval(0.01f);
 		ui.add(masterPump);
 		
 		for(UIComponent comp: ui){
@@ -215,7 +218,7 @@ public class Reactor extends GameObject {
 		if (masterPump.getActive()) {
 			masterPump.disabled = false;
 			if(pump!=null)
-			pump.setPumpLevel(masterPump.getPercentage());
+				pump.setPumpLevel(masterPump.getPercentage());
 		}
 		
 		updateControls(deltaTime);
@@ -254,7 +257,7 @@ public class Reactor extends GameObject {
 			if(temperature>600){//The maximum temp of a fuel rod in an RBMK reactor 600 C, so going beyond that will incur penalties
 				reactorLife-=0.1;
 			}
-			if(steamkPa > 6900){//The drum seperators maximum pressure is something like 69 bar, 6900 in kpa
+			if(steamkPa > 6900){//The drum separators maximum pressure is something like 69 bar, 6900 in kpa
 				reactorLife-=0.1;
 			}
 		}
@@ -354,7 +357,8 @@ public class Reactor extends GameObject {
 		}
 		
 		if (temperature < 450 && steamkPa < 6900) {
-			reactorOutline=Color.cyan;
+			if (!UITutorial.turnReactorYellow) //this was messing with the reactor tutorial
+				reactorOutline=Color.cyan;
 			error=false;
 		}
 		return errorMessage;
@@ -425,5 +429,8 @@ public class Reactor extends GameObject {
 	}
 	public boolean isTurbineActive() {
 		return t.clicked;
+	}
+	public void setPumpVisible(boolean b) {
+		pump.pumps.get(4).pumpLevel.setVisible(b); //set bottom left pump visible
 	}
 }
