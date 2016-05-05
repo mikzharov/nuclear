@@ -17,7 +17,7 @@ import logic.Integrator;
 
 public class Reactor extends GameObject {
 	private PipeSystem pSys = null;//This is for the components that need to be controlled by the reactor
-	private Turbine t = null;//This is for the components that need to be controlled by the reactor
+	private Turbine t = null; //This is for the components that need to be controlled by the reactor
 	private Turbine t2 = null;//2 turbines per reactor
 	private PumpSystem pump = null;
 	private boolean error = false;
@@ -40,7 +40,8 @@ public class Reactor extends GameObject {
 	private UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
 	UIButton neutronPoison = new UIButton(emergencyCooling.getX()+emergencyCooling.getWidth()+15, rods.getY(), 170, 35);
-		
+	UISlider masterPump = new UISlider(currentTemp.getX(), rods.getY()-rods.getHeight()-15, 420, UIComponent.defaultHeight);
+	
 	public double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
 	}
@@ -108,6 +109,9 @@ public class Reactor extends GameObject {
 		neutronPoison.setTextDisplacement(10, 25);
 		neutronPoison.setFontSize(20);
 		ui.add(neutronPoison);
+		
+		masterPump.setText("Master Pump");
+		ui.add(masterPump);
 		
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
@@ -207,6 +211,9 @@ public class Reactor extends GameObject {
 			controlRod=rods.getPercentage();
 		}else{
 			controlRod = 1;//temp goes down if the reactor is "dead"
+		}
+		if (!masterPump.disabled) {
+			pump.
 		}
 		
 		updateControls(deltaTime);
@@ -413,5 +420,8 @@ public class Reactor extends GameObject {
 	}
 	public void setTurbine2Visible(boolean b){
 		t2.setVisible(b);
+	}
+	public boolean isTurbineActive() {
+		return t.clicked;
 	}
 }

@@ -10,7 +10,7 @@ import logic.Integrator;
 //Oddly enough, it's a gameobject
 public class UITutorial extends GameObject{
 	
-	private static int tutorialStep = 0; //10 for testing //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
+	private static int tutorialStep = 8; //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
 	private long tutorialTime = 0;//For measuring passed time in the tutorial
 	private int tutX = 0;//To test if user moved
 	private int tutY = 0;//To test if user moved
@@ -157,11 +157,12 @@ public class UITutorial extends GameObject{
 			}
 			break;
 		case 12:
-			if (Integrator.clicked) {
+			if (Integrator.reactor4.clicked) {
 				reactorTutorialOn=true;
 				tutorialStep++;
 				tutorial.setText("This is the control panel for a reactor (click)");
 				Integrator.clicked=false;
+				Integrator.reactor4.clicked=false;
 			}
 			break;
 		case 13:
@@ -203,12 +204,12 @@ public class UITutorial extends GameObject{
 		case 18:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("Click on a grey turbine to bring it into focus (click)");
+				tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
 				Integrator.clicked=false;
 			}
 			break;
 		case 19:
-			if (Integrator.clicked) {
+			if (Integrator.reactor4.isTurbineActive()) {
 				turbineTutorialOn=true;
 				tutorialStep++;
 				tutorial.setText("This is the control panel for a turbine (click)");
@@ -245,7 +246,28 @@ public class UITutorial extends GameObject{
 			
 			break;
 		case 24:
-			
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("H2 coolant prevents the turbine form overheating (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 25:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("This can occur when it is running at high speeds (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 26:
+			if (Integrator.clicked) {
+				turbineTutorialOn=false;
+				tutorialStep++;
+				tutorial.setVisible(false);
+				Integrator.clicked=false;
+				done=true;
+				Integrator.gameTut.run();
+			}
 			break;
 		}
 	}

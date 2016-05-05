@@ -109,7 +109,7 @@ public class Integrator {
 	public static Reactor reactor1;
 	
 	UITutorial uiTut;
-	GameTutorial gameTut;
+	public static GameTutorial gameTut;
 	public void start(){
 		uiTut = new UITutorial();
 		gameTut = new GameTutorial();
@@ -648,7 +648,7 @@ public class Integrator {
 		ui.clear();
 	}
 	public static void setLevel(int lvl) {
-		level = lvl;
-		//level = 2; //for testing
+		//level = lvl;
+		level = 2; //for testing
 	}
 }

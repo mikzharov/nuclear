@@ -12,7 +12,6 @@ import graphics.UISlider;
 import logic.Integrator;
 
 public class Turbine extends GameObject{
-	boolean clicked = false;
 	UISlider limit = new UISlider(20, Integrator.y-20-UIComponent.defaultHeight, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	UIButton spinDown = new UIButton(limit.getX() + limit.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 200, UIComponent.defaultHeight);
 	UISlider coolant = new UISlider(spinDown.getX() + spinDown.getWidth() + 20, Integrator.y-20-UIComponent.defaultHeight, 400, UIComponent.defaultHeight);

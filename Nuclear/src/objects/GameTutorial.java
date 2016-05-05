@@ -35,6 +35,7 @@ public class GameTutorial extends GameObject{
 		ui.add(tutorial);
 	}
 	public void run(){
+		tutorial.setVisible(true);
 		switch(tutorialStep){
 		case 1:
 			if(Integrator.reactor4.getActive()||Integrator.reactor3.getActive()||Integrator.reactor2.getActive()||Integrator.reactor1.getActive()){
