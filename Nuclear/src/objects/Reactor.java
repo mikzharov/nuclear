@@ -32,6 +32,7 @@ public class Reactor extends GameObject {
 	private Stroke lifeStroke = new BasicStroke(5);
 	private double reactorLife = 100.0;
 	private boolean dead = false;
+	private boolean scramOn = false;
 	UIText currentTemp = new UIText(10, Integrator.y-90, 300, 65);//renamed from warning to currentTemp, warning is for the warning messages
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
 	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
@@ -187,7 +188,7 @@ public class Reactor extends GameObject {
 					for(UIComponent comp: ui){
 						comp.setVisible(false);
 					}
-					warning.setVisible(error);//<solves the warning bug flashing
+					warning.setVisible(false);//<solves the warning bug flashing
 				}
 			}
 		}

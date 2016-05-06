@@ -219,17 +219,32 @@ public class UITutorial extends GameObject{
 				tutorial.setText("They can be adjusted with the (up|down) arrows (click)");
 				Integrator.clicked=false;
 			}
-			break;
 		case 17:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("All pumps can controlled by the master pump (click)");
+				tutorial.setText("Th SCRAM button automatically lowers the control rods (click)");
 				Integrator.reactor4.rods.setColor(normal);
-				Integrator.reactor4.masterPump.setColor(Color.yellow);
+				Integrator.reactor4.scram.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
 		case 18:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("All pumps can controlled by the master pump (click)");
+				Integrator.reactor4.scram.setColor(normal);
+				Integrator.reactor4.masterPump.setColor(Color.yellow);
+				Integrator.clicked=false;
+			}
+			break;
+		case 19:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Pumps must be on before removing the control rods (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 20:
 			if (Integrator.clicked) {
 				reactorTutorialOn=false;
 				tutorialStep++;
@@ -238,7 +253,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 19:
+		case 21:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
@@ -246,7 +261,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 20:
+		case 22:
 			if (Integrator.reactor4.isTurbineActive()) {
 				turbineTutorialOn=true;
 				tutorialStep++;
@@ -255,29 +270,29 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 21:
+		case 23:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Each reactor has two turbines to generate power (click)");
 				Integrator.clicked=false;
 			}
 			break;
-		case 22:
+		case 24:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("Click on the slider to adjust the turbine max speed (click)");
+				tutorial.setText("Click on the slider to adjust the turbine's max speed (click)");
 				Integrator.reactor4.t.limit.setColor(Color.yellow);
 				Integrator.clicked=false;
 			}
 			break;
-		case 23:
+		case 25:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("The default speed is zero (click)");
 				Integrator.clicked=false;
 			}
 			break;
-		case 24:
+		case 26:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("To stop the turbines click on the \"Spin Down\" button (click)");
@@ -287,7 +302,7 @@ public class UITutorial extends GameObject{
 			}
 			
 			break;
-		case 25:
+		case 27:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("H2 coolant prevents the turbine from overheating (click)");
@@ -296,14 +311,14 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 26:
+		case 28:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("This can occur when it is running at high speeds (click)");
+				tutorial.setText("It is also required to start the turbine (click)");
 				Integrator.clicked=false;
 			}
 			break;
-		case 27:
+		case 29:
 			if (Integrator.clicked) {
 				turbineTutorialOn=false;
 				tutorialStep++;
@@ -312,7 +327,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 28:
+		case 30:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Click on the bottom left circle next to the reactor (click)");
@@ -320,7 +335,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 29:
+		case 31:
 			if (Integrator.reactor4.pump.pumps.get(4).getActive()) {
 				pumpTutorialOn=true;
 				tutorialStep++;
@@ -330,7 +345,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 30:
+		case 32:
 			if (Integrator.clicked) {
 				pumpTutorialOn=false;
 				tutorialStep++;
@@ -339,7 +354,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 31:
+		case 33:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setLocation(10, Integrator.y-tutorial.getHeight()-15);
@@ -348,7 +363,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 32:
+		case 34:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("These four show each reactor's power output per second(click)");
@@ -359,7 +374,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 33:
+		case 35:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Reactor 4 (click)");
@@ -369,7 +384,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 34:
+		case 36:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Reactor 3 (click)");
@@ -378,7 +393,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 35:
+		case 37:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Reactor 2 (click)");
@@ -387,7 +402,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 36:
+		case 38:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("Reactor 1 (click)");
@@ -396,7 +411,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 37:
+		case 39:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setText("This is the total power your plant has produced (click)");
@@ -405,7 +420,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 38:
+		case 40:
 			if (Integrator.clicked) {
 				powerTutorialOn=false;
 				tutorialStep++;
@@ -413,7 +428,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 39:
+		case 41:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setLocation(10, 10);
@@ -427,7 +442,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 40:
+		case 42:
 			if (Integrator.clicked) {
 				turnReactorYellow=true;
 				tutorialStep++;
@@ -444,7 +459,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 41:
+		case 43:
 			if (Integrator.clicked) {
 				tutorialStep++;
 				tutorial.setLocation(10, 10);
@@ -456,21 +471,42 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 			}
 			break;
-		case 42:
+		case 44:
 			if (Integrator.clicked) {
 				turnReactorYellow=false;
 				tutorialStep++;
 				tutorial.setLocation(10, 10);
-				tutorial.setText("Best of luck! (click)");
+				tutorial.setText("Remember, to start producing power, you must: (click)");
 				Integrator.reactor4.reactorOutline = Color.cyan;
 				Integrator.reactor3.reactorOutline = Color.cyan;
 				Integrator.reactor2.reactorOutline = Color.cyan;
 				Integrator.reactor1.reactorOutline = Color.cyan;
+				Integrator.clicked=false;
+			}
+			break;
+		case 45:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("1) Turn on the H2 coolant 2) Speed up the turbines (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 46:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("3) Activate the pumps 4) Take out the control rods (click)");
+				Integrator.clicked=false;
+			}
+			break;
+		case 47:
+			if (Integrator.clicked) {
+				tutorialStep++;
+				tutorial.setText("Best of luck! (click)");
 				tutOver.setVisible(true);
 				Integrator.clicked=false;
 			}
 			break;
-		case 43:
+		case 48:
 			if (tutOver.clicked) {
 				tutorialStep++;
 				tutorial.setVisible(false);
@@ -478,6 +514,7 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 				tutOver.clicked=false;
 				Integrator.powerDisplay.setVisible(true);
+				Integrator.powerDisplay.powerProduced=0;
 				Integrator.level = 2;
 				done=true;
 			}

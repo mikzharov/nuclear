@@ -101,10 +101,10 @@ public class GameObject {
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.setTurbineVisible(true);
 				}
-				else if (UITutorial.pumpTutorialOn) {
+				else if (UITutorial.pumpTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.pump.pumps.get(4).showControls();
 				}
-				else if (UITutorial.powerTutorialOn) {
+				else if (UITutorial.powerTutorialOn) { //for tutorial only!!
 					Integrator.powerDisplay.setVisible(true);
 				} else {
 					for(UIComponent comp: ui){
