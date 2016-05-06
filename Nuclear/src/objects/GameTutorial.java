@@ -63,7 +63,7 @@ public class GameTutorial extends GameObject{
 		safeIMG.setVisible(false);
 		meltdownIMG.setVisible(false);
 		
-		ui.add(tutorial);
+		
 		ui.add(nuclearReactorIMG);
 		ui.add(fissionIMG);
 		ui.add(boilingWaterIMG);
@@ -80,7 +80,7 @@ public class GameTutorial extends GameObject{
 		ui.add(powerIMG);
 		ui.add(safeIMG);
 		ui.add(meltdownIMG);
-
+		ui.add(tutorial);
 	}
 	/**
 	 * Updates the tutorial, checks if the conditions have been met to move on to the next step, moves on to the next step
