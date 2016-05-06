@@ -2,6 +2,7 @@ package objects;
 
 import java.awt.event.MouseEvent;
 
+import graphics.UIImage;
 import graphics.UIText;
 import logic.Integrator;
 
@@ -17,8 +18,23 @@ public class GameTutorial extends GameObject{
 	private boolean done = false;
 	
 	UIText tutorial;
+	UIImage nuclearReactorIMG = new UIImage(Integrator.x/2-(1000/2), Integrator.y/2-(750/2), 1000, 750, "res/Nuclear_Power_Plant_Cattenom.jpg");
+	UIImage fissionIMG = new UIImage(Integrator.x/2-(600/2), Integrator.y/2-(469/2), 600, 469, "res/u_fission.gif");
+	UIImage boilingWaterIMG = new UIImage(Integrator.x/2-(600/2), Integrator.y/2-(469/2), 600, 469, "res/Magnox_reactor_schematic.svg.png");
+	UIImage powerProcessIMG = new UIImage(Integrator.x/2-(580/2), Integrator.y/2-(450/2), 580, 450, "res/power_plant.gif");
+	UIImage reactorfireIMG = new UIImage(Integrator.x/2-(594/2), Integrator.y/2-(378/2), 594, 378, "res/nuclear-reactor-fire.jpg");
+	UIImage controlRodsIMG = new UIImage(Integrator.x/2-(350/2), Integrator.y/2-(350/2), 350, 350, "res/control-rod.jpg");
+	UIImage controlRods2IMG = new UIImage(Integrator.x/2-(600/2), Integrator.y/2-(400/2), 600, 400, "res/control-rods-2.jpg");
+	UIImage boilingWater2IMG = new UIImage(Integrator.x/2-(464/2), Integrator.y/2-(421/2), 464, 421, "res/pressurized-water-reactor-pwr.png");
+	UIImage pressureGraphIMG = new UIImage(Integrator.x/2-(451/2), Integrator.y/2-(301/2), 451, 301, "res/boiling-graph.gif");
+	UIImage pumpsIMG = new UIImage(Integrator.x/2-(1000/2), Integrator.y/2-(715/2), 1000, 715, "res/pumps.svg.png");
+	UIImage turbineIMG = new UIImage(Integrator.x/2-(499/2), Integrator.y/2-(393/2), 499, 393, "res/turbine.jpg");
+	UIImage turbineOnFireIMG = new UIImage(Integrator.x/2-(460/2), Integrator.y/2-(258/2), 460, 258, "res/turbine-fire.jpg");
+	UIImage whyIMG = new UIImage(Integrator.x/2-(276/2), Integrator.y/2-(276/2), 276, 276, "res/Why-Pic.png");
+	UIImage powerIMG = new UIImage(Integrator.x/2-(1000/2), Integrator.y/2-(750/2), 1000, 750, "res/Electric-Power-Grid.jpg");
+	UIImage safeIMG = new UIImage(Integrator.x/2-(640/2), Integrator.y/2-(404/2), 640, 404, "res/safety.jpg");
+	UIImage meltdownIMG = new UIImage(Integrator.x/2-(625/2), Integrator.y/2-(438/2), 625, 438, "res/nuclear-plant-fire.jpg");
 
-	
 	public GameTutorial(){
 		x = Integrator.x;
 		y = Integrator.y;
@@ -27,9 +43,41 @@ public class GameTutorial extends GameObject{
 		tutorial.setMovable(false);
 		tutorial.setFontSize(40);
 		tutorial.setText("Welcome to Nuclear Reactor simulator (click to continue)");
+		nuclearReactorIMG.setVisible(true);
+		fissionIMG.setVisible(false);
+		boilingWaterIMG.setVisible(false);
+		powerProcessIMG.setVisible(false);
+		reactorfireIMG.setVisible(false);
+		controlRodsIMG.setVisible(false);
+		controlRods2IMG.setVisible(false);
+		boilingWater2IMG.setVisible(false);
+		pressureGraphIMG.setVisible(false);
+		pumpsIMG.setVisible(false);
+		turbineIMG.setVisible(false);
+		turbineOnFireIMG.setVisible(false);
+		whyIMG.setVisible(false);
+		powerIMG.setVisible(false);
+		safeIMG.setVisible(false);
+		meltdownIMG.setVisible(false);
 		
 		ui.add(tutorial);
-		
+		ui.add(nuclearReactorIMG);
+		ui.add(fissionIMG);
+		ui.add(boilingWaterIMG);
+		ui.add(powerProcessIMG);
+		ui.add(reactorfireIMG);
+		ui.add(controlRodsIMG);
+		ui.add(controlRods2IMG);
+		ui.add(boilingWater2IMG);
+		ui.add(pressureGraphIMG);
+		ui.add(pumpsIMG);
+		ui.add(turbineIMG);
+		ui.add(turbineOnFireIMG);
+		ui.add(whyIMG);
+		ui.add(powerIMG);
+		ui.add(safeIMG);
+		ui.add(meltdownIMG);
+
 	}
 	public void run(){
 		tutorial.setVisible(true);
@@ -45,6 +93,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("Nuclear reactors use nuclear fission to create energy (click)");
+				nuclearReactorIMG.setVisible(false);
+				fissionIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -59,6 +109,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("Energy is released in this process, and it is used to boil water (click)");
+				fissionIMG.setVisible(false);
+				boilingWaterIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -66,6 +118,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("The steam turns a turbine which creates energy! (click)");
+				boilingWaterIMG.setVisible(false);
+				powerProcessIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -94,6 +148,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("This includes overheating, melting down, or catching on fire (click)");
+				powerProcessIMG.setVisible(false);
+				reactorfireIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -101,6 +157,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("The most important tools for this are the control rods (click)");
+				reactorfireIMG.setVisible(false);
+				controlRodsIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -108,20 +166,26 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("The control rods are made of dense, neutron absorbing material (click)");
+				controlRodsIMG.setVisible(false);
+				controlRods2IMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 11:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("They slow the reaction and thus lower the temperature (click)");
+				tutorial.setText("They lower the temp. If the temp. goes above 700C it will MELTDOWN (click)");
+				controlRods2IMG.setVisible(false);
+				boilingWater2IMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 12:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("However, the change in pressure is proportional to the temperature (click)");
+				tutorial.setText("However, the change in pressure is exponential to the temperature (click)");
+				boilingWater2IMG.setVisible(false);
+				pressureGraphIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -135,7 +199,7 @@ public class GameTutorial extends GameObject{
 		case 14:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("To prevent radtiation leaks the pressure must be below 6900 kPa (click)");
+				tutorial.setText("To prevent radtiation leaks the pressure MUST BE BELOW 6900 kPa (click)");
 				Integrator.clicked = false;
 			}
 			break;
@@ -143,6 +207,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("The pressure can be lowered by using the reactor's pumps (click)");
+				pressureGraphIMG.setVisible(false);
+				pumpsIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -156,7 +222,7 @@ public class GameTutorial extends GameObject{
 		case 17:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("Lower pressure produce less electricity, but are safer (click)");
+				tutorial.setText("Lower pressures produce less electricity, but are safer (click)");
 				Integrator.clicked = false;
 			}
 			break;
@@ -164,6 +230,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("Lastly, we have to watch out for the turbines overheating (click)");
+				pumpsIMG.setVisible(false);
+				turbineIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -171,6 +239,8 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("If the turbines spin too fast, they will catch on fire (not good) (click)");
+				turbineIMG.setVisible(false);
+				turbineOnFireIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
@@ -185,49 +255,50 @@ public class GameTutorial extends GameObject{
 			if(Integrator.clicked){
 				tutorialStep++;
 				tutorial.setText("So why not turn the turbines down, and pumps up? (click)");
+				turbineOnFireIMG.setVisible(false);
+				whyIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 22:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("So why not turn the turbines down, and pumps up? (click)");
+				tutorial.setText("Because, we need to generate power! (click)");
+				whyIMG.setVisible(false);
+				powerIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 23:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("Because, we need to generate power! (click)");
+				tutorial.setText("As an operator, you have to walk the line between safe generation (click)");
+				powerIMG.setVisible(false);
+				safeIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 24:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("As an operator, you have to walk the line between safe generation (click)");
+				tutorial.setText("and reckless behaviour. Or this will happen (click)");
+				safeIMG.setVisible(false);
+				meltdownIMG.setVisible(true);
 				Integrator.clicked = false;
 			}
 			break;
 		case 25:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("and reckless behaviour. Or this will happen (click)");
+				tutorial.setText("Good Luck! (click to end tutorial)");
+				meltdownIMG.setVisible(false);
 				Integrator.clicked = false;
 			}
 			break;
 		case 26:
 			if(Integrator.clicked){
 				tutorialStep++;
-				tutorial.setText("Good Luck! (click to end tutorial)");
-				Integrator.clicked = false;
-			}
-			break;
-		case 27:
-			if(Integrator.clicked){
-				tutorialStep++;
 				done=true;
-				tutorial.setVisible(false);
 				tutorial.setVisible(false);
 				Integrator.clicked = false;
 			}

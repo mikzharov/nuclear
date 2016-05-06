@@ -43,7 +43,7 @@ public class UITutorial extends GameObject{
 		tutSlider.setVisible(false);
 		tutorial.setTextDisplacement(25, 74);
 		tutorial.setMovable(false);
-		tutorial.setFontSize(50);
+		tutorial.setFontSize(40);
 		tutorial.setText("Time to learn how to use the UI! (click to continue)");
 		tutButton.setText("Button");
 		tutButton.setVisible(false);
