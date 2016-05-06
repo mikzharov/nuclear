@@ -15,6 +15,10 @@ public class HighScores {
 	File f = new File("highscores/highscores.txt");
 	
 	//file i/o
+	/**
+	 * Reads the High score file
+	 * @throws IOException Throws if it is not found / etc.
+	 */
 	public void read() throws IOException {
 		if (f.exists() && !f.isDirectory()) {
 			FileReader fr = new FileReader(f);
@@ -32,7 +36,12 @@ public class HighScores {
 		br.close();
 		}
 	}
-	
+	/**
+	 * Writes the highscore to the file
+	 * @param name The file name
+	 * @param score The string score
+	 * @throws IOException File not found / access denied / etc.
+	 */
 	public void write(String name, String score) throws IOException {
 		FileWriter fw = new FileWriter(f);
 		BufferedWriter bw = new BufferedWriter(fw);

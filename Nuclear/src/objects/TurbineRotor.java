@@ -9,7 +9,9 @@ public class TurbineRotor extends GameObject{
 	private int speed=3;
 	int increment_time = 30;
 	int position = 0;
-
+	/**
+	 * This method updates the particle position on the pipe
+	 */
 	private void count(){//This method updates the particle position on the pipe
 		position+=speed;
 		if(speed > 0){
@@ -21,11 +23,20 @@ public class TurbineRotor extends GameObject{
 	}
 	int height = 5;//Height of the particle to be drawn
 	long lastTime = 0;
+	/**
+	 * Constructor
+	 * @param x1 The X coordinate
+	 * @param y1 The Y coordinate
+	 * @param xSize1 The width
+	 * @param ySize1 The height
+	 */
 	public TurbineRotor(int x1, int y1, int xSize1, int ySize1){
 		super(x1, y1, xSize1, ySize1);
 		lastTime = System.currentTimeMillis();
 	}
-	
+	/**
+	 * Draws it
+	 */
 	public void drawObj(Graphics2D g){
 		Color oldColor = g.getColor();
 		g.setColor(Color.black);
@@ -43,13 +54,24 @@ public class TurbineRotor extends GameObject{
 		}
 		g.setColor(oldColor);
 	}
+	/**
+	 * Sets the amount of time it takes particles to move
+	 * @param time
+	 */
 	public void setTime(int time){//Sets the amount of time it takes particles to move
 		increment_time = time;
 	}
+	/**
+	 * Sets how far each particle travels when it moves
+	 * @param speed
+	 */
 	public void setSpeed(int speed){//Sets how far each particle travels when it moves
 		this.speed = speed;
 	}
-
+	/**
+	 * Returns the speed
+	 * @return Int speed
+	 */
 	public int getSpeed() {
 		return speed;
 	}

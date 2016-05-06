@@ -14,7 +14,13 @@ import main.HighScores;
 public class UIScoreSheet extends UIComponent {
 	
 	private List<List<String>> namesAndScores = HighScores.namesAndScoresSorted;
-	
+	/**
+	 * Constructor
+	 * @param xPos The X position
+	 * @param yPos The Y position
+	 * @param x1 The width
+	 * @param y2 The height
+	 */
 	public UIScoreSheet(int xPos, int yPos, int x1, int y2) {
 		xSize = x1;
 		ySize = y2;
@@ -58,7 +64,9 @@ public class UIScoreSheet extends UIComponent {
 		
 		};
 	}
-	
+	/**
+	 * Draws the object
+	 */
 	public void drawObj(Graphics2D g) {
 		if(visible){
 			Font oldFont = g.getFont();
@@ -87,7 +95,11 @@ public class UIScoreSheet extends UIComponent {
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
-	
+	/**
+	 * Updates the bounds and X + Y coordinates
+	 * @param x
+	 * @param y
+	 */
 	public void setBounds(int x, int y){
 		this.x = x;
 		this.y = y;

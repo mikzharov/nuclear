@@ -34,7 +34,10 @@ public class GameTutorial extends GameObject{
 	UIImage powerIMG = new UIImage(Integrator.x/2-(1000/2), Integrator.y/2-(750/2), 1000, 750, "res/Electric-Power-Grid.jpg");
 	UIImage safeIMG = new UIImage(Integrator.x/2-(640/2), Integrator.y/2-(404/2), 640, 404, "res/safety.jpg");
 	UIImage meltdownIMG = new UIImage(Integrator.x/2-(625/2), Integrator.y/2-(438/2), 625, 438, "res/nuclear-plant-fire.jpg");
-
+	
+	/**
+	 * The constructor
+	 */
 	public GameTutorial(){
 		x = Integrator.x;
 		y = Integrator.y;
@@ -79,6 +82,9 @@ public class GameTutorial extends GameObject{
 		ui.add(meltdownIMG);
 
 	}
+	/**
+	 * Updates the tutorial, checks if the conditions have been met to move on to the next step, moves on to the next step
+	 */
 	public void run(){
 		tutorial.setVisible(true);
 		switch(tutorialStep){
@@ -305,9 +311,16 @@ public class GameTutorial extends GameObject{
 			break;
 		}
 	}
+	/**
+	 * Overrides the method so the default actions are not performed
+	 */
 	public void mouseClicked(MouseEvent e) {
 		//Do nothing
 	}
+	/**
+	 * Returns the status of the tutorial
+	 * @return The boolean signifying whether the tutorial is done
+	 */
 	public boolean done(){
 		return done;
 	}

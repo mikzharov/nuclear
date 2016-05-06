@@ -19,7 +19,11 @@ public class PowerProduction extends GameObject {
 	UIText totalPower;
 	long lastPower;
 	public static int powerProduced = 0;
-	
+	/**
+	 * A constructor
+	 * @param x The X coordinate of the power board
+	 * @param y The Y coordinate of the power board
+	 */
 	public PowerProduction(int x, int y) {
 		power1 = new UIText(x, y, 240, 100);//These first two values can't be negative! The top left corner is (0,0) so it will not render!
 		power2 = new UIText(power1.getX()+power1.getWidth()+15, power1.getY(), 240, 100);
@@ -67,7 +71,13 @@ public class PowerProduction extends GameObject {
 	public void update(long deltaTime) {
 		
 	}
-	
+	/**
+	 * Updates the text
+	 * @param reactor1 The power per second being produced by a reactor
+	 * @param reactor2 The power per second being produced by a reactor
+	 * @param reactor3 The power per second being produced by a reactor
+	 * @param reactor4 The power per second being produced by a reactor
+	 */
 	public void updatePower(int reactor1, int reactor2, int reactor3, int reactor4) {
 		//if power supply is over 100,000 kW, express in MW
 		if (reactor4 > 100000)
@@ -99,6 +109,10 @@ public class PowerProduction extends GameObject {
 			lastPower = System.currentTimeMillis();
 		}
 	}
+	/**
+	 * Sets the active state of the board
+	 * @param bol The boolean that the active state should become
+	 */
 	public void setActive(boolean bol){
 		power1.setActive(bol);
 		power2.setActive(bol);
@@ -108,7 +122,10 @@ public class PowerProduction extends GameObject {
 	public void mouseClicked(MouseEvent e){
 		//Do nothing
 	}
-
+	/**
+	 * Sets the visibility
+	 * @param b The visibility
+	 */
 	public void setVisible(boolean b) {
 		power1.setVisible(b);
 		power2.setVisible(b);

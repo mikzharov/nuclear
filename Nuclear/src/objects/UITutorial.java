@@ -29,7 +29,9 @@ public class UITutorial extends GameObject{
 	UISlider tutSlider;
 	UIButton tutOver;
 
-	
+	/**
+	 * Constructor
+	 */
 	public UITutorial(){
 		x = Integrator.x;
 		y = Integrator.y;
@@ -57,6 +59,9 @@ public class UITutorial extends GameObject{
 		ui.add(tutOver);
 		
 	}
+	/**
+	 * Runs the tutorial, checks if the conditions are are met, etc.
+	 */
 	public void run(){
 		switch(tutorialStep){
 		case -1:
@@ -365,6 +370,7 @@ public class UITutorial extends GameObject{
 			break;
 		case 34:
 			if (Integrator.clicked) {
+				Integrator.powerDisplay.setVisible(true);
 				tutorialStep++;
 				tutorial.setText("These four show each reactor's power output per second(click)");
 				Integrator.powerDisplay.power1.setColor(Color.yellow);
@@ -377,6 +383,7 @@ public class UITutorial extends GameObject{
 		case 35:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				Integrator.powerDisplay.setVisible(true);
 				tutorial.setText("Reactor 4 (click)");
 				Integrator.powerDisplay.power2.setColor(normal);
 				Integrator.powerDisplay.power3.setColor(normal);
@@ -387,6 +394,7 @@ public class UITutorial extends GameObject{
 		case 36:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				Integrator.powerDisplay.setVisible(true);
 				tutorial.setText("Reactor 3 (click)");
 				Integrator.powerDisplay.power1.setColor(normal);
 				Integrator.powerDisplay.power2.setColor(Color.yellow);
@@ -396,6 +404,7 @@ public class UITutorial extends GameObject{
 		case 37:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				Integrator.powerDisplay.setVisible(true);
 				tutorial.setText("Reactor 2 (click)");
 				Integrator.powerDisplay.power2.setColor(normal);
 				Integrator.powerDisplay.power3.setColor(Color.yellow);
@@ -405,6 +414,7 @@ public class UITutorial extends GameObject{
 		case 38:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				Integrator.powerDisplay.setVisible(true);
 				tutorial.setText("Reactor 1 (click)");
 				Integrator.powerDisplay.power3.setColor(normal);
 				Integrator.powerDisplay.power4.setColor(Color.yellow);
@@ -414,6 +424,7 @@ public class UITutorial extends GameObject{
 		case 39:
 			if (Integrator.clicked) {
 				tutorialStep++;
+				Integrator.powerDisplay.setVisible(true);
 				tutorial.setText("This is the total power your plant has produced (click)");
 				Integrator.powerDisplay.power4.setColor(normal);
 				Integrator.powerDisplay.totalPower.setColor(Color.yellow);
@@ -422,6 +433,7 @@ public class UITutorial extends GameObject{
 			break;
 		case 40:
 			if (Integrator.clicked) {
+				Integrator.powerDisplay.setVisible(true);
 				powerTutorialOn=false;
 				tutorialStep++;
 				tutorial.setText("It will be the high score at the end of the game (click)");
@@ -514,16 +526,23 @@ public class UITutorial extends GameObject{
 				Integrator.clicked=false;
 				tutOver.clicked=false;
 				Integrator.powerDisplay.setVisible(true);
-				Integrator.powerDisplay.powerProduced=0;
+				PowerProduction.powerProduced=0;
 				Integrator.level = 2;
 				done=true;
 			}
 			break;
 		}
 	}
+	/**
+	 * Shell method to prevent default mouseClicked activity
+	 */
 	public void mouseClicked(MouseEvent e) {
 		//Do nothing
 	}
+	/**
+	 * Whether the tutorial is done
+	 * @return Boolean done
+	 */
 	public boolean done(){
 		return done;
 	}

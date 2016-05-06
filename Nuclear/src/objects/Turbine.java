@@ -25,6 +25,9 @@ public class Turbine extends GameObject{
 	private Pipe powerPipe;
 	private double temperature = 25.0;
 	private boolean burnt = false;
+	/**
+	 * Returns the turbine rotors
+	 */
 	public ArrayList<GameObject> getObj(){
 		ArrayList<GameObject> all = new ArrayList<GameObject>();
 		all.add(this);
@@ -37,6 +40,13 @@ public class Turbine extends GameObject{
 		}
 		return all;
 	}
+	/**
+	 * Constructor
+	 * @param x The X coordinate
+	 * @param y The Y coordinate
+	 * @param xSize The width
+	 * @param ySize The height
+	 */
 	public Turbine(int x, int y, int xSize, int ySize){
 		super(x, y, xSize, ySize);
 		fire.particles = 10000;
@@ -73,10 +83,16 @@ public class Turbine extends GameObject{
 			comp.setVisible(false);
 		}
 	}
+	/**
+	 * Sets the power pipe
+	 * @param s The pipe connecting to the main power output 
+	 */
 	public void setPipe(Pipe s){
 		powerPipe = s;
 	}
-
+	/**
+	 * Draws it
+	 */
 	public void drawObj(Graphics2D g){
 		g.setColor(turbineOutline);
 		float thickness = 5.0f;
@@ -85,9 +101,16 @@ public class Turbine extends GameObject{
 		g.drawRect(x+Integrator.intLastXOffset, y+Integrator.intLastYOffset, xSize, ySize);
 		g.setStroke(oldStroke);
 	}
+	/**
+	 * Adds a turbine rotor
+	 * @param tur The turbine rotor
+	 */
 	public void addTurbine(TurbineRotor tur) {
 		turbines.add(tur);
 	}
+	/**
+	 * Updates physics, temp, graphics etc.
+	 */
 	public void update(long deltaTime){
 		int tSpeed = getSpeed();
 		if(coolant.getPercentage() == 0){
@@ -139,6 +162,11 @@ public class Turbine extends GameObject{
 			this.fire.fight();
 		}
 	}
+	/**
+	 * Sets the speed of the turbine
+	 * @param speed A 0 - 5 integer (for best effects)
+	 * @return Whether the speed was set successfully
+	 */
 	public boolean setSpeed(int speed){
 		if(speed < 0) speed = 0;
 		if(speed / 2.0f > limit.getPercentage()*10f){
@@ -150,23 +178,38 @@ public class Turbine extends GameObject{
 		powerPipe.setSpeed(speed);
 		return true;
 	}
+	/**
+	 * Returns the speed of the turbines
+	 * @return The speed
+	 */
 	public int getSpeed(){
 		return turbines.get(0).getSpeed();
 	}
+	/**
+	 * Sets the increment that the rotors move
+	 * @param increment When the rotors move
+	 */
 	public void setIncrement(int increment){
 		for(TurbineRotor p: turbines){
 			p.setTime(increment);
 		}
 	}
+	/**
+	 * Method telling you how to use the class correctly
+	 */
 	public void addObj(GameObject o){
 		throw new UnsupportedOperationException("Use specific methods for this class");
 	}
-	
+	/**
+	 * Hides the turbine controls
+	 */
 	public void hide() {//Please change this to setVisible(boolean a)
 		limit.setVisible(false);
 		spinDown.setVisible(false);
 	}
-	
+	/**
+	 * Shows the turbine controls
+	 */
 	public void setVisible(boolean b) {
 		for(UIComponent comp: ui){
 			comp.setVisible(b);

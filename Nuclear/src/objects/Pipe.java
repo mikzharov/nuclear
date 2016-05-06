@@ -15,10 +15,13 @@ public class Pipe extends GameObject{
 	int position = 0;
 	boolean positive = true;
 	public static enum Orientation{
-		VERTICAL, HORIZONTAL //This will dicate whether to draw the pipe horizontally or vertically (instead of entering points)
+		VERTICAL, HORIZONTAL //This will dictate whether to draw the pipe horizontally or vertically (instead of entering points)
 	}
 	Color color = null;
 	Orientation or;
+	/**
+	 * This method updates the particle position on the pipe
+	 */
 	private void count(){//This method updates the particle position on the pipe
 		position+=speed;
 		if(speed > 0){
@@ -30,6 +33,15 @@ public class Pipe extends GameObject{
 	}
 	int width;
 	long lastTime = 0;
+	/**
+	 * The constructor for the pipe
+	 * @param x1 The X position
+	 * @param y1 The Y position
+	 * @param or The orientation
+	 * @param length The length of the pipe (make it negative to make the particles flow backwards)
+	 * @param width The width of the pipe
+	 * @param c The color
+	 */
 	public Pipe(int x1, int y1, Orientation or, int length, int width, Color c){
 		super(x1, y1, Math.abs(width), Math.abs(length));//This line is useless since all the variables are overwritten, however it removes errors
 		color = c;
@@ -52,7 +64,9 @@ public class Pipe extends GameObject{
 		bounds = new Rectangle(x, y, xSize, ySize);//Creates rectangle
 		lastTime = System.currentTimeMillis();
 	}
-
+	/**
+	 * Draws the pipe
+	 */
 	public void drawObj(Graphics2D g){
 		Color oldColor = g.getColor();
 		g.setColor(Color.black);
@@ -79,9 +93,16 @@ public class Pipe extends GameObject{
 		}
 		g.setColor(oldColor);
 	}
+	/**
+	 * Sets the color of the pipe
+	 * @param color The new Color
+	 */
 	public void setColor(Color color){
 		this.color = color;
 	}
+	/**
+	 * Prevents pipes from being hidden by default mouseClicked code
+	 */
 	public void mouseClicked(MouseEvent e) {
 		//Do not do physics in mouseClicked, do it in update
 		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
@@ -94,9 +115,17 @@ public class Pipe extends GameObject{
 			//Clicked
 		}
 	}
+	/**
+	 * Sets the amount of time it takes the paricles to move a bit on the pipe
+	 * @param time The integer time, make it small
+	 */
 	public void setTime(int time){//Sets the amount of time it takes particles to move
 		increment_time = Math.abs(time);//No negative time
 	}
+	/**
+	 * Sets how far each particle travels when it moves
+	 * @param speed The integer time, make it small
+	 */
 	public void setSpeed(int speed){//Sets how far each particle travels when it moves
 		if(positive){
 			this.speed = Math.abs(speed);

@@ -11,8 +11,11 @@ import logic.Integrator;
 
 public class Plant extends GameObject{
 	private PipeSystem sys = null;
-	private Turbine tSys = null;//This is for the components that need to be controlled by the reactor
 	BufferedImage floorPlans = null;
+	/**
+	 * The constructor
+	 * @param path The path to the plant file
+	 */
 	public Plant(String path){
 		try {
 			floorPlans = ImageIO.read(new File(path));
@@ -20,9 +23,15 @@ public class Plant extends GameObject{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Returns the X coordinate
+	 */
 	public int getX(){
 		return this.x;
 	}
+	/**
+	 * Returns the Y coordinate
+	 */
 	public int getY(){
 		return this.y;
 	}
@@ -42,14 +51,13 @@ public class Plant extends GameObject{
 	public void drawObj(Graphics2D g){
 		g.drawImage(floorPlans, this.getX() + (Integrator.intLastXOffset), this.getY() + Integrator.intLastYOffset, this.getImageX() + Integrator.intLastXOffset,  this.getImageY() + Integrator.intLastYOffset, 0, 0, floorPlans.getWidth(), floorPlans.getHeight(), null);
 	}
+	/**
+	 * Sets the pipe system from the turbines to the reactor
+	 * @param s The pipe system
+	 */
 	public void setPipeSystem(PipeSystem s){
 		objects.remove(sys);//Removes old one
 		sys = s;
 		objects.add(sys);
-	}
-	public void setTurbineSystem(Turbine s){
-		objects.remove(tSys);//Removes old one
-		tSys = s;
-		objects.add(tSys);
 	}
 }

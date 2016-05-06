@@ -18,6 +18,15 @@ public class Fire extends GameObject{
 	ArrayList<Integer> posY = new ArrayList<Integer>();
 	private boolean active = true;
 	int size = 2;
+	/**
+	 * The constructor
+	 * @param x The X coordinate of the fire
+	 * @param y The Y coordinate of the fire
+	 * @param xSize The width
+	 * @param ySize The height
+	 * @param size The size of each fire particle
+	 * @param particles The amount of particles in the fire
+	 */
 	public Fire(int x, int y, int xSize, int ySize, int size, int particles){
 		//super(x, y, xSize, ySize); <---- DO NOT UNCOMMENT, CREATES INFINITE FIRE!
 		this.x=x;
@@ -29,6 +38,9 @@ public class Fire extends GameObject{
 		this.size = size;
 		this.particles = particles;
 	}
+	/**
+	 * This method will make the new fire particles every 250 seconds
+	 */
 	public void update(long deltaTime){
 		if(xSize <= 0 || ySize <= 0)return;
 		if(lastTime + 250 < System.currentTimeMillis() && active){
@@ -41,6 +53,9 @@ public class Fire extends GameObject{
 			lastTime = System.currentTimeMillis();
 		}
 	}
+	/**
+	 * Draws all the fire
+	 */
 	public void drawObj(Graphics2D g){
 		if(xSize <= 0 || ySize <= 0)return;
 		if(active && particles <= posX.size()){
@@ -54,12 +69,22 @@ public class Fire extends GameObject{
 			}
 		}
 	}
+	/**
+	 * Whether the fire is visible
+	 */
 	public boolean getActive(){
 		return active;
 	}
+	/**
+	 * Sets the file as visible
+	 * @param b The boolean setting the fire
+	 */
 	public void setActive(boolean b){
 		active = b;
 	}
+	/**
+	 * Slowly decreases the amount of particles
+	 */
 	public void fight(){
 		if(particles > 0 && active){
 			particles --;

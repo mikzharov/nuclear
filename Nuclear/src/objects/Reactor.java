@@ -24,7 +24,6 @@ public class Reactor extends GameObject {
 	private String name;
 	private double temperature = 25.0;
 	private double steamkPa = 101.3; //atmospheric pressure
-	private Graphics2D g;
 	public double controlRod = 1.0;
 	public Color reactorOutline = Color.cyan;
 	public Color lifeColor = Color.green;
@@ -32,7 +31,6 @@ public class Reactor extends GameObject {
 	private Stroke lifeStroke = new BasicStroke(5);
 	private double reactorLife = 100.0;
 	private boolean dead = false;
-	private boolean scramOn = false;
 	UIText currentTemp = new UIText(10, Integrator.y-90, 300, 65);//renamed from warning to currentTemp, warning is for the warning messages
 	UIText rodDepth = new UIText(currentTemp.getX() + currentTemp.getWidth() + 15, currentTemp.getY(), 400, 65);//We also want to use the relative coordinates
 	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
@@ -40,21 +38,34 @@ public class Reactor extends GameObject {
 	private UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
 	UIButton scram = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
 	UISlider masterPump = new UISlider(currentTemp.getX(), rods.getY()-rods.getHeight()-15, 420, UIComponent.defaultHeight);
-	
+	/**
+	 * Rounds a double to two decimal places
+	 * @param a The double to round
+	 * @return The rounded double
+	 */
 	public static double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
 	}
-	
+	/**
+	 * This is the constructor
+	 * @param xPos The X position
+	 * @param yPos The Y position
+	 * @param xSize The width
+	 * @param ySize The height
+	 * @param name The name of the reactor
+	 */
 	public Reactor(int xPos, int yPos, int xSize, int ySize, String name) {
 		super(xPos, yPos, xSize, ySize);
 		this.name = name;
 		for(UIComponent comp: ui){
 			comp.setVisible(false);
 		}
-		drawControls(g, controlRod);
+		drawControls(controlRod);
 		warning.setVisible(false);
 	}
-	
+	/**
+	 * Draws it
+	 */
 	public void drawObj(Graphics2D g) {
 		g.setColor(reactorOutline);
 		float thickness = 5.0f;
@@ -74,8 +85,11 @@ public class Reactor extends GameObject {
 		g.setFont(reactorFont);
 		g.drawString(String.valueOf(roundDouble(reactorLife)), x+Integrator.intLastXOffset-xSize-55, y+ySize/2+Integrator.intLastYOffset+10);
 	}
-	
-	public void drawControls(Graphics2D g, double controlRod) {//Call this once to add them to the rendering list
+	/**
+	 * Adds all the controls to the Ui array and configures them
+	 * @param controlRod
+	 */
+	public void drawControls(double controlRod) {//Call this once to add them to the rendering list
 		currentTemp.setText(""); //Update the text somewhere else
 		currentTemp.setFontSize(30);
 		currentTemp.setTextDisplacement(10, 45);
@@ -116,7 +130,10 @@ public class Reactor extends GameObject {
 			comp.setVisible(false);
 		}
 	}
-	
+	/**
+	 * Updates the controls and other things
+	 * @param deltaTime The time since the last time this was called
+	 */
 	public void updateControls(long deltaTime) {
 		currentTemp.setText(reactorTemp(deltaTime));
 		rodDepth.setText("Control Rod Depth: "+roundDouble(controlRod*100)+"%");
@@ -149,6 +166,9 @@ public class Reactor extends GameObject {
 		}
 		
 	}
+	/**
+	 * The same override
+	 */
 	public void mouseClicked(MouseEvent e) {
 		if(Integrator.active() && !clicked){
 			return;
@@ -193,6 +213,9 @@ public class Reactor extends GameObject {
 			}
 		}
 	}
+	/**
+	 * The update function
+	 */
 	public void update(long deltaTime) {
 		if(dead){
 			fire.setActive(true);
@@ -282,6 +305,11 @@ public class Reactor extends GameObject {
 			rods.disabled = true;
 		}
 	}
+	/**
+	 * The amount of steam being generated
+	 * @param deltaTime Time since last time this was called in milliseconds
+	 * @return Returns the double steam amount
+	 */
 	public double steamOutput(long deltaTime) {
 		//the pressure is proportional to the amount of water boiled which is proportional to the temperature, but it must first be boiled off, which takes time ie. 
 		//if the temperature drops then the pressure should drop
@@ -308,7 +336,11 @@ public class Reactor extends GameObject {
 		
 		return steamkPa;
 	}
-	
+	/**
+	 * The temperature of the reactor
+	 * @param deltaTime The time in milliseconds to calculate for
+	 * @return Returns the string value of the temperature
+	 */
 	public String reactorTemp(long deltaTime) {
 		double tempControl = controlRod;
 		
@@ -328,7 +360,10 @@ public class Reactor extends GameObject {
 		
 		return name+": "+roundDouble(temperature)+" C";
 	}
-	
+	/**
+	 * Returns an error message for the reactor
+	 * @return The string error message
+	 */
 	public String reactorErrorMessage() {
 		String errorMessage = "WARNING: ";
 		
@@ -372,19 +407,28 @@ public class Reactor extends GameObject {
 		}
 		return errorMessage;
 	}
-	
+	/**
+	 * The amount of power generated (in some unit)
+	 * @return The power generated
+	 */
 	public int powerGeneration() {
 		double megaWatts = ((t.getSpeed()+t2.getSpeed())*0.005*(steamkPa*steamkPa));
 		if(megaWatts > 500000)megaWatts = 500000;
 		return (int)megaWatts;
 	}
-	
+	/**
+	 * Sets the pipe system between the reactor and the turbines
+	 * @param s
+	 */
 	public void setPipeSystem(PipeSystem s){
 		objects.remove(pSys);//Removes old one
 		pSys = s;
 		objects.add(pSys);
 	}
-	
+	/**
+	 * Sets the turbine of the reactor
+	 * @param s The turbine
+	 */
 	public void setTurbine(Turbine s){
 		for(GameObject tmp: s.getObj()){
 			objects.remove(tmp);
@@ -392,27 +436,41 @@ public class Reactor extends GameObject {
 		t = s;
 		objects.addAll(t.getObj());
 	}
-	
+	/**
+	 * Sets the second turbine of the reactor
+	 * @param s The second turbine
+	 */
 	public void setTurbine2(Turbine s){
 		objects.remove(t2);//Removes old one
 		t2 = s;
 		objects.add(t2);
 	}
-	
+	/**
+	 * Sets the pump system to cool the reactor
+	 * @param p The pump to add
+	 */
 	public void setPumpSystem(PumpSystem p){
 		objects.remove(p);//Removes old one
 		pump = p;
 		objects.add(p);
 	}
-	
+	/**
+	 * Gets the active state of the reactor
+	 */
 	public boolean getActive(){
 		return clicked;
 	}
-	
+	/**
+	 * Whether the reactor is dead or not
+	 * @return The boolean of whether the reactor is non operational
+	 */
 	public boolean isDead() {
 		return dead;
 	}
-	
+	/**
+	 * Sets the component visibility
+	 * @param b The boolean value of whether the controls are visible
+	 */
 	public void setVisible(boolean b) {
 		currentTemp.setVisible(b);
 		rodDepth.setVisible(b);
@@ -421,15 +479,31 @@ public class Reactor extends GameObject {
 		warning.setVisible(b);
 		scram.setVisible(b);
 	}
+	/**
+	 * Sets the turbine to visible
+	 * @param b Boolean visible
+	 */
 	public void setTurbineVisible(boolean b){
 		t.setVisible(b);
 	}
+	/**
+	 * Sets the second turbine to visible
+	 * @param b Boolean visible
+	 */
 	public void setTurbine2Visible(boolean b){
 		t2.setVisible(b);
 	}
+	/**
+	 * For the tutorial, whether the first turbine is clicked
+	 * @return Boolean clicked
+	 */
 	public boolean isTurbineActive() {
 		return t.clicked;
 	}
+	/**
+	 * Sets all the pumps visibility
+	 * @param b Boolean visible
+	 */
 	public void setPumpVisible(boolean b) {
 		pump.pumps.get(4).pumpLevel.setVisible(b); //set bottom left pump visible
 	}												//Why??

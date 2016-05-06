@@ -139,6 +139,10 @@ public class Integrator {
 		if(!active())
 		yOffset+=i;
 	}
+	/**
+	 * Zooms all the gameobjects
+	 * @param i How far to Zoom the gameobjects
+	 */
 	public void zoom(float i){
 		if(scale - i < 0){
 			scale = 0;
@@ -161,6 +165,9 @@ public class Integrator {
 	
 	UITutorial uiTut;
 	public GameTutorial gameTut;
+	/**
+	 * This method starts the game, it is blocking, and will block for a long time (as long as the game is running)
+	 */
 	public void start(){
 		uiTut = new UITutorial();
 		gameTut = new GameTutorial();
@@ -744,11 +751,19 @@ public class Integrator {
 		}
 		g.dispose();//Cleans the graphics (although this is not required)
 	}
+	/**
+	 * Constructor
+	 * @param x1 The width of the screen
+	 * @param y1 The height of the screen
+	 */
 	public Integrator(int x1, int y1){//A constructor which takes the screen size
 		canvas = new Canvas();//Initializes the canvas
 		x=x1;
 		y=y1;
 	}
+	/**
+	 * Resets the game to the Main Menu
+	 */
 	public static void clear(){
 		running = false;
 		paused = false;
@@ -761,6 +776,10 @@ public class Integrator {
 		objects.clear();
 		ui.clear();
 	}
+	/**
+	 * Sets the level, between tutorial and main game
+	 * @param lvl
+	 */
 	public static void setLevel(int lvl) {
 		level = lvl;
 		//level = 2; //for testing

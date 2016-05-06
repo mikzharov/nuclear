@@ -10,6 +10,13 @@ import java.awt.event.MouseEvent;
 
 
 public class UIText extends UIComponent{
+	/**
+	 * UIText constructor
+	 * @param xPos The X position
+	 * @param yPos The Y position
+	 * @param x1 The width
+	 * @param y1 The height
+	 */
 	public UIText(int xPos, int yPos, int x1, int y1) {
 		xSize = x1;
 		ySize = y1;
@@ -54,7 +61,9 @@ public class UIText extends UIComponent{
 			public void mouseReleased(MouseEvent e) {}
 		};
 	}
-	
+	/**
+	 * Draws the object
+	 */
 	public void drawObj(Graphics2D g) {
 		if(visible){
 			Font oldFont = g.getFont();
@@ -74,6 +83,11 @@ public class UIText extends UIComponent{
 			g.setFont(oldFont);//Restores previous information
 		}
 	}
+	/**
+	 * Sets the X + Y and updates the hitbox
+	 * @param x
+	 * @param y
+	 */
 	public void setBounds(int x, int y){
 		this.x = x;
 		this.y = y;

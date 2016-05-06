@@ -19,6 +19,10 @@ public class Main {
 	boolean fullscreen = true;
 	static boolean run = false;
 	public static String playerName = "";
+	/**
+	 * Main constructor
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
 		try {
 			// Makes the JPanel look the same as your system default.
@@ -74,6 +78,9 @@ public class Main {
 	//text fields
 	JTextField enterName = new JTextField(30);
 	
+	/**
+	 * Starts listening to when the start button is clicked, this code can't be in the actionlistener because it blocks the EDT thread (big no no)
+	 */
 	public static void start(){
 		while(!run){//Weird work around to prevent this running in the EDT.
 			try {
@@ -95,6 +102,9 @@ public class Main {
 		frame.setIgnoreRepaint(true);
 		integrator.start();
 	}
+	/**
+	 * The main constructor, how to start the game
+	 */
 	public Main() {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -309,6 +319,9 @@ public class Main {
 		});
 		start();
 	}
+	/**
+	 * Adds the panels back after the game ends
+	 */
 	public static void resume(){
 		frame.add(backgroundLabel);
 		frame.remove(Integrator.canvas);
