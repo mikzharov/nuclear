@@ -31,7 +31,7 @@ public class Pipe extends GameObject{
 	int width;
 	long lastTime = 0;
 	public Pipe(int x1, int y1, Orientation or, int length, int width, Color c){
-		super(x1, y1, width, length);//This line is useless since all the variables are overwritten, however it removes errors
+		super(x1, y1, Math.abs(width), Math.abs(length));//This line is useless since all the variables are overwritten, however it removes errors
 		color = c;
 		if(length < 0){
 			length *= -1;

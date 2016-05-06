@@ -1,10 +1,7 @@
 package objects;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import graphics.UIButton;
-import graphics.UISlider;
 import graphics.UIText;
 import logic.Integrator;
 
@@ -12,10 +9,10 @@ import logic.Integrator;
 public class GameTutorial extends GameObject{
 	
 	private static int tutorialStep = 0; //Controls what the tutorial is teaching, should increase in chronological order, with previous tasks being completed successfully
-	private long tutorialTime = 0;//For measuring passed time in the tutorial
-	private int tutX = 0;//To test if user moved
-	private int tutY = 0;//To test if user moved
-	private Color normal = new Color(174, 174, 207);
+	//private long tutorialTime = 0;//For measuring passed time in the tutorial
+	//private int tutX = 0;//To test if user moved
+	//private int tutY = 0;//To test if user moved
+	//private Color normal = new Color(174, 174, 207);
 	
 	private boolean done = false;
 	

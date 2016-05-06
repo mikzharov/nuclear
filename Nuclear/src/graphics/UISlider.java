@@ -144,16 +144,18 @@ public class UISlider extends UIComponent{
 	public void setDownInterval(float down){
 		downInterval = Math.abs(down);
 	}
-	public void down(long deltaTime){
+	public boolean down(long deltaTime){
 		if(percentage - 0.01 >=0){
 			percentage -= downInterval*4/deltaTime;
+			return true;
 		}else{
 			percentage = 0f;
+			return false;
 		}
 	}
-	public void up(){
+	public void up(long deltaTime){
 		if(percentage + 0.01 <=1){
-			percentage += upInterval;
+			percentage += upInterval*4/deltaTime;
 		}else{
 			percentage = 1f;
 		}

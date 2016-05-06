@@ -14,6 +14,7 @@ import logic.Integrator;
 public class GameObject {
 	int x = 0, y = 0, xSize = 0, ySize = 0;
 	Rectangle bounds = new Rectangle();
+	protected Fire fire;
 	protected ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	protected ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
 	protected boolean clicked = false;
@@ -80,7 +81,7 @@ public class GameObject {
 				comp.setVisible(true);
 			}
 			if (Integrator.level == 1 && !UITutorial.powerTutorialOn) {
-				Integrator.powerDisplay.hide();
+				Integrator.powerDisplay.setVisible(false);
 			}
 		} else {
 			boolean uiClicked=false;
@@ -95,7 +96,7 @@ public class GameObject {
 				
 				clicked=false;
 				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.showControls();
+					Integrator.reactor4.setVisible(true);
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.setTurbineVisible(true);
@@ -104,9 +105,8 @@ public class GameObject {
 					Integrator.reactor4.pump.pumps.get(4).showControls();
 				}
 				else if (UITutorial.powerTutorialOn) {
-					Integrator.powerDisplay.show();
-				}
-				else {
+					Integrator.powerDisplay.setVisible(true);
+				} else {
 					for(UIComponent comp: ui){
 						comp.setVisible(false);
 					}
@@ -147,8 +147,17 @@ public class GameObject {
 		this.xSize=xSize;
 		this.ySize=ySize;
 		bounds = new Rectangle(x, y, xSize, ySize);
+		fire = new Fire(x, y, xSize, ySize, 2, 10000);
+		fire.setActive(false);
+		objects.add(fire);
+		//fire.setActive(false);
 	}
 	public GameObject(){
 		
+	}
+	public void setFire(boolean b){
+
+			fire.setActive(b);
+
 	}
 }

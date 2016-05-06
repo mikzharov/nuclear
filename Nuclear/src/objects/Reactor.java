@@ -23,7 +23,6 @@ public class Reactor extends GameObject {
 	private boolean error = false;
 	private String name;
 	private double temperature = 25.0;
-	private double coolingFactor=0;
 	private double steamkPa = 101.3; //atmospheric pressure
 	private Graphics2D g;
 	public double controlRod = 1.0;
@@ -38,11 +37,10 @@ public class Reactor extends GameObject {
 	UIText pressureText = new UIText(rodDepth.getX() + rodDepth.getWidth() + 15, rodDepth.getY(), 400, 65);
 	UISlider rods = new UISlider(currentTemp.getX(), currentTemp.getY()-120, 420, UIComponent.defaultHeight);//Please use default height for sliders
 	private UIText warning = new UIText(rods.getX() + rods.getWidth() + 15, rods.getY()+45, 695, 65);
-	UIButton emergencyCooling = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
-	UIButton neutronPoison = new UIButton(emergencyCooling.getX()+emergencyCooling.getWidth()+15, rods.getY(), 170, 35);
+	UIButton scram = new UIButton(currentTemp.getX()+rods.getWidth()+15, rods.getY(), 170, 35);
 	UISlider masterPump = new UISlider(currentTemp.getX(), rods.getY()-rods.getHeight()-15, 420, UIComponent.defaultHeight);
 	
-	public double roundDouble(double a){
+	public static double roundDouble(double a){
 		return Math.round(a*100.0)/100.0;
 	}
 	
@@ -93,6 +91,7 @@ public class Reactor extends GameObject {
 		ui.add(pressureText);
 		
 		rods.setText("Control rods");
+		rods.setUpInterval(0.001f);
 		ui.add(rods);
 		
 		warning.setText(reactorErrorMessage());
@@ -100,15 +99,11 @@ public class Reactor extends GameObject {
 		warning.setTextDisplacement(10, 45);
 		ui.add(warning);
 		
-		emergencyCooling.setText("Emr. Cooling");
-		emergencyCooling.setTextDisplacement(10, 25);
-		emergencyCooling.setFontSize(20);
-		ui.add(emergencyCooling);
+		scram.setText("SCRAM");
+		scram.setTextDisplacement(10, 25);
+		scram.setFontSize(20);
+		ui.add(scram);
 		
-		neutronPoison.setText("Neutron Poison");
-		neutronPoison.setTextDisplacement(10, 25);
-		neutronPoison.setFontSize(20);
-		ui.add(neutronPoison);
 		
 		masterPump.setText("Master Pump");
 		masterPump.setPercentage(0);
@@ -139,18 +134,6 @@ public class Reactor extends GameObject {
 		}
 
 		warning.setVisible(error && clicked); //if an error message has been added
-		
-		if (emergencyCooling.clicked) {
-			emergencyCooling.clicked=false;
-			if (coolingFactor == 0) {
-				emergencyCooling.setTextColor(Color.blue);
-				coolingFactor = 10;
-			}
-			else if (coolingFactor == 10) {
-				emergencyCooling.setTextColor(Color.black);
-				coolingFactor = 0;
-			}
-		}
 		
 		if (Integrator.gameover) {
 			for(UIComponent comp: ui){
@@ -195,7 +178,7 @@ public class Reactor extends GameObject {
 				
 				clicked=false;
 				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.showControls();
+					Integrator.reactor4.setVisible(true);
 				}
 				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
 					Integrator.reactor4.setTurbineVisible(true);
@@ -210,6 +193,21 @@ public class Reactor extends GameObject {
 		}
 	}
 	public void update(long deltaTime) {
+		if(dead){
+			fire.setActive(true);
+			fire.fight();
+		}
+		if (scram.clicked) {
+ 			if(rods.getPercentage() == 1){
+ 				scram.setTextColor(Color.black);
+ 				rods.disabled = false;
+ 				scram.clicked=false;
+ 			}else{
+ 				scram.setTextColor(Color.red);
+ 				rods.up(deltaTime);
+ 				rods.disabled = true;
+ 			}
+ 		}
 		if(!rods.disabled){
 			controlRod=rods.getPercentage();
 		}else{
@@ -220,7 +218,12 @@ public class Reactor extends GameObject {
 			if(pump!=null)
 				pump.setPumpLevel(masterPump.getPercentage());
 		}
-		
+		if(masterPump.getPercentage() == 0 && Integrator.level != 3){//The pumps must always be somewhat on for reactor operations
+			rods.disabled = true;
+			rods.up(deltaTime);
+		}else{
+			rods.disabled = false;
+		}
 		updateControls(deltaTime);
 		pSys.setSpeed(0);
 		t.setSpeed(0);
@@ -252,13 +255,11 @@ public class Reactor extends GameObject {
 		}
 		
 		if (error) {
-			if (reactorLife > 0)
-				reactorLife-=0.01;
 			if(temperature>600){//The maximum temp of a fuel rod in an RBMK reactor 600 C, so going beyond that will incur penalties
-				reactorLife-=0.1;
+				reactorLife-=0.2;
 			}
 			if(steamkPa > 6900){//The drum separators maximum pressure is something like 69 bar, 6900 in kpa
-				reactorLife-=0.1;
+				reactorLife-=0.2;
 			}
 		}
 		
@@ -342,7 +343,14 @@ public class Reactor extends GameObject {
 				errorMessage+="OVERHEATING! ";
 			}
 		}
-		
+		if(masterPump.getPercentage() == 0 && Integrator.level != 3){
+			error=true;
+			errorMessage+="NEED PUMPS! ";
+		}
+		if(fire.getActive()){
+			error=true;
+			errorMessage+="ON FIRE! ";
+		}
 		//pressure bursting
 		if (steamkPa > 6900) {
 			error=true;
@@ -356,7 +364,7 @@ public class Reactor extends GameObject {
 			}
 		}
 		
-		if (temperature < 450 && steamkPa < 6900) {
+		if (!fire.getActive() && temperature < 450 && steamkPa < 6900 && (masterPump.getPercentage() != 0 || Integrator.level == 3)) {
 			if (!UITutorial.turnReactorYellow) //this was messing with the reactor tutorial
 				reactorOutline=Color.cyan;
 			error=false;
@@ -365,7 +373,8 @@ public class Reactor extends GameObject {
 	}
 	
 	public int powerGeneration() {
-		double megaWatts = ((t.getSpeed()+t2.getSpeed())*0.0004*(steamkPa*steamkPa));
+		double megaWatts = ((t.getSpeed()+t2.getSpeed())*0.005*(steamkPa*steamkPa));
+		if(megaWatts > 500000)megaWatts = 500000;
 		return (int)megaWatts;
 	}
 	
@@ -376,9 +385,11 @@ public class Reactor extends GameObject {
 	}
 	
 	public void setTurbine(Turbine s){
-		objects.remove(t);//Removes old one
+		for(GameObject tmp: s.getObj()){
+			objects.remove(tmp);
+		}
 		t = s;
-		objects.add(t);
+		objects.addAll(t.getObj());
 	}
 	
 	public void setTurbine2(Turbine s){
@@ -401,25 +412,13 @@ public class Reactor extends GameObject {
 		return dead;
 	}
 	
-	public void hideControls() {
-		currentTemp.setVisible(false);
-		rodDepth.setVisible(false);
-		pressureText.setVisible(false);
-		rods.setVisible(false);
-		warning.setVisible(false);
-		emergencyCooling.setVisible(false);
-		neutronPoison.setVisible(false);
-	}
-	
-	//for tutorial only
-	public void showControls() {
-		currentTemp.setVisible(true);
-		rodDepth.setVisible(true);
-		pressureText.setVisible(true);
-		rods.setVisible(true);
-		//warning.setVisible(true); No need to show the warning
-		emergencyCooling.setVisible(true);
-		neutronPoison.setVisible(true);
+	public void setVisible(boolean b) {
+		currentTemp.setVisible(b);
+		rodDepth.setVisible(b);
+		pressureText.setVisible(b);
+		rods.setVisible(b);
+		warning.setVisible(b);
+		scram.setVisible(b);
 	}
 	public void setTurbineVisible(boolean b){
 		t.setVisible(b);
@@ -432,5 +431,5 @@ public class Reactor extends GameObject {
 	}
 	public void setPumpVisible(boolean b) {
 		pump.pumps.get(4).pumpLevel.setVisible(b); //set bottom left pump visible
-	}
+	}												//Why??
 }

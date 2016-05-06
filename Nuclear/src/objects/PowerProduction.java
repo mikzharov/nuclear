@@ -108,18 +108,12 @@ public class PowerProduction extends GameObject {
 	public void mouseClicked(MouseEvent e){
 		//Do nothing
 	}
-	public void hide() {
-		power1.setVisible(false);
-		power2.setVisible(false);
-		power3.setVisible(false);
-		power4.setVisible(false);
-		totalPower.setVisible(false);
-	}
-	public void show() {
-		power1.setVisible(true);
-		power2.setVisible(true);
-		power3.setVisible(true);
-		power4.setVisible(true);
-		totalPower.setVisible(true);
+
+	public void setVisible(boolean b) {
+		power1.setVisible(b);
+		power2.setVisible(b);
+		power3.setVisible(b);
+		power4.setVisible(b);
+		totalPower.setVisible(b);
 	}
 }

@@ -344,7 +344,7 @@ public class UITutorial extends GameObject{
 				tutorialStep++;
 				tutorial.setLocation(10, Integrator.y-tutorial.getHeight()-15);
 				tutorial.setText("These five panels are the plant's power output (click)");
-				Integrator.powerDisplay.show();
+				Integrator.powerDisplay.setVisible(true);
 				Integrator.clicked=false;
 			}
 			break;
@@ -419,7 +419,7 @@ public class UITutorial extends GameObject{
 				tutorial.setLocation(10, 10);
 				tutorial.setText("These numbers represent the damage done to a reactor (click)");
 				Integrator.powerDisplay.totalPower.setColor(normal);
-				Integrator.powerDisplay.hide();
+				Integrator.powerDisplay.setVisible(false);
 				Integrator.reactor4.lifeColor = Color.yellow;
 				Integrator.reactor3.lifeColor = Color.yellow;
 				Integrator.reactor2.lifeColor = Color.yellow;
@@ -477,7 +477,7 @@ public class UITutorial extends GameObject{
 				tutOver.setVisible(false);
 				Integrator.clicked=false;
 				tutOver.clicked=false;
-				Integrator.powerDisplay.show();
+				Integrator.powerDisplay.setVisible(true);
 				Integrator.level = 2;
 				done=true;
 			}

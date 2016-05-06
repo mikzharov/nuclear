@@ -421,9 +421,9 @@ public class Integrator {
 		
 		//Making end game GUI
 		//game over page
-		UIText endTitle = new UIText(x/4, y/5, x/2, UIComponent.defaultHeight);
-		UIText yourScore = new UIText(endTitle.getX(), y/5+UIComponent.defaultHeight+10, x/2, UIComponent.defaultHeight);
-		UIButton saveScore = new UIButton(x/4, y/5+UIComponent.defaultHeight*2+20, x/2, UIComponent.defaultHeight);
+		UIText endTitle = new UIText(x/4, y/8, x/2, UIComponent.defaultHeight);
+		UIText yourScore = new UIText(endTitle.getX(), endTitle.getY()+UIComponent.defaultHeight+10, x/2, UIComponent.defaultHeight);
+		UIButton saveScore = new UIButton(x/4, endTitle.getY()+UIComponent.defaultHeight*2+20, x/2, UIComponent.defaultHeight);
 		
 		yourScore.setVisible(false);
 		saveScore.setVisible(false);
@@ -442,7 +442,7 @@ public class Integrator {
 		endTitle.setVisible(false);
 		yourScore.setVisible(false);
 		saveScore.setVisible(false);
-		
+		//TODO
 		add(endTitle);
 		add(yourScore);
 		add(saveScore);
@@ -603,6 +603,12 @@ public class Integrator {
 				looped = false;
 			}
 			//ONLY RENDER PAST THIS POINT
+			if(reactor4.powerGeneration() != 0 || reactor3.powerGeneration() != 0 || reactor2.powerGeneration() != 0 || reactor1.powerGeneration() != 0 ){
+				sysM.setSpeed(5);
+			}else{
+				sysM.setSpeed(0);
+			}
+			
 			old = g.getTransform();
 			
 			if(!paused){
@@ -639,11 +645,11 @@ public class Integrator {
 					yourScore.setText("Your score: "+PowerProduction.powerProduced+" kW");
 					yourScore.setVisible(true);
 					saveScore.setVisible(true);
-					powerDisplay.hide();
-					reactor1.hideControls();
-					reactor2.hideControls();
-					reactor3.hideControls();
-					reactor4.hideControls();
+					powerDisplay.setVisible(false);
+					reactor1.setVisible(false);
+					reactor2.setVisible(false);
+					reactor3.setVisible(false);
+					reactor4.setVisible(false);
 					tSys4.hide();
 					tSys4_1.hide();
 					tSys3.hide();
