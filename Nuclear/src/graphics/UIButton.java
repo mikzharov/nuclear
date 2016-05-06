@@ -10,9 +10,23 @@ import java.awt.event.MouseEvent;
 
 import objects.UITutorial;
 import logic.Integrator;
-
+/**
+ * 
+ * A class for a custom button
+ *
+ */
 public class UIButton extends UIComponent{
+	/**
+	 * This variable is true if the button has ever been clicked
+	 */
 	public boolean clicked = false;
+	/**
+	 * This constructor creates the button
+	 * @param xPos The X position of the button
+	 * @param yPos The Y position of the button
+	 * @param x1 The width of the button
+	 * @param y1 The length of the button
+	 */
 	public UIButton(int xPos, int yPos, int x1, int y1) {
 		this.xSize = x1;
 		this.ySize = y1;
@@ -66,7 +80,9 @@ public class UIButton extends UIComponent{
 			public void mouseReleased(MouseEvent e) {}
 		};
 	}
-	
+	/**
+	 * This method draws the button
+	 */
 	public void drawObj(Graphics2D g) {
 		if(visible){
 			Font oldFont = g.getFont();
@@ -86,9 +102,17 @@ public class UIButton extends UIComponent{
 			g.setColor(oldColor);
 		}
 	}
+	/**
+	 * This sets the text of the button
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
+	/**
+	 * This sets the x and y position and updates the boundaries AKA the hit box
+	 * @param x The new X position
+	 * @param y The new Y position
+	 */
 	public void setBounds(int x, int y){
 		this.x = x;
 		this.y = y;

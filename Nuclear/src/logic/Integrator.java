@@ -54,7 +54,10 @@ public class Integrator {
 	public static boolean justDied = false; //check if a reactor just died, to check how many are left without checking every time one dies
 	public static boolean gameover = false; //Why is this true?
 	public static boolean saveTheScoreOnce = true;
-	
+	/**
+	 * Checks the UI array to see if any components are active
+	 * @return Boolean if any UI components are active
+	 */
 	public static boolean active(){
 		for(UIComponent temp:ui){
 			if(temp.getActive())
@@ -62,12 +65,20 @@ public class Integrator {
 		}
 		return false;
 	}
+	/**
+	 * Adds all the aspects of a UI object to the engine
+	 * @param ui1 The component to be added
+	 */
 	public static void add(UIComponent ui1){
 		canvas.addKeyListener(ui1.key);
 		canvas.addMouseListener(ui1.mouse);
 		canvas.addMouseMotionListener(ui1.mouse);
 		ui.add(ui1);
 	}
+	/**
+	 * Recursively adds GameObjects to the engine
+	 * @param ob The object and it's children
+	 */
 	public static void add(GameObject ob){
 		ArrayList<UIComponent> all = ob.getUi();
 		for(UIComponent temp:all){
@@ -83,12 +94,20 @@ public class Integrator {
 			}
 		}
 	}
+	/**
+	 * Removes all the aspects of a UI object to the engine
+	 * @param ui1 The component to be added
+	 */
 	public static void remove(UIComponent ui1){
 		canvas.removeKeyListener(ui1.key);
 		canvas.removeMouseListener(ui1.mouse);
 		canvas.removeMouseMotionListener(ui1.mouse);
 		ui.remove(ui1);
 	}
+	/**
+	 * Recursively removes GameObjects to the engine
+	 * @param ob The object and it's children
+	 */
 	public static void remove(GameObject ob){
 		ArrayList<UIComponent> all = ob.getUi();
 		for(UIComponent temp:all){
@@ -104,10 +123,18 @@ public class Integrator {
 			}
 		}
 	}
+	/**
+	 * Moves the world on the X axis
+	 * @param i How much to move it
+	 */
 	public void offset_x(int i){
 		if(!active())
 		xOffset+=i;
 	}
+	/**
+	 * Moves the world on the Y axis
+	 * @param i How much to move it
+	 */
 	public void offset_y(int i){
 		if(!active())
 		yOffset+=i;

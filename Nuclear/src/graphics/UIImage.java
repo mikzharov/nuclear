@@ -16,6 +16,14 @@ import logic.Integrator;
 
 public class UIImage extends UIComponent{
 	BufferedImage img = null;
+	/**
+	 * Constructor
+	 * @param xPos X position
+	 * @param yPos Y position
+	 * @param xSize Width
+	 * @param ySize Height
+	 * @param path Path of image file
+	 */
 	public UIImage(int xPos, int yPos, int xSize, int ySize, String path) {
 		this.setMovable(false);
 		this.x = xPos;
@@ -74,12 +82,20 @@ public class UIImage extends UIComponent{
 			public void mouseReleased(MouseEvent e) {}
 		};
 	}
-	
+	/**
+	 * Draws the object
+	 * @param g Graphics to be drawn on
+	 */
 	public void drawObj(Graphics2D g) {
 		if(visible && img != null){
 			g.drawImage(img, x, y, xSize + x, ySize + y, 0, 0, img.getWidth(), img.getHeight(), null);
 		}
 	}
+	/**
+	 * Sets the bounds of the image and X + Y coords
+	 * @param x New X position
+	 * @param y New Y postiion
+	 */
 	public void setBounds(int x, int y){
 		this.x = x;
 		this.y = y;
