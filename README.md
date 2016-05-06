@@ -4,7 +4,7 @@ The easiest way to make this run is to install Eclipse and to "File > Import > G
 
 In the repository you will find the code under /Nuclear/src/ and the images used under /Nuclear/res/. Also there are JavaDocs under /Nuclear/JavaDocs. These are HTML files and can be viewed in your browser.
 
-Please use at least Java 7 to run this code, even better if you can use Java 8. The screen resolution should not matter, but it was extensively tested on 1360 x 768 and 1024 x 768 screen resolutions.
+Please use at least Java 7 to run this code, even better if you can use Java 8. The screen resolution should not matter, but it was extensively tested on 1360 x 768 and 1024 x 768 screen resolutions, so using these would be preferred.
 
 
 USBquantumState = Misha Zharov,
