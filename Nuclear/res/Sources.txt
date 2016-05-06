@@ -1,0 +1,50 @@
+The sources for these images may not be the original sources, please check the license on the
+page to see if you can use it. We do not endorse the view of any sites linked from this file.
+We are not endorsed by any site we have linked to. We do not hold copyright to these images.
+Visiting some of these site will cause harm to your computer, please browse with caution.
+These sites are not associated with each other unless otherwise stated.
+boiling-graph.gif:
+	https://www.chem.purdue.edu/gchelp/liquids/boil.html
+chernobyl.jpg :
+	https://carlwillis.files.wordpress.com/2011/08/map_ph1_chnpp1.jpg
+	https://carlwillis.files.wordpress.com/2011/08/chnpp_phase_ii_map_raw2.jpg
+	These files were stitched together and also edited to fit the purpose of the game.
+control-rod.jpg:
+	http://glossary.periodni.com/glossary.php?en=control+rod
+control-rods-2.jpg:
+	According to google "The site ahead contains malware", please do not visit this site.
+	http://fatimberlake.blogspot.ca/2007/12/nuclear-reactor.html
+	There were many copies of this image online, the oldest source I could find was
+	from Dec 30, 2007 which is from this now infected site.
+control.jpg
+	Original creation
+Electric-Power-Grid.jpg
+	http://www.basaksehirrehberi.com/news/ViewDetails.aspx?newsid=22296
+Magnox_reactor_schematic.svg.png
+	https://commons.wikimedia.org/wiki/File:Magnox_reactor_schematic.svg
+Nuclear_Power_Plant_Cattenom.jpg
+	https://commons.wikimedia.org/wiki/File:Nuclear_Power_Plant_Cattenom.jpg
+nuclear-plant-fire.jpg
+	http://www.climateactionprogramme.org/news/japan_restarts_first_nuclear_reactor_since_fukushima_disaster
+nuclear-reactor-fire.jpg
+	http://ecopolproject.blogspot.ca/2013/03/disadvantage-of-nuclear-energy.html
+power_plant.gif
+	https://commons.wikimedia.org/wiki/File:PWR_nuclear_power_plant_diagram.svg
+pressurized-water-reactor-pwr.png
+	http://www.world-nuclear.org/information-library/nuclear-fuel-cycle/nuclear-power-reactors/nuclear-power-reactors.aspx
+pumps.svg.png
+	https://commons.wikimedia.org/wiki/File:Sodium-Cooled_Fast_Reactor_Schemata.svg
+rods.png
+	https://commons.wikimedia.org/wiki/File:RBMK_Reaktor_ChNPP-4.svg
+safety.jpg
+	http://sgc-ssc.ch/fileadmin/downloads/bildung/fortbildung/2014/09_September/26._27.9._Einladung_OP-Management-Symp_Davos_26_-_27_9_14_Entwurf_10_4_2014.pdf
+turbine-fire.jpg
+	http://www.telegraph.co.uk/news/earth/energy/11173594/Didcot-Power-Station-fire-as-it-happened.html
+turbine.jpg
+	http://www.microtact.com/products_power_generation_components.html
+u_fission.gif
+	http://www.hk-phy.org/energy/power/print/nuclear_is_print_e.html
+Why-Pic.png
+	This is a music site. I have not listened to this music, but it seems like this
+	is where the photo might have come from.
+	https://soundcloud.com/fatimacordiality/why
