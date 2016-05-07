@@ -148,7 +148,13 @@ public class Turbine extends GameObject{
 				spinTurbineDown = false;
 			}
 		}
-		temperature += 0.001 * getSpeed() * limit.getPercentage() * deltaTime - 0.001 * deltaTime * coolant.getPercentage();
+		float dead_offset = 0;
+		if(burnt){
+			dead_offset = 1;
+		}else{
+			dead_offset = 0;
+		}
+		temperature += 0.001 * getSpeed() * limit.getPercentage() * deltaTime - 0.001 * deltaTime * (coolant.getPercentage()+dead_offset);
 		if(temperature < 25){
 			temperature = 25;
 		}
