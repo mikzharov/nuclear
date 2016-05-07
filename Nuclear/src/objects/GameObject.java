@@ -137,7 +137,7 @@ public class GameObject {
 			if (Integrator.level == 1 && !UITutorial.powerTutorialOn) {
 				Integrator.powerDisplay.setVisible(false);
 			}
-		} else {
+		} else if(clicked) {
 			boolean uiClicked=false;
 			for(UIComponent utemp: ui){
 				if(utemp.getBounds().contains(e.getPoint())){

@@ -162,7 +162,7 @@ public class Reactor extends GameObject {
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
-			warning.setVisible(error);
+			warning.setVisible(false);
 		}
 		
 	}
@@ -183,10 +183,12 @@ public class Reactor extends GameObject {
 		if(temp.contains(e.getPoint())){
 			//Hit
 			clicked=true;
+			
 			for(UIComponent comp: ui){
 				comp.setVisible(true);
 			}
-		} else {
+			warning.setVisible(false);
+		} else if(clicked) {
 			boolean uiClicked=false;
 			for(UIComponent utemp: ui){
 				if(utemp.getBounds().contains(e.getPoint())){
@@ -221,6 +223,7 @@ public class Reactor extends GameObject {
 			fire.setActive(true);
 			fire.fight();
 		}
+		warning.setVisible(false);
 		if (scram.clicked) {
  			if(rods.getPercentage() == 1){
  				scram.setTextColor(Color.black);
@@ -232,7 +235,7 @@ public class Reactor extends GameObject {
  				rods.disabled = true;
  			}
  		}
-		if(!rods.disabled){
+		if(!dead){
 			controlRod=rods.getPercentage();
 		}else{
 			controlRod = 1;//temp goes down if the reactor is "dead"
@@ -304,6 +307,8 @@ public class Reactor extends GameObject {
 			Integrator.justDied=true;
 			rods.disabled = true;
 		}
+		if(!error)warning.setVisible(false);
+		
 	}
 	/**
 	 * The amount of steam being generated

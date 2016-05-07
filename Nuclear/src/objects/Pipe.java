@@ -3,10 +3,7 @@ package objects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-
 import logic.Integrator;
 
 public class Pipe extends GameObject{
@@ -104,16 +101,7 @@ public class Pipe extends GameObject{
 	 * Prevents pipes from being hidden by default mouseClicked code
 	 */
 	public void mouseClicked(MouseEvent e) {
-		//Do not do physics in mouseClicked, do it in update
-		bounds.setLocation(x+Integrator.intLastXOffset, y + Integrator.intLastYOffset);
-		AffineTransform g = new AffineTransform();//This code makes sure that the object was clicked
-		g.translate(Integrator.x/2.0, Integrator.y/2.0);
-		g.scale(Integrator.scale, Integrator.scale);
-		g.translate(-Integrator.x/2.0, -Integrator.y/2.0);
-		Shape temp = g.createTransformedShape(bounds);
-		if(temp.contains((e.getX()), (e.getY()))){
-			//Clicked
-		}
+		
 	}
 	/**
 	 * Sets the amount of time it takes the paricles to move a bit on the pipe
