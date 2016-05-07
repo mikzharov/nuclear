@@ -418,7 +418,7 @@ public class Reactor extends GameObject {
 	 */
 	public int powerGeneration() {
 		double megaWatts = ((t.getSpeed()+t2.getSpeed())*0.005*(steamkPa*steamkPa));
-		if(megaWatts > 500000)megaWatts = 500000;
+		if(megaWatts > 500000)megaWatts = 1000000;
 		return (int)megaWatts;
 	}
 	/**
