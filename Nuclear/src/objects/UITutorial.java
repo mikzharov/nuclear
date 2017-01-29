@@ -187,7 +187,6 @@ public class UITutorial extends GameObject{
 				tutorial.setText("This is the control panel for a reactor (click)");
 				Integrator.reactor4.reactorOutline = Color.cyan;
 				Integrator.clicked=false;
-				Integrator.reactor4.clicked=false;
 			}
 			break;
 		case 13:
@@ -227,7 +226,7 @@ public class UITutorial extends GameObject{
 		case 17:
 			if (Integrator.clicked) {
 				tutorialStep++;
-				tutorial.setText("Th SCRAM button automatically lowers the control rods (click)");
+				tutorial.setText("The SCRAM button automatically lowers the control rods (click)");
 				Integrator.reactor4.rods.setColor(normal);
 				Integrator.reactor4.scram.setColor(Color.yellow);
 				Integrator.clicked=false;
@@ -251,7 +250,6 @@ public class UITutorial extends GameObject{
 			break;
 		case 20:
 			if (Integrator.clicked) {
-				reactorTutorialOn=false;
 				tutorialStep++;
 				tutorial.setText("Click on empty screen space to leave the control panel (click)");
 				Integrator.reactor4.masterPump.setColor(normal);
@@ -260,10 +258,15 @@ public class UITutorial extends GameObject{
 			break;
 		case 21:
 			if (Integrator.clicked) {
-				tutorialStep++;
-				tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
-				Integrator.reactor4.t.turbineOutline = Color.yellow;
-				Integrator.clicked=false;
+				reactorTutorialOn=false;
+				Integrator.reactor4.setVisible(false);
+				Integrator.reactor4.clicked = false;
+				if(!Integrator.reactor4.getActive()){
+					tutorialStep++;
+					tutorial.setText("Click on the leftmost grey turbine to bring it into focus (click)");
+					Integrator.reactor4.t.turbineOutline = Color.yellow;
+					Integrator.clicked=false;
+				}
 			}
 			break;
 		case 22:
@@ -325,7 +328,7 @@ public class UITutorial extends GameObject{
 			break;
 		case 29:
 			if (Integrator.clicked) {
-				turbineTutorialOn=false;
+				turbineTutorialOn = false;
 				tutorialStep++;
 				tutorial.setText("Click on empty screen space to leave the control panel (click)");
 				Integrator.reactor4.t.coolant.setColor(normal);

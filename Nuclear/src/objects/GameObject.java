@@ -17,6 +17,10 @@ public class GameObject {
 	protected Fire fire;
 	protected ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	protected ArrayList<UIComponent> ui = new ArrayList<UIComponent>();
+	
+	/**
+	 * If true that means this object is in focus. Otherwise it is not.
+	 */
 	protected boolean clicked = false;
 	/**
 	 * Returns the X coordinate
@@ -118,6 +122,17 @@ public class GameObject {
 	 * @param e The mouseEvent made by the canvas
 	 */
 	public void mouseClicked(MouseEvent e) {
+		if (UITutorial.turbineTutorialOn) { //for tutorial only!!
+			Integrator.reactor4.t.setVisible(true);
+			Integrator.reactor4.t.clicked = true;
+		}
+		if (UITutorial.pumpTutorialOn) { //for tutorial only!!
+			Integrator.reactor4.pump.pumps.get(4).showControls();
+		}
+		else if (UITutorial.powerTutorialOn) { //for tutorial only!!
+			Integrator.powerDisplay.setVisible(true);
+			Integrator.reactor4.pump.clicked = true;
+		}
 		if(Integrator.active() && !clicked){
 			return;
 		}
@@ -147,23 +162,9 @@ public class GameObject {
 				}
 			}
 			if(!uiClicked){
-				
 				clicked=false;
-				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.setVisible(true);
-				}
-				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.setTurbineVisible(true);
-				}
-				else if (UITutorial.pumpTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.pump.pumps.get(4).showControls();
-				}
-				else if (UITutorial.powerTutorialOn) { //for tutorial only!!
-					Integrator.powerDisplay.setVisible(true);
-				} else {
-					for(UIComponent comp: ui){
-						comp.setVisible(false);
-					}
+				for(UIComponent comp: ui){
+					comp.setVisible(false);
 				}
 			}
 		}

@@ -184,10 +184,7 @@ public class Reactor extends GameObject {
 			//Hit
 			clicked=true;
 			
-			for(UIComponent comp: ui){
-				comp.setVisible(true);
-			}
-			warning.setVisible(false);
+			setVisible(true);
 		} else if(clicked) {
 			boolean uiClicked=false;
 			for(UIComponent utemp: ui){
@@ -198,21 +195,21 @@ public class Reactor extends GameObject {
 				}
 			}
 			if(!uiClicked){
-				
-				clicked=false;
-				if (UITutorial.reactorTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.setVisible(true);
+				if(!UITutorial.reactorTutorialOn || !name.equals("4")){
+					clicked = false;
 				}
-				else if (UITutorial.turbineTutorialOn) { //for tutorial only!!
-					Integrator.reactor4.setTurbineVisible(true);
+				if (UITutorial.reactorTutorialOn && name.equals("4")) { //for tutorial only!!
+					setVisible(true);
+				} else {
+					setVisible(false);
 				}
-				else {
-					for(UIComponent comp: ui){
-						comp.setVisible(false);
-					}
-					warning.setVisible(false);//<solves the warning bug flashing
-				}
+				warning.setVisible(false);
 			}
+		}
+		if(!name.equals("4") && (UITutorial.turbineTutorialOn || UITutorial.reactorTutorialOn)){
+			setTurbineVisible(false);
+			setVisible(false);
+			warning.setVisible(false);
 		}
 	}
 	/**
@@ -477,15 +474,12 @@ public class Reactor extends GameObject {
 	 * @param b The boolean value of whether the controls are visible
 	 */
 	public void setVisible(boolean b) {
-		currentTemp.setVisible(b);
-		rodDepth.setVisible(b);
-		pressureText.setVisible(b);
-		rods.setVisible(b);
-		warning.setVisible(b);
-		scram.setVisible(b);
+		for(UIComponent comp: ui){
+			comp.setVisible(b);
+		}
 	}
 	/**
-	 * Sets the turbine to visible
+	 * Sets the turbine controls to visible
 	 * @param b Boolean visible
 	 */
 	public void setTurbineVisible(boolean b){
